@@ -28,9 +28,13 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
 
+	// TODO: Define a Projectile class property
+
 	void MoveForward(float value);
 
 	void MoveRight(float value);
+
+	// TODO: Setup primary attack. using the hand socket
 
 public:	
 	// Called every frame
