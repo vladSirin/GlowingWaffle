@@ -31,7 +31,7 @@ void AWaffChest::Tick(float DeltaTime)
 
 }
 
-void AWaffChest::interact_Implementation(APawn* InstigatorPawn)
+void AWaffChest::Interact_Implementation(APawn* InstigatorPawn)
 {
 	ChestLidComp->SetRelativeRotation(FRotator(TargetPitch, 0, 0));
 }

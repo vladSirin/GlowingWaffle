@@ -31,7 +31,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void interact_Implementation(APawn* InstigatorPawn);
+	void Interact_Implementation(APawn* InstigatorPawn);
 
 	UPROPERTY(EditAnywhere)
 	float TargetPitch;

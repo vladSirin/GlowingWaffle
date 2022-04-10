@@ -8,6 +8,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UWaffInteractionComponent;
 
 UCLASS()
 class GLOWINGWAFFLE_API AWaffCharacter : public ACharacter
@@ -32,6 +33,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AActor> MagicProjectile;
 
+	UPROPERTY(VisibleAnywhere)
+	UWaffInteractionComponent* InteractComp;
+
 	void MoveForward(float value);
 
 	void MoveRight(float value);
@@ -39,6 +43,9 @@ protected:
 	// TODO: Setup primary attack. using the hand socket
 	UFUNCTION(BlueprintCallable)
 	void PrimaryAttack();
+
+	UFUNCTION(BlueprintCallable)
+	void PrimaryInteract();
 
 public:	
 	// Called every frame

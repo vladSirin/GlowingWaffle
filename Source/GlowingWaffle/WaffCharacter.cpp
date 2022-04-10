@@ -7,6 +7,7 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "WaffInteractionComponent.h"
 
 
 // Sets default values
@@ -21,6 +22,8 @@ AWaffCharacter::AWaffCharacter()
 	
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComp->SetupAttachment(SpringArmComp);
+
+	InteractComp = CreateDefaultSubobject<UWaffInteractionComponent>(TEXT("InteractComp"));
 
 	bUseControllerRotationYaw = false;
 	
@@ -71,6 +74,11 @@ void AWaffCharacter::PrimaryAttack()
 	GetWorld()->SpawnActor<AActor>(MagicProjectile, Spawn_TM, SpawnParam);
 }
 
+void AWaffCharacter::PrimaryInteract()
+{
+	InteractComp->PrimaryInteract();
+}
+
 // This is entirely optional, it draws two arrows to visualize rotations of the player
 void AWaffCharacter::Tick(float DeltaTime)
 {
@@ -108,6 +116,7 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &AWaffCharacter::PrimaryAttack);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AWaffCharacter::Jump);
+	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &AWaffCharacter::PrimaryInteract);
 
 }
 
