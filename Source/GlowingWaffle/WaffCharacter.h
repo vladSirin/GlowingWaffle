@@ -29,12 +29,16 @@ protected:
 	UCameraComponent* CameraComp;
 
 	// TODO: Define a Projectile class property
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AActor> MagicProjectile;
 
 	void MoveForward(float value);
 
 	void MoveRight(float value);
 
 	// TODO: Setup primary attack. using the hand socket
+	UFUNCTION(BlueprintCallable)
+	void PrimaryAttack();
 
 public:	
 	// Called every frame

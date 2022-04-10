@@ -56,6 +56,21 @@ void AWaffCharacter::MoveRight(float value)
 }
 
 
+void AWaffCharacter::PrimaryAttack()
+{
+	// use the hand socket location as the spawn location
+	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+
+	// Combine with the ControlRotation, so he actor will spawn at the hand position and facing the camera direction.
+	FTransform Spawn_TM = FTransform(GetControlRotation(), HandLocation);
+
+	FActorSpawnParameters SpawnParam;
+	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	// Spawn the projectile actor at the hand of the character
+	GetWorld()->SpawnActor<AActor>(MagicProjectile, Spawn_TM, SpawnParam);
+}
+
 // This is entirely optional, it draws two arrows to visualize rotations of the player
 void AWaffCharacter::Tick(float DeltaTime)
 {
@@ -89,6 +104,10 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	PlayerInputComponent->BindAxis("Turn", this, &AWaffCharacter::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &AWaffCharacter::AddControllerPitchInput);
+
+	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &AWaffCharacter::PrimaryAttack);
+
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AWaffCharacter::Jump);
 
 }
 
