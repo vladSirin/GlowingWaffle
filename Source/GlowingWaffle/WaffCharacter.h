@@ -29,9 +29,15 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
 
-	// TODO: Define a Projectile class property
-	UPROPERTY(EditDefaultsOnly)
+	// Define a Projectile class property and attack anim montage
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	TSubclassOf<AActor> MagicProjectile;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	UAnimMontage* AttackAnimMontage;
+
+	UPROPERTY()
+	FTimerHandle AttackTimerHandler;
 
 	UPROPERTY(VisibleAnywhere)
 	UWaffInteractionComponent* InteractComp;
@@ -40,9 +46,11 @@ protected:
 
 	void MoveRight(float value);
 
-	// TODO: Setup primary attack. using the hand socket
+	// Setup primary attack. using the hand socket
 	UFUNCTION(BlueprintCallable)
 	void PrimaryAttack();
+
+	void PrimaryAttack_TimeElapsed();
 
 	UFUNCTION(BlueprintCallable)
 	void PrimaryInteract();

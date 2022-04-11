@@ -3,6 +3,7 @@
 
 #include "WaffInteractionComponent.h"
 #include "WaffGameplayInterface.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
 UWaffInteractionComponent::UWaffInteractionComponent()
@@ -19,32 +20,42 @@ void UWaffInteractionComponent::PrimaryInteract()
 {
 	// Setup on the arguments for the solution
 	APawn* MyPawn = Cast<APawn>(GetOwner());
-	FHitResult OutHit;
+	TArray<FHitResult> HitResults;
 	FVector EyeLocation;
 	FRotator EyeRotation;
 	GetOwner()->GetActorEyesViewPoint(EyeLocation, EyeRotation);
 
 	FVector Start = EyeLocation;
 	FVector End = EyeLocation + (EyeRotation.Vector() * 1000);
-	FCollisionObjectQueryParams ObjectParame;
-	ObjectParame.AddObjectTypesToQuery(ECC_WorldDynamic);
+	FCollisionObjectQueryParams ObjectParam;
+	ObjectParam.AddObjectTypesToQuery(ECC_WorldDynamic);
 
 	// Now is the solution for check which object we want to interact with, multiple solutions
 
 	// Single Line Trace:
-	GetWorld()->LineTraceSingleByObjectType(OutHit, Start, End, ObjectParame);
+	// FHitResult OutHit;
+	//GetWorld()->LineTraceSingleByObjectType(OutHit, Start, End, ObjectParam);
+
+	// Multi Sweep Trace approach, FQuat is using Identity as default.
+	bool bIsBlocking = GetWorld()->SweepMultiByObjectType(HitResults, Start, End, FQuat::Identity, ObjectParam,
+	                                                      FCollisionShape::MakeSphere(30.0f));
+	FColor DebugColor = bIsBlocking ? FColor::Red : FColor::Green;
 
 	// Check the hit actor
-	AActor* HitActor = OutHit.GetActor();
-	if (HitActor)
+	for (FHitResult HitResult : HitResults)
 	{
-		if (HitActor->Implements<UWaffGameplayInterface>())
+		if (HitResult.GetActor())
 		{
-			IWaffGameplayInterface::Execute_Interact(HitActor, MyPawn);
+			if (HitResult.GetActor()->Implements<UWaffGameplayInterface>())
+			{
+				IWaffGameplayInterface::Execute_Interact(HitResult.GetActor(), MyPawn);
+			}
+
+			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 30.0f, 32, DebugColor, false, 2.0f, 0, 2.0f);
+			break;
 		}
 	}
-
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 2.0f, 0, 2.9f);
+	DrawDebugLine(GetWorld(), Start, End, DebugColor, false, 2.0f, 0, 2.9f);
 }
 
 // Called when the game starts
@@ -53,16 +64,14 @@ void UWaffInteractionComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
 }
 
 
 // Called every frame
-void UWaffInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UWaffInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
+                                              FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
-
 }
-

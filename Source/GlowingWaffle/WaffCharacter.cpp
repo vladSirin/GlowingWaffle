@@ -61,6 +61,16 @@ void AWaffCharacter::MoveRight(float value)
 
 void AWaffCharacter::PrimaryAttack()
 {
+	// Using animation montage
+	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
+	GetWorldTimerManager().SetTimer(AttackTimerHandler, this, &AWaffCharacter::PrimaryAttack_TimeElapsed, 0.2f, false);
+
+
+}
+
+void AWaffCharacter::PrimaryAttack_TimeElapsed()
+{
+
 	// use the hand socket location as the spawn location
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 
@@ -73,6 +83,8 @@ void AWaffCharacter::PrimaryAttack()
 	// Spawn the projectile actor at the hand of the character
 	GetWorld()->SpawnActor<AActor>(MagicProjectile, Spawn_TM, SpawnParam);
 }
+
+
 
 void AWaffCharacter::PrimaryInteract()
 {
