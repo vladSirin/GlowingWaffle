@@ -1,4 +1,12 @@
-# Lecture 4
+# Assignment 1
+- Character able to jump via input action.
+
+- “Explosive Barrel” from class re-implemented in C++.
+	- Barrel mesh can still be assigned via Blueprint class. (We always use Blueprints to assign Content/Assets even if all code/logic is C++)
+	- All other properties and components must be configured via C++.
+	- When hit by a projectile, applies force to nearby physics simulating Actors.
+
+# Lecture 4 - done
 
 - Create an interaction component
 - Implement the primary interact within the comp, using line trace
@@ -11,3 +19,15 @@
 	- Redefine collision shape
 	- Draw the debug sphere
 	- Use a for loop to check each
+
+- Play animation in primary attack
+- Utilize timer
+
+# Lecture 5
+
+- making a lever to interact
+	- Lower the level when interact
+	- utilize BP interface
+
+- Remotely open chest
+- Remotely explode barrel // leave it to the Explosive barrel assignment?

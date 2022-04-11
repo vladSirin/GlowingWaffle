@@ -21,7 +21,6 @@ AWaffChest::AWaffChest()
 void AWaffChest::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
