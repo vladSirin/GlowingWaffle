@@ -79,6 +79,7 @@ void AWaffCharacter::PrimaryAttack_TimeElapsed()
 
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParam.Instigator = this;
 
 	// Spawn the projectile actor at the hand of the character
 	GetWorld()->SpawnActor<AActor>(MagicProjectile, Spawn_TM, SpawnParam);

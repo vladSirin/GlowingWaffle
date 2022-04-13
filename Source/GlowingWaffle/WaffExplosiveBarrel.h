@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "WaffExplosiveBarrel.generated.h"
 
+class URadialForceComponent;
 class USphereComponent;
 
 UCLASS()
@@ -18,8 +19,6 @@ public:
 	AWaffExplosiveBarrel();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 	// Components
 	UPROPERTY(VisibleAnywhere, Category="Components")
@@ -28,15 +27,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	UParticleSystemComponent* ParticleComp;
 
-	UPROPERTY(VisibleAnywhere, Category="Components")
-	USphereComponent* SphereComp;
-
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
-	float ExplodeStrength;
+	UPROPERTY(VisibleAnywhere, Category="Componenet")
+	URadialForceComponent* ForceComp;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+
+	// Called before beginplay but after constructors
+	virtual void PostInitializeComponents() override;
 
 	// Explore function
 	UFUNCTION(BlueprintCallable)

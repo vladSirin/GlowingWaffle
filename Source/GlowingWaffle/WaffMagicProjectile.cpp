@@ -12,19 +12,19 @@ AWaffMagicProjectile::AWaffMagicProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// TODO: Create the necessary components and attachments.
+	// Create the necessary components and attachments.
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-	SphereComp->SetupAttachment(RootComponent);
+	RootComponent = SphereComp;
 
 	MoveComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MoveComp"));
 	
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
 	ParticleComp->SetupAttachment(SphereComp);
 
-	// TODO: Setup collision for sphere comp
+	// Setup collision for sphere comp
 	SphereComp->SetCollisionProfileName("Projectile", true);
 
-	// TODO: Setup some initial data for the movement of the projectile
+	// Setup some initial data for the movement of the projectile
 	MoveComp->InitialSpeed = 1000.0f;
 	MoveComp->SetVelocityInLocalSpace(GetActorForwardVector());
 	MoveComp->bRotationFollowsVelocity = true;

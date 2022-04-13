@@ -21,10 +21,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	// Static Mesh comps
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ChestBottmComp;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ChestLidComp;
 
 public:	

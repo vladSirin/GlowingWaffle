@@ -12,7 +12,7 @@ AWaffChest::AWaffChest()
 	ChestBottmComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ChestBottom"));
 	ChestLidComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ChestLid"));
 
-	ChestBottmComp->SetupAttachment(RootComponent);
+	RootComponent = ChestBottmComp;
 	ChestLidComp->SetupAttachment(ChestBottmComp);
 
 }

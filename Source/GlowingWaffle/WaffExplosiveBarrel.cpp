@@ -5,56 +5,47 @@
 #include "WaffMagicProjectile.h"
 #include "Components/SphereComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 
 // Sets default values
 AWaffExplosiveBarrel::AWaffExplosiveBarrel()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = false;
 
 	SMComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
-	SMComp->SetupAttachment(RootComponent);
+	RootComponent = SMComp;
 
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
 	ParticleComp->SetupAttachment(SMComp);
+	ParticleComp->SetAutoActivate(false);
 
-	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-	SphereComp->SetupAttachment(SMComp);
-	SphereComp->SetSphereRadius(300.0f, true);
+	ForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("ForceComp"));
+	ForceComp->SetupAttachment(SMComp);
 
-	ExplodeStrength = 5000.0f;
+	ForceComp->Radius = 700.0f;
+	ForceComp->ImpulseStrength = 2500.0f;
+	ForceComp->bImpulseVelChange = true;
+	ForceComp->SetAutoActivate(false);
+	ForceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);
 }
 
-// Called when the game starts or when spawned
-void AWaffExplosiveBarrel::BeginPlay()
+void AWaffExplosiveBarrel::PostInitializeComponents()
 {
-	Super::BeginPlay();
+	Super::PostInitializeComponents();
 	this->OnActorHit.AddDynamic(this, &AWaffExplosiveBarrel::OnHit);
-
-	
-}
-
-// Called every frame
-void AWaffExplosiveBarrel::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void AWaffExplosiveBarrel::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if(Cast<AWaffMagicProjectile>(OtherActor))
+	if (Cast<AWaffMagicProjectile>(OtherActor))
 	{
 		Explode();
+		ParticleComp->Activate();
 	}
 }
 
 void AWaffExplosiveBarrel::Explode()
 {
-	TArray<UPrimitiveComponent*> CompInRange;
-	SphereComp->GetOverlappingComponents(CompInRange);
-
-	for (UPrimitiveComponent* InRange : CompInRange)
-	{
-		InRange->AddRadialForce(this->GetActorLocation(), SphereComp->GetScaledSphereRadius(), ExplodeStrength*InRange->GetMass(), ERadialImpulseFalloff::RIF_Constant, false);
-	}
+	ForceComp->FireImpulse();
 }
