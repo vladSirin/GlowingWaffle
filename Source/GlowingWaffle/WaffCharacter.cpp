@@ -75,10 +75,33 @@ void AWaffCharacter::PrimaryAttack_TimeElapsed()
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 
 	// Do line trace to find the camera rotation hit target
+	FHitResult OutHit;
+	FVector Start;
+	FRotator PlayerView;
+	GetController()->GetPlayerViewPoint(Start, PlayerView);
+
+	FVector End = Start + CameraComp->GetComponentRotation().Vector() * 1000;
+	FCollisionQueryParams QueryParam;
+	QueryParam.AddIgnoredActor(this);
+
+	GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, QueryParam);
+	// DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 2.0f, 0, 2.0f);
+
+	// Decide the Final rotation for the projectile to hit target
+	FRotator ProjectileSpawnRotation;
+	if(OutHit.GetActor())
+	{
+		ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, OutHit.ImpactPoint);
+	}
+	else
+	{
+		ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, End);
+	}
+
 	
 
 	// Combine with the ControlRotation, so he actor will spawn at the hand position and facing the camera direction.
-	FTransform Spawn_TM = FTransform(GetControlRotation(), HandLocation);
+	FTransform Spawn_TM = FTransform(ProjectileSpawnRotation, HandLocation);
 
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

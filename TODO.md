@@ -44,7 +44,7 @@
 
 
 
-# Lecture 6
+# Lecture 6 done
 - UE_Log for debugging
 - Draw Debug String
 
@@ -54,6 +54,6 @@
 
 
 # Assignment 2
-- Fix projectile launch location
-- Black hold attack
+- Fix projectile launch location - done
+- Black hole attack
 - Dash ability

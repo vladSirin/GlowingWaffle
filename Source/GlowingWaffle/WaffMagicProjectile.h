@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "WaffProjectile.h"
 #include "WaffMagicProjectile.generated.h"
 
 class USphereComponent;
@@ -11,7 +11,7 @@ class UProjectileMovementComponent;
 class UParticleSystemComponent;
 
 UCLASS()
-class GLOWINGWAFFLE_API AWaffMagicProjectile : public AActor
+class GLOWINGWAFFLE_API AWaffMagicProjectile : public AWaffProjectile
 {
 	GENERATED_BODY()
 	
@@ -23,15 +23,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// Setup the Necessary Components.
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	USphereComponent* SphereComp;
+	//// Setup the Necessary Components.
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	//USphereComponent* SphereComp;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UProjectileMovementComponent* MoveComp;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	//UProjectileMovementComponent* MoveComp;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UParticleSystemComponent* ParticleComp;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	//UParticleSystemComponent* ParticleComp;
 
 
 
