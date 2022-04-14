@@ -74,6 +74,9 @@ void AWaffCharacter::PrimaryAttack_TimeElapsed()
 	// use the hand socket location as the spawn location
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 
+	// Do line trace to find the camera rotation hit target
+	
+
 	// Combine with the ControlRotation, so he actor will spawn at the hand position and facing the camera direction.
 	FTransform Spawn_TM = FTransform(GetControlRotation(), HandLocation);
 

@@ -3,7 +3,6 @@
 
 #include "WaffExplosiveBarrel.h"
 #include "WaffMagicProjectile.h"
-#include "Components/SphereComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 
@@ -42,6 +41,18 @@ void AWaffExplosiveBarrel::OnHit(AActor* SelfActor, AActor* OtherActor, FVector 
 	{
 		Explode();
 		ParticleComp->Activate();
+		UE_LOG(LogTemp, Log, TEXT("Hit by Projectile, Explode"));
+
+		// %s = string
+		// %f = float
+		// logs: "OtherActor: MyActor_1, at gametime: 124.4"
+		UE_LOG(LogTemp, Warning, TEXT("OtherActor: %s, at game time %f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds);
+
+		FString CombinedString = FString::Printf(TEXT("Hit At Location: %s"), *Hit.ImpactNormal.ToString());
+		DrawDebugString(GetWorld(), Hit.ImpactNormal, CombinedString, nullptr, FColor::Green, 2.0f, true);
+
+		// Detailed info on logging in ue4
+		// https://nerivec.github.io/old-ue4-wiki/pages/logs-printing-messages-to-yourself-during-runtime.html
 	}
 }
 

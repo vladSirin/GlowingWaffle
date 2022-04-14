@@ -7,7 +7,6 @@
 #include "WaffExplosiveBarrel.generated.h"
 
 class URadialForceComponent;
-class USphereComponent;
 
 UCLASS()
 class GLOWINGWAFFLE_API AWaffExplosiveBarrel : public AActor
