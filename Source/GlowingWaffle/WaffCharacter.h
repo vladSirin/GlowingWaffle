@@ -9,6 +9,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UWaffInteractionComponent;
+class AWaffProjectile;
 
 UCLASS()
 class GLOWINGWAFFLE_API AWaffCharacter : public ACharacter
@@ -31,13 +32,18 @@ protected:
 
 	// Define a Projectile class property and attack anim montage
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
-	TSubclassOf<AActor> MagicProjectile;
+	TSubclassOf<AWaffProjectile> PrimaryProjectile;
+
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
+	TSubclassOf<AWaffProjectile> SecondaryProjectile;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackAnimMontage;
 
 	UPROPERTY()
 	FTimerHandle AttackTimerHandler;
+
+	FTimerDelegate AttackTimerDelegate;
 
 	UPROPERTY(VisibleAnywhere)
 	UWaffInteractionComponent* InteractComp;
@@ -50,7 +56,11 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void PrimaryAttack();
 
-	void PrimaryAttack_TimeElapsed();
+	UFUNCTION(BlueprintCallable)
+	void SecondaryAttack();
+
+	UFUNCTION()
+	void Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile);
 
 	UFUNCTION(BlueprintCallable)
 	void PrimaryInteract();

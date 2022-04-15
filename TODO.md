@@ -55,5 +55,5 @@
 
 # Assignment 2
 - Fix projectile launch location - done
-- Black hole attack
+- Black hole attack - done
 - Dash ability

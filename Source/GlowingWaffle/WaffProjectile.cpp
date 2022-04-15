@@ -28,6 +28,8 @@ AWaffProjectile::AWaffProjectile()
 	MoveComp->SetVelocityInLocalSpace(GetActorForwardVector());
 	MoveComp->bRotationFollowsVelocity = true;
 
+	MoveComp->ProjectileGravityScale = 0.0f;
+
 }
 
 // Called when the game starts or when spawned

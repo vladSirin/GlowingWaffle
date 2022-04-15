@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "WaffInteractionComponent.h"
+#include "WaffProjectile.h"
 
 
 // Sets default values
@@ -63,12 +64,26 @@ void AWaffCharacter::PrimaryAttack()
 {
 	// Using animation montage
 	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
-	GetWorldTimerManager().SetTimer(AttackTimerHandler, this, &AWaffCharacter::PrimaryAttack_TimeElapsed, 0.2f, false);
 
+	// Bind the timer handler function with specific var.
+	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), PrimaryProjectile);
+	// Call the Bound function after 0.2f sec
+	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
+}
+
+void AWaffCharacter::SecondaryAttack()
+{
+	// Using animation montage
+	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
+
+	// Bind the timer handler function with specific var.
+	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), SecondaryProjectile);
+	// Call the Bound function after 0.2f sec
+	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
 
 }
 
-void AWaffCharacter::PrimaryAttack_TimeElapsed()
+void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile)
 {
 
 	// use the hand socket location as the spawn location
@@ -108,7 +123,7 @@ void AWaffCharacter::PrimaryAttack_TimeElapsed()
 	SpawnParam.Instigator = this;
 
 	// Spawn the projectile actor at the hand of the character
-	GetWorld()->SpawnActor<AActor>(MagicProjectile, Spawn_TM, SpawnParam);
+	GetWorld()->SpawnActor<AActor>(AttackProjectile, Spawn_TM, SpawnParam);
 }
 
 
@@ -156,6 +171,6 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AWaffCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &AWaffCharacter::PrimaryInteract);
-
+	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &AWaffCharacter::SecondaryAttack);
 }
 
