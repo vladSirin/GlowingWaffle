@@ -37,6 +37,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	TSubclassOf<AWaffProjectile> SecondaryProjectile;
 
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
+	TSubclassOf<AWaffProjectile> DashProjectile;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackAnimMontage;
 
@@ -58,6 +61,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SecondaryAttack();
+
+	UFUNCTION(BlueprintCallable)
+	void DashCast();
 
 	UFUNCTION()
 	void Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile);

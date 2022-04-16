@@ -83,6 +83,17 @@ void AWaffCharacter::SecondaryAttack()
 
 }
 
+void AWaffCharacter::DashCast()
+{
+	// Using animation montage
+	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
+
+	// Bind the timer handler function with specific var.
+	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), DashProjectile);
+	// Call the Bound function after 0.2f sec
+	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
+}
+
 void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile)
 {
 
@@ -172,5 +183,6 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AWaffCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &AWaffCharacter::PrimaryInteract);
 	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &AWaffCharacter::SecondaryAttack);
+	PlayerInputComponent->BindAction("DashCast", IE_Pressed, this, &AWaffCharacter::DashCast);
 }
 
