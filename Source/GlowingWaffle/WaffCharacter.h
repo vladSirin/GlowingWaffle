@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "WaffCharacter.generated.h"
 
+class UWaffAttributeComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UWaffInteractionComponent;
@@ -35,6 +36,7 @@ protected:
 	// --
 	// Category = "" - display only for detail panels and blueprint context menu.
 
+	// Camera and SpringArm
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -54,19 +56,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackAnimMontage;
 
+	// Timer handler and Delegate
 	UPROPERTY()
 	FTimerHandle AttackTimerHandler;
 
 	FTimerDelegate AttackTimerDelegate;
 
+	// Interactions
 	UPROPERTY(VisibleAnywhere)
 	UWaffInteractionComponent* InteractComp;
 
-	void MoveForward(float value);
+	UFUNCTION(BlueprintCallable)
+	void PrimaryInteract();
 
-	void MoveRight(float value);
-
-	// Setup primary attack. using the hand socket
+	// Attack and Abilities
 	UFUNCTION(BlueprintCallable)
 	void PrimaryAttack();
 
@@ -79,8 +82,14 @@ protected:
 	UFUNCTION()
 	void Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile);
 
-	UFUNCTION(BlueprintCallable)
-	void PrimaryInteract();
+	// Movement functions
+	void MoveForward(float value);
+
+	void MoveRight(float value);
+
+	// Attributes related
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UWaffAttributeComponent* AttriComp;
 
 public:	
 	// Called every frame

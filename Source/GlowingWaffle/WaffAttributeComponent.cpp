@@ -8,6 +8,7 @@ UWaffAttributeComponent::UWaffAttributeComponent()
 {
 	// Initialize the values
 	Health = 100;
+
 }
 
 
@@ -17,8 +18,8 @@ void UWaffAttributeComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
 }
+
 
 bool UWaffAttributeComponent::ChangeHealth(float Delta)
 {
@@ -26,4 +27,3 @@ bool UWaffAttributeComponent::ChangeHealth(float Delta)
 	Health = Health + Delta;
 	return true;
 }
-

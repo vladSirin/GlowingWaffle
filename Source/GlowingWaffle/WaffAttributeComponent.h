@@ -30,13 +30,11 @@ protected:
 	// BlueprintReadWrite - read-write access in Blueprints
 	// --
 	// Category = "" - display only for detail panels and blueprint context menu.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float Health;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float HealthMax;
-
-
 
 public:
 	UFUNCTION(BlueprintCallable)

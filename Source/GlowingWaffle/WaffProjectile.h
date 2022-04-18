@@ -32,6 +32,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* ParticleComp;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float DamageOnHit;
+
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, 
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

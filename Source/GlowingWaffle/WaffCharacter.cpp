@@ -9,6 +9,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "WaffInteractionComponent.h"
 #include "WaffProjectile.h"
+#include "WaffAttributeComponent.h"
 
 
 // Sets default values
@@ -24,10 +25,14 @@ AWaffCharacter::AWaffCharacter()
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComp->SetupAttachment(SpringArmComp);
 
+	// Create interact comp
 	InteractComp = CreateDefaultSubobject<UWaffInteractionComponent>(TEXT("InteractComp"));
 
+	// Create Attribute Comp
+	AttriComp = CreateDefaultSubobject<UWaffAttributeComponent>(TEXT("AttributeComp"));
+
+	// Basic 3C settings
 	bUseControllerRotationYaw = false;
-	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 

@@ -53,7 +53,17 @@
 
 
 
-# Assignment 2
+# Assignment 2 - done
 - Fix projectile launch location - done
 - Black hole attack - done
-- Dash ability
+- Dash ability - done
+
+
+
+# Lecture 7
+- add attributes component - done
+	- Health/HealthMax/Stamina/Strength - done
+	- Apply health change function
+- add attributes to Character - done
+- Handle attribute health with projectile - done
+- Make Projectile overlap pawn and dynamic - done
