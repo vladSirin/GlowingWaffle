@@ -67,3 +67,6 @@
 - add attributes to Character - done
 - Handle attribute health with projectile - done
 - Make Projectile overlap pawn and dynamic - done
+- consider it, where should damage handled? - Could be better if handled in damage interface?
+- UMG with health bar - done
+- Adding a auto fire actor to fire projectiles
