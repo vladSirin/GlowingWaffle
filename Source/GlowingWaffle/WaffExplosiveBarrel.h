@@ -12,25 +12,23 @@ UCLASS()
 class GLOWINGWAFFLE_API AWaffExplosiveBarrel : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AWaffExplosiveBarrel();
 
 protected:
-
 	// Components
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	UStaticMeshComponent* SMComp;
 
-	UPROPERTY(VisibleAnywhere, Category="Components")
-	UParticleSystemComponent* ParticleComp;
-
-	UPROPERTY(VisibleAnywhere, Category="Componenet")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Componenet")
 	URadialForceComponent* ForceComp;
 
-public:	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Gameplay")
+	float ExplosionDamage;
 
+public:
 	// Called before beginplay but after constructors
 	virtual void PostInitializeComponents() override;
 
@@ -40,5 +38,4 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Explode();
-
 };

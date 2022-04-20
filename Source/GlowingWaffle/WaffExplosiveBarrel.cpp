@@ -2,7 +2,8 @@
 
 
 #include "WaffExplosiveBarrel.h"
-#include "WaffMagicProjectile.h"
+
+#include "WaffAttributeComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 
@@ -14,10 +15,6 @@ AWaffExplosiveBarrel::AWaffExplosiveBarrel()
 
 	SMComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	RootComponent = SMComp;
-
-	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
-	ParticleComp->SetupAttachment(SMComp);
-	ParticleComp->SetAutoActivate(false);
 
 	ForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("ForceComp"));
 	ForceComp->SetupAttachment(SMComp);
@@ -37,16 +34,16 @@ void AWaffExplosiveBarrel::PostInitializeComponents()
 
 void AWaffExplosiveBarrel::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (Cast<AWaffMagicProjectile>(OtherActor))
+	if (OtherActor)
 	{
 		Explode();
-		ParticleComp->Activate();
 		UE_LOG(LogTemp, Log, TEXT("Hit by Projectile, Explode"));
 
 		// %s = string
-		// %f = float
+		// %f = floatx
 		// logs: "OtherActor: MyActor_1, at gametime: 124.4"
-		UE_LOG(LogTemp, Warning, TEXT("OtherActor: %s, at game time %f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds);
+		UE_LOG(LogTemp, Warning, TEXT("OtherActor: %s, at game time %f"), *GetNameSafe(OtherActor),
+		       GetWorld()->TimeSeconds);
 
 		FString CombinedString = FString::Printf(TEXT("Hit At Location: %s"), *Hit.ImpactNormal.ToString());
 		DrawDebugString(GetWorld(), Hit.ImpactNormal, CombinedString, nullptr, FColor::Green, 2.0f, true);

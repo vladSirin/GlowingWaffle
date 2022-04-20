@@ -46,7 +46,7 @@ void AWaffProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                 const FHitResult& SweepResult)
 {
-	if(OtherActor)
+	if(OtherActor)   
 	{
 		if(Cast<APawn>(OtherActor))
 		{

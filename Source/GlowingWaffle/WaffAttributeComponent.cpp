@@ -25,5 +25,6 @@ bool UWaffAttributeComponent::ChangeHealth(float Delta)
 {
 	// Change the health num with delta
 	Health = Health + Delta;
+	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
 	return true;
 }

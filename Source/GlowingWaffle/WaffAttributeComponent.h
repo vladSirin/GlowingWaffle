@@ -7,6 +7,12 @@
 #include "WaffAttributeComponent.generated.h"
 
 
+class UWaffAttributeComponent;
+
+// Declare delegate event for health change
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*, OwingComp, float, NewHealth, float, Delata);
+
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GLOWINGWAFFLE_API UWaffAttributeComponent : public UActorComponent
 {
@@ -30,13 +36,16 @@ protected:
 	// BlueprintReadWrite - read-write access in Blueprints
 	// --
 	// Category = "" - display only for detail panels and blueprint context menu.
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float Health;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float HealthMax;
 
 public:
 	UFUNCTION(BlueprintCallable)
 	bool ChangeHealth(float Delta);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthChanged OnHealthChanged;
 };

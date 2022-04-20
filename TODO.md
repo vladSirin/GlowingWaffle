@@ -69,4 +69,8 @@
 - Make Projectile overlap pawn and dynamic - done
 - consider it, where should damage handled? - Could be better if handled in damage interface?
 - UMG with health bar - done
-- Adding a auto fire actor to fire projectiles
+- Adding a auto fire actor to fire projectiles - done
+- Health handle event - done
+- Update Healthbar with event - done
+- Animate UMG Widgets - done
+- Adding damage from explosive barrels - done
