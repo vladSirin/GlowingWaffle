@@ -60,10 +60,10 @@
 
 
 
-# Lecture 7
+# Lecture 7 - done
 - add attributes component - done
-	- Health/HealthMax/Stamina/Strength - done
-	- Apply health change function
+    - Health/HealthMax/Stamina/Strength - done
+    - Apply health change function
 - add attributes to Character - done
 - Handle attribute health with projectile - done
 - Make Projectile overlap pawn and dynamic - done
@@ -74,3 +74,8 @@
 - Update Healthbar with event - done
 - Animate UMG Widgets - done
 - Adding damage from explosive barrels - done
+
+# Lecture 8
+- Adding Basic material master and instance with SineWave/Time based
+- Hit Flash Material and Drive with C++
+- Dissolve material simple
