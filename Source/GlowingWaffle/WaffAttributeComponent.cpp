@@ -21,7 +21,7 @@ void UWaffAttributeComponent::BeginPlay()
 }
 
 
-bool UWaffAttributeComponent::ChangeHealth(float Delta)
+bool UWaffAttributeComponent::OnHealthChange(float Delta)
 {
 	// Change the health num with delta
 	Health = Health + Delta;

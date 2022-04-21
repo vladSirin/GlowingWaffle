@@ -76,6 +76,8 @@
 - Adding damage from explosive barrels - done
 
 # Lecture 8
-- Adding Basic material master and instance with SineWave/Time based
-- Hit Flash Material and Drive with C++
+- Adding Basic material master and instance with SineWave/Time based - done
+- Hit Flash Material and Drive with C++ with Dummy Target - done
 - Dissolve material simple
+- Create a Material Function
+- Using Materials in UMG

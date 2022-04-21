@@ -10,15 +10,16 @@
 class UWaffAttributeComponent;
 
 // Declare delegate event for health change
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*, OwingComp, float, NewHealth, float, Delata);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*,
+                                              OwingComp, float, NewHealth, float, Delta);
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GLOWINGWAFFLE_API UWaffAttributeComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UWaffAttributeComponent();
 
@@ -44,7 +45,7 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	bool ChangeHealth(float Delta);
+	bool OnHealthChange(float Delta);
 
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;

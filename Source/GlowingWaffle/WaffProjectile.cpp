@@ -48,12 +48,13 @@ void AWaffProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 {
 	if(OtherActor && OtherActor != this->GetInstigator())   
 	{
-		if(Cast<APawn>(OtherActor))
+		UActorComponent* AttriComp = OtherActor->GetComponentByClass(UWaffAttributeComponent::StaticClass());
+		if(AttriComp)
 		{
-			UActorComponent* AttriComp = OtherActor->GetComponentByClass(UWaffAttributeComponent::StaticClass());
-			Cast<UWaffAttributeComponent>(AttriComp)->ChangeHealth(-DamageOnHit);
+			Cast<UWaffAttributeComponent>(AttriComp)->OnHealthChange(-DamageOnHit);
 			Destroy();
-		}
+		};
+
 	}
 }
 
