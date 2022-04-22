@@ -78,6 +78,6 @@
 # Lecture 8
 - Adding Basic material master and instance with SineWave/Time based - done
 - Hit Flash Material and Drive with C++ with Dummy Target - done
-- Dissolve material simple
-- Create a Material Function
-- Using Materials in UMG
+- Dissolve material simple - done
+- Create a Material Function - done
+- Using Materials in UMG - done
