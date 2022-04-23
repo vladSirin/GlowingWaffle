@@ -75,7 +75,9 @@
 - Animate UMG Widgets - done
 - Adding damage from explosive barrels - done
 
-# Lecture 8
+
+
+# Lecture 8 - done
 - Adding Basic material master and instance with SineWave/Time based - done
 - Hit Flash Material and Drive with C++ with Dummy Target - done
 - Dissolve material simple - done
