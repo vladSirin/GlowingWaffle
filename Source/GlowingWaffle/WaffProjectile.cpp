@@ -6,6 +6,7 @@
 #include "WaffAttributeComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -25,7 +26,9 @@ AWaffProjectile::AWaffProjectile()
 	// Setup collision for sphere comp
 	SphereComp->SetCollisionProfileName("Projectile", true);
 
+	// Bind function to Overlap and Hit for Sphere component.
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AWaffProjectile::OnOverlap);
+	SphereComp->OnComponentHit.AddDynamic(this, &AWaffProjectile::OnHit);
 
 	// Setup initial values
 	MoveComp->InitialSpeed = 1000.0f;
@@ -41,20 +44,33 @@ void AWaffProjectile::BeginPlay()
 }
 
 
-// On overlap, if OtherActor has AttributeComponent, deal damage and destroy
-void AWaffProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+// On overlap
+void AWaffProjectile::OnOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                 const FHitResult& SweepResult)
 {
-	if(OtherActor && OtherActor != this->GetInstigator())   
-	{
-		UActorComponent* AttriComp = OtherActor->GetComponentByClass(UWaffAttributeComponent::StaticClass());
-		if(AttriComp)
-		{
-			Cast<UWaffAttributeComponent>(AttriComp)->OnHealthChange(-DamageOnHit);
-			Destroy();
-		};
+	Explode();
+	Destroy();
+}
 
+// On hit
+void AWaffProjectile::OnHit_Implementation(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+                            FVector NormalImpulse, const FHitResult& Hit)
+{
+	Explode();
+	Destroy();
+}
+
+// Explode
+void AWaffProjectile::Explode_Implementation()
+{
+	// Ensure if it is still valid, deactivate comps, collisions and destroy it.
+	if (ensure(IsValid(this)))
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactVFX, GetActorLocation(), GetActorRotation());
+		ParticleComp->Deactivate();
+		MoveComp->StopMovementImmediately();
+		SetActorEnableCollision(false);
 	}
 }
 
@@ -62,4 +78,13 @@ void AWaffProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 void AWaffProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AWaffProjectile::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+	if (this->GetInstigator())
+	{
+		MoveComp->UpdatedPrimitive->IgnoreActorWhenMoving(this->GetInstigator(), true);
+	}
 }

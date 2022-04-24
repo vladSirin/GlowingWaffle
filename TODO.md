@@ -57,6 +57,10 @@
 - Fix projectile launch location - done
 - Black hole attack - done
 - Dash ability - done
+- Putting explode into the base class of projectile
+- make projectile_base
+- use Spawn Projectile class to spawn different projectiles
+- not teleport twice when hit ground.
 
 
 

@@ -6,6 +6,14 @@
 #include "GameFramework/Actor.h"
 #include "WaffProjectile.generated.h"
 
+/*
+ * This is the Projectile base class, it handles:
+ * The basic components of projectile,
+ * The basic overlap function
+ * The basic OnHit
+ * the basic explode, using when OnHit
+ */
+
 class UProjectileMovementComponent;
 class USphereComponent;
 
@@ -22,7 +30,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// Setup the Necessary Components.
+	// Setup the Necessary Components and Impact VFX
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UParticleSystem* ImpactVFX;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USphereComponent* SphereComp;
 
@@ -32,15 +43,20 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* ParticleComp;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	float DamageOnHit;
-
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, 
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void Explode();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void PreInitializeComponents() override;
 
 };
