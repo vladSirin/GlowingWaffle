@@ -57,10 +57,10 @@
 - Fix projectile launch location - done
 - Black hole attack - done
 - Dash ability - done
-- Putting explode into the base class of projectile
-- make projectile_base
-- use Spawn Projectile class to spawn different projectiles
-- not teleport twice when hit ground.
+- Putting explode into the base class of projectile - done
+- make projectile_base - done
+- use Spawn Projectile class to spawn different projectiles - different approach
+- not teleport twice when hit ground. - done
 
 
 
@@ -87,3 +87,10 @@
 - Dissolve material simple - done
 - Create a Material Function - done
 - Using Materials in UMG - done
+
+
+
+# Lecture 9 - 
+- Creating sound cues
+- Animation blueprint and player death, blend by bool
+- Projected 3D UI, damage numbers
