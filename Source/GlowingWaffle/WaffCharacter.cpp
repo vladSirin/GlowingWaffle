@@ -10,6 +10,7 @@
 #include "WaffInteractionComponent.h"
 #include "WaffProjectile.h"
 #include "WaffAttributeComponent.h"
+#include "Components/CapsuleComponent.h"
 
 
 // Sets default values
@@ -34,6 +35,24 @@ AWaffCharacter::AWaffCharacter()
 	// Basic 3C settings
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+}
+
+// Post Initialize
+void AWaffCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffCharacter::OnHealthChanged);
+}
+
+// On health change ,check if player is dead, if so, disable input.
+void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent* OwingComp, float NewHealth,
+	float Delta)
+{
+	if(NewHealth <= 0.0f && Delta < 0.0f)
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		DisableInput(PC);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -128,9 +147,7 @@ void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProje
 	{
 		ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, End);
 	}
-
 	
-
 	// Combine with the ControlRotation, so he actor will spawn at the hand position and facing the camera direction.
 	FTransform Spawn_TM = FTransform(ProjectileSpawnRotation, HandLocation);
 
@@ -139,10 +156,9 @@ void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProje
 	SpawnParam.Instigator = this;
 
 	// Spawn the projectile actor at the hand of the character
-	GetWorld()->SpawnActor<AActor>(AttackProjectile, Spawn_TM, SpawnParam);
+	AActor* Projectile = GetWorld()->SpawnActor<AActor>(AttackProjectile, Spawn_TM, SpawnParam);
+	GetCapsuleComponent()->IgnoreActorWhenMoving(Projectile, true);
 }
-
-
 
 void AWaffCharacter::PrimaryInteract()
 {

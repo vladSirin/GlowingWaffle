@@ -26,15 +26,23 @@ AWaffProjectile::AWaffProjectile()
 	// Setup collision for sphere comp
 	SphereComp->SetCollisionProfileName("Projectile", true);
 
-	// Bind function to Overlap and Hit for Sphere component.
-	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AWaffProjectile::OnOverlap);
-	SphereComp->OnComponentHit.AddDynamic(this, &AWaffProjectile::OnHit);
+
 
 	// Setup initial values
 	MoveComp->InitialSpeed = 1000.0f;
 	MoveComp->SetVelocityInLocalSpace(GetActorForwardVector());
 	MoveComp->bRotationFollowsVelocity = true;
 	MoveComp->ProjectileGravityScale = 0.0f;
+}
+
+void AWaffProjectile::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
+	
+	// Bind function to Overlap and Hit for Sphere component.
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AWaffProjectile::OnOverlap);
+	SphereComp->OnComponentHit.AddDynamic(this, &AWaffProjectile::OnHit);
 }
 
 // Called when the game starts or when spawned
@@ -80,11 +88,4 @@ void AWaffProjectile::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AWaffProjectile::PreInitializeComponents()
-{
-	Super::PreInitializeComponents();
-	if (this->GetInstigator())
-	{
-		MoveComp->UpdatedPrimitive->IgnoreActorWhenMoving(this->GetInstigator(), true);
-	}
-}
+

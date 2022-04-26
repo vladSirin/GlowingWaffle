@@ -28,3 +28,8 @@ bool UWaffAttributeComponent::OnHealthChange(float Delta)
 	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
 	return true;
 }
+
+bool UWaffAttributeComponent::IsAlive() const
+{
+	return Health > 0.0f;
+}

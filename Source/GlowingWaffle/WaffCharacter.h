@@ -91,6 +91,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UWaffAttributeComponent* AttriComp;
 
+	UFUNCTION()
+	void OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent*
+											  OwingComp, float NewHealth, float Delta);
+
+	// Post initialize
+	UFUNCTION()
+	void PostInitializeComponents() override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
