@@ -48,10 +48,14 @@ void AWaffCharacter::PostInitializeComponents()
 void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent* OwingComp, float NewHealth,
 	float Delta)
 {
-	if(NewHealth <= 0.0f && Delta < 0.0f)
+	if(Delta < 0.0f)
 	{
-		APlayerController* PC = Cast<APlayerController>(GetController());
-		DisableInput(PC);
+		Cast<UMeshComponent>(GetMesh())->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+		if(NewHealth <= 0.0f)
+		{
+			APlayerController* PC = Cast<APlayerController>(GetController());
+			DisableInput(PC);
+		}
 	}
 }
 

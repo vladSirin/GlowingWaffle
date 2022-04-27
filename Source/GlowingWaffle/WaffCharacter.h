@@ -97,7 +97,7 @@ protected:
 
 	// Post initialize
 	UFUNCTION()
-	void PostInitializeComponents() override;
+	virtual void PostInitializeComponents() override;
 
 public:	
 	// Called every frame

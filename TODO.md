@@ -90,7 +90,35 @@
 
 
 
-# Lecture 9 - 
+# Lecture 9 - done
 - Creating sound cues
 - Animation blueprint and player death, blend by bool
 - Projected 3D UI, damage numbers
+
+
+
+# Assignment 3
+- Magic Projectile [Audio, and Visual Polish] - done
+- Player Character [React on Damage Received] - done
+- AttributeComponent [HealthMax Attribute]
+Add ‘HealthMax’ attribute.
+Replace ‘ClassDefaults: Health’ node in Health Widget with new ‘HealthMax’ attribute.
+Clamp ‘Health’ attribute between 0 and ‘HealthMax’ via ApplyHealthChanges (See FMath class)
+
+- UI [Animation]
+Add ‘Damage amount’ to the new damage widget. (use ‘Expose on Spawn’ to set value)
+Add Animation to ‘Damage Widget’ when added to viewport.. (Change Color, Scale) // Animation details open ended.
+
+- Goal: ‘Health Potion’ power-up Actor in level to heal ‘Pawn’.
+React to Interact() // SGameplayInterface.h
+Inactivate for 10 seconds upon triggered (Invisible and unable to interact with)
+Re-activates on time elapsed to show mesh, and ready to be triggered again.
+Ignores interacting pawn if already at maximum health.
+Logic in C++ (Assets can always be assigned in Blueprint)
+
+- Magic Projectile
+Bonus: Play ‘Attached’ Particle Effect in player hand when ‘casting’ spell. (UGameplayStatics::SpawnEmitterAttached, Asset: P_Gideon_Primary_MuzzleFlash)
+Bonus: ‘World’ Camera shake on Projectile Impact. (UGameplayStatics::PlayWorldCameraShake, Assets: ExampleContent/CameraShake/...)
+
+- Class Design: Consider future power-up/pick-up actors that share similar pickup/respawn logic but apply different reactions.
+Example Mesh: SM_PotionBottle (Note: has NO ‘primitive’ collision yet)

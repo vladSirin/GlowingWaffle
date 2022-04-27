@@ -4,6 +4,7 @@
 #include "WaffProjectile.h"
 
 #include "WaffAttributeComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -14,19 +15,18 @@ AWaffProjectile::AWaffProjectile()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 	// Create the necessary components and attachments.
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	RootComponent = SphereComp;
-
 	MoveComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MoveComp"));
-
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
-	ParticleComp->SetupAttachment(SphereComp);
+	ParticleComp->SetupAttachment(RootComponent);
+	AudioComp = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComp"));
+	AudioComp->SetupAttachment(RootComponent);
 
 	// Setup collision for sphere comp
 	SphereComp->SetCollisionProfileName("Projectile", true);
-
-
 
 	// Setup initial values
 	MoveComp->InitialSpeed = 1000.0f;
@@ -44,13 +44,6 @@ void AWaffProjectile::PostInitializeComponents()
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AWaffProjectile::OnOverlap);
 	SphereComp->OnComponentHit.AddDynamic(this, &AWaffProjectile::OnHit);
 }
-
-// Called when the game starts or when spawned
-void AWaffProjectile::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 
 // On overlap
 void AWaffProjectile::OnOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -76,16 +69,10 @@ void AWaffProjectile::Explode_Implementation()
 	if (ensure(IsValid(this)))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactVFX, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ImpactSound, GetActorLocation(), GetActorRotation());
 		ParticleComp->Deactivate();
 		MoveComp->StopMovementImmediately();
 		SetActorEnableCollision(false);
 	}
 }
-
-// Called every frame
-void AWaffProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 
