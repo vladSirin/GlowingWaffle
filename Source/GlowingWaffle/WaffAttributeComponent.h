@@ -45,7 +45,7 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	bool OnHealthChange(float Delta);
+	bool ApplyHealthChange(float Delta);
 
 	UFUNCTION(BlueprintPure)
 	bool IsAlive() const;

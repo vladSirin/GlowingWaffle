@@ -100,10 +100,7 @@
 # Assignment 3
 - Magic Projectile [Audio, and Visual Polish] - done
 - Player Character [React on Damage Received] - done
-- AttributeComponent [HealthMax Attribute]
-Add ‘HealthMax’ attribute.
-Replace ‘ClassDefaults: Health’ node in Health Widget with new ‘HealthMax’ attribute.
-Clamp ‘Health’ attribute between 0 and ‘HealthMax’ via ApplyHealthChanges (See FMath class)
+- AttributeComponent [HealthMax Attribute] - done
 
 - UI [Animation]
 Add ‘Damage amount’ to the new damage widget. (use ‘Expose on Spawn’ to set value)

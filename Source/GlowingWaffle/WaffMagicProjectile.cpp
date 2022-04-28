@@ -33,7 +33,7 @@ void AWaffMagicProjectile::OnOverlap_Implementation(UPrimitiveComponent* Overlap
 		UActorComponent* OtherAttriComp = OtherActor->GetComponentByClass(UWaffAttributeComponent::StaticClass());
 		if(OtherAttriComp)
 		{
-			Cast<UWaffAttributeComponent>(OtherAttriComp)->OnHealthChange(-Damage);
+			Cast<UWaffAttributeComponent>(OtherAttriComp)->ApplyHealthChange(-Damage);
 		}
 	}
 }

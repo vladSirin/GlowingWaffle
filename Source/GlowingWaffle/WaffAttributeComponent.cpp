@@ -8,6 +8,7 @@ UWaffAttributeComponent::UWaffAttributeComponent()
 {
 	// Initialize the values
 	Health = 100;
+	HealthMax = 100;
 
 }
 
@@ -21,10 +22,10 @@ void UWaffAttributeComponent::BeginPlay()
 }
 
 
-bool UWaffAttributeComponent::OnHealthChange(float Delta)
+bool UWaffAttributeComponent::ApplyHealthChange(float Delta)
 {
 	// Change the health num with delta
-	Health = Health + Delta;
+	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
 	return true;
 }
