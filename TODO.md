@@ -103,7 +103,7 @@
 - AttributeComponent [HealthMax Attribute] - done
 
 - UI [Animation]
-Add ‘Damage amount’ to the new damage widget. (use ‘Expose on Spawn’ to set value)
+Add ‘Damage amount’ to the new damage widget. (use ‘Expose on Spawn’ to set value) - done 
 Add Animation to ‘Damage Widget’ when added to viewport.. (Change Color, Scale) // Animation details open ended.
 
 - Goal: ‘Health Potion’ power-up Actor in level to heal ‘Pawn’.
