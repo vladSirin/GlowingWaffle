@@ -105,9 +105,9 @@
 
 - Goal: ‘Health Potion’ power-up Actor in level to heal ‘Pawn’.
 React to Interact() // SGameplayInterface.h
-Inactivate for 10 seconds upon triggered (Invisible and unable to interact with)
-Re-activates on time elapsed to show mesh, and ready to be triggered again.
-Ignores interacting pawn if already at maximum health.
+Inactivate for 10 seconds upon triggered (Invisible and unable to interact with) - timeline
+Re-activates on time elapsed to show mesh, and ready to be triggered again. - status reset
+Ignores interacting pawn if already at maximum health. - health check with Attri Comp
 Logic in C++ (Assets can always be assigned in Blueprint)
 
 - Magic Projectile

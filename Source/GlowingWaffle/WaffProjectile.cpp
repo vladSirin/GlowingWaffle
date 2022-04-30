@@ -15,7 +15,7 @@ AWaffProjectile::AWaffProjectile()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
+
 	// Create the necessary components and attachments.
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	RootComponent = SphereComp;
@@ -39,7 +39,7 @@ void AWaffProjectile::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
-	
+
 	// Bind function to Overlap and Hit for Sphere component.
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AWaffProjectile::OnOverlap);
 	SphereComp->OnComponentHit.AddDynamic(this, &AWaffProjectile::OnHit);
@@ -47,16 +47,17 @@ void AWaffProjectile::PostInitializeComponents()
 
 // On overlap
 void AWaffProjectile::OnOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
-                                const FHitResult& SweepResult)
+                                               UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                               const FHitResult& SweepResult)
 {
 	Explode();
 	Destroy();
 }
 
 // On hit
-void AWaffProjectile::OnHit_Implementation(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-                            FVector NormalImpulse, const FHitResult& Hit)
+void AWaffProjectile::OnHit_Implementation(UPrimitiveComponent* HitComponent, AActor* OtherActor,
+                                           UPrimitiveComponent* OtherComp,
+                                           FVector NormalImpulse, const FHitResult& Hit)
 {
 	Explode();
 	Destroy();
@@ -75,4 +76,3 @@ void AWaffProjectile::Explode_Implementation()
 		SetActorEnableCollision(false);
 	}
 }
-

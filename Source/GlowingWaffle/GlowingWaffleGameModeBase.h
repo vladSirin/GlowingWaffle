@@ -13,5 +13,4 @@ UCLASS()
 class GLOWINGWAFFLE_API AGlowingWaffleGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };

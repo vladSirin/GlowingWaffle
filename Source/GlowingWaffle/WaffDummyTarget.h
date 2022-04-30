@@ -11,8 +11,8 @@ UCLASS()
 class GLOWINGWAFFLE_API AWaffDummyTarget : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AWaffDummyTarget();
 
@@ -29,11 +29,9 @@ protected:
 	// On Health Change func for bind
 	UFUNCTION()
 	void OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent*
-											  OwingComp, float NewHealth, float Delta);
+	                     OwingComp, float NewHealth, float Delta);
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	
 };

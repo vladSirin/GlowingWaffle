@@ -50,6 +50,12 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsAlive() const;
 
+	UFUNCTION(BlueprintGetter)
+	float GetHealth() const;
+
+	UFUNCTION(BlueprintGetter)
+	bool IsFullHealth() const;
+
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
 };

@@ -14,8 +14,8 @@ UCLASS()
 class GLOWINGWAFFLE_API AWaffMagicProjectile : public AWaffProjectile
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AWaffMagicProjectile();
 
@@ -24,10 +24,11 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	virtual void OnOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
+	virtual void OnOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	                                      const FHitResult& SweepResult) override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

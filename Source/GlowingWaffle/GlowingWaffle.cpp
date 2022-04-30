@@ -3,4 +3,4 @@
 #include "GlowingWaffle.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, GlowingWaffle, "GlowingWaffle" );
+IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, GlowingWaffle, "GlowingWaffle");

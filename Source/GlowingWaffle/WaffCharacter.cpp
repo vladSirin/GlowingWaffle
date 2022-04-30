@@ -2,8 +2,8 @@
 
 
 #include "WaffCharacter.h"
-#include "Camera\CameraComponent.h"
-#include "GameFramework\SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -16,13 +16,13 @@
 // Sets default values
 AWaffCharacter::AWaffCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Construct the Camera and spring arms, setting up attachment.
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
 	SpringArmComp->SetupAttachment(RootComponent);
-	
+
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComp->SetupAttachment(SpringArmComp);
 
@@ -46,12 +46,12 @@ void AWaffCharacter::PostInitializeComponents()
 
 // On health change ,check if player is dead, if so, disable input.
 void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent* OwingComp, float NewHealth,
-	float Delta)
+                                     float Delta)
 {
-	if(Delta < 0.0f)
+	if (Delta < 0.0f)
 	{
 		Cast<UMeshComponent>(GetMesh())->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
-		if(NewHealth <= 0.0f)
+		if (NewHealth <= 0.0f)
 		{
 			APlayerController* PC = Cast<APlayerController>(GetController());
 			DisableInput(PC);
@@ -63,7 +63,6 @@ void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeCom
 void AWaffCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AWaffCharacter::MoveForward(float value)
@@ -93,7 +92,7 @@ void AWaffCharacter::PrimaryAttack()
 	// Using animation montage
 	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
 
-	// Bind the timer handler function with specific var.
+	// Bind the timer handler delegates with specific var.
 	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), PrimaryProjectile);
 	// Call the Bound function after 0.2f sec
 	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
@@ -108,7 +107,6 @@ void AWaffCharacter::SecondaryAttack()
 	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), SecondaryProjectile);
 	// Call the Bound function after 0.2f sec
 	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
-
 }
 
 void AWaffCharacter::DashCast()
@@ -124,7 +122,6 @@ void AWaffCharacter::DashCast()
 
 void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile)
 {
-
 	// use the hand socket location as the spawn location
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 
@@ -143,7 +140,7 @@ void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProje
 
 	// Decide the Final rotation for the projectile to hit target
 	FRotator ProjectileSpawnRotation;
-	if(OutHit.GetActor())
+	if (OutHit.GetActor())
 	{
 		ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, OutHit.ImpactPoint);
 	}
@@ -151,7 +148,7 @@ void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProje
 	{
 		ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, End);
 	}
-	
+
 	// Combine with the ControlRotation, so he actor will spawn at the hand position and facing the camera direction.
 	FTransform Spawn_TM = FTransform(ProjectileSpawnRotation, HandLocation);
 
@@ -184,11 +181,13 @@ void AWaffCharacter::Tick(float DeltaTime)
 	// Set line end in direction of the actor's forward
 	FVector ActorDirection_LineEnd = LineStart + (GetActorForwardVector() * 100.0f);
 	// Draw Actor's Direction
-	DrawDebugDirectionalArrow(GetWorld(), LineStart, ActorDirection_LineEnd, DrawScale, FColor::Yellow, false, 0.0f, 0, Thickness);
+	DrawDebugDirectionalArrow(GetWorld(), LineStart, ActorDirection_LineEnd, DrawScale, FColor::Yellow, false, 0.0f, 0,
+	                          Thickness);
 
 	FVector ControllerDirection_LineEnd = LineStart + (GetControlRotation().Vector() * 100.0f);
 	// Draw 'Controller' Rotation ('PlayerController' that 'possessed' this character)
-	DrawDebugDirectionalArrow(GetWorld(), LineStart, ControllerDirection_LineEnd, DrawScale, FColor::Green, false, 0.0f, 0, Thickness);
+	DrawDebugDirectionalArrow(GetWorld(), LineStart, ControllerDirection_LineEnd, DrawScale, FColor::Green, false, 0.0f,
+	                          0, Thickness);
 }
 
 
@@ -210,4 +209,3 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &AWaffCharacter::SecondaryAttack);
 	PlayerInputComponent->BindAction("DashCast", IE_Pressed, this, &AWaffCharacter::DashCast);
 }
-

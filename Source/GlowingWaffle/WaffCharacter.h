@@ -57,9 +57,11 @@ protected:
 	UAnimMontage* AttackAnimMontage;
 
 	// Timer handler and Delegate
+	// Ref: https://www.tomlooman.com/unreal-engine-cpp-timers/
 	UPROPERTY()
 	FTimerHandle AttackTimerHandler;
 
+	// Timer Delegate to bind function with var to be used along with Timer handler
 	FTimerDelegate AttackTimerDelegate;
 
 	// Interactions
@@ -93,17 +95,16 @@ protected:
 
 	UFUNCTION()
 	void OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent*
-											  OwingComp, float NewHealth, float Delta);
+	                     OwingComp, float NewHealth, float Delta);
 
 	// Post initialize
 	UFUNCTION()
 	virtual void PostInitializeComponents() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };

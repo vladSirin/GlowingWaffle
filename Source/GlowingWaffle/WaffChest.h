@@ -11,8 +11,8 @@ UCLASS()
 class GLOWINGWAFFLE_API AWaffChest : public AActor, public IWaffGameplayInterface
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AWaffChest();
 
@@ -27,13 +27,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ChestLidComp;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void Interact_Implementation(APawn* InstigatorPawn);
+	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
 	UPROPERTY(EditAnywhere)
 	float TargetPitch;
-
 };

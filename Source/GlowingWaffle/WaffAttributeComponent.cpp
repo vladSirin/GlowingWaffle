@@ -9,7 +9,6 @@ UWaffAttributeComponent::UWaffAttributeComponent()
 	// Initialize the values
 	Health = 100;
 	HealthMax = 100;
-
 }
 
 
@@ -33,4 +32,14 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta)
 bool UWaffAttributeComponent::IsAlive() const
 {
 	return Health > 0.0f;
+}
+
+float UWaffAttributeComponent::GetHealth() const
+{
+	return Health;
+}
+
+bool UWaffAttributeComponent::IsFullHealth() const
+{
+	return Health == HealthMax;
 }

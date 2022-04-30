@@ -21,8 +21,8 @@ UCLASS()
 class GLOWINGWAFFLE_API AWaffProjectile : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AWaffProjectile();
 
@@ -57,15 +57,16 @@ protected:
 	 * The Original Implementation will Explode and Destroy the projectile itself.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, 
-		int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	               int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	/*
 	 * Behavior when Overlap with another Other
 	 * The Original Implementation will Explode and Destroy the projectile itself.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	           FVector NormalImpulse, const FHitResult& Hit);
 
 	/*
 	 * Explode will play the impact VFX and Sound, stop the movement and collision, deactivate any visual effect
