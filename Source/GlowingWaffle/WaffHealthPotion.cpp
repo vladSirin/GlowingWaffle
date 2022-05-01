@@ -10,12 +10,6 @@ AWaffHealthPotion::AWaffHealthPotion()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	// Setup Comps
-	SMComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
-	RootComponent = SMComp;
-
-	Cooldown = 10.0f;
 }
 
 // Called when the game starts or when spawned
@@ -32,6 +26,7 @@ void AWaffHealthPotion::Tick(float DeltaTime)
 
 void AWaffHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 {
+	Super::Interact_Implementation(InstigatorPawn);
 	if (InstigatorPawn)
 	{
 		UWaffAttributeComponent* AttriComp =  Cast<UWaffAttributeComponent>(InstigatorPawn->GetComponentByClass(UWaffAttributeComponent::StaticClass()));
@@ -45,20 +40,4 @@ void AWaffHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 			return;
 		}
 	}
-	Disable();
-	GetWorldTimerManager().ClearTimer(CooldownHandle);
-	GetWorldTimerManager().SetTimer(CooldownHandle, this, &AWaffHealthPotion::Enable, 10.0f, false
-		);
-}
-
-void AWaffHealthPotion::Disable()
-{
-	SMComp->SetVisibility(false);
-	SetActorEnableCollision(false);
-}
-
-void AWaffHealthPotion::Enable()
-{
-	SMComp->SetVisibility(true);
-	SetActorEnableCollision(true);
 }

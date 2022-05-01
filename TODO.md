@@ -104,6 +104,4 @@
 - UI [Animation]
 - Goal: ‘Health Potion’ power-up Actor in level to heal ‘Pawn’. - done
 - Magic Projectile - done
-
-- Class Design: Consider future power-up/pick-up actors that share similar pickup/respawn logic but apply different reactions.
-Example Mesh: SM_PotionBottle (Note: has NO ‘primitive’ collision yet)
+- Class Design: Consider future power-up/pick-up actors that share similar pickup/respawn logic but apply different reactions. - done
