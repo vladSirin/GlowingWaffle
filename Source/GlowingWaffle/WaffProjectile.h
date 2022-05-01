@@ -42,6 +42,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UParticleSystem* ImpactVFX;
 
+	// Camera Shake
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UCameraShakeBase> HitCameraShake;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float ShakeOuterRim;
+
 	// Basic Comps for movement, particle and collision
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USphereComponent* SphereComp;

@@ -33,6 +33,9 @@ AWaffProjectile::AWaffProjectile()
 	MoveComp->SetVelocityInLocalSpace(GetActorForwardVector());
 	MoveComp->bRotationFollowsVelocity = true;
 	MoveComp->ProjectileGravityScale = 0.0f;
+
+	// Setup
+	ShakeOuterRim = 500.0f;
 }
 
 void AWaffProjectile::PostInitializeComponents()
@@ -71,6 +74,8 @@ void AWaffProjectile::Explode_Implementation()
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactVFX, GetActorLocation(), GetActorRotation());
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ImpactSound, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::PlayWorldCameraShake(GetWorld(), HitCameraShake, GetActorLocation(),
+			10.0f, ShakeOuterRim, 1.0f, false);
 		ParticleComp->Deactivate();
 		MoveComp->StopMovementImmediately();
 		SetActorEnableCollision(false);

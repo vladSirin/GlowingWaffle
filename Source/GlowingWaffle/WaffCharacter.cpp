@@ -2,6 +2,9 @@
 
 
 #include "WaffCharacter.h"
+
+#include <filesystem>
+
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "DrawDebugHelpers.h"
@@ -11,6 +14,7 @@
 #include "WaffProjectile.h"
 #include "WaffAttributeComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -156,6 +160,9 @@ void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProje
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParam.Instigator = this;
 
+	//Play Muzzle Flash
+	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, GetMesh(), FName("Muzzle_01"),FVector(ForceInit),
+		FRotator::ZeroRotator, FVector(1),EAttachLocation::KeepRelativeOffset, true, EPSCPoolMethod::None, true);
 	// Spawn the projectile actor at the hand of the character
 	AActor* Projectile = GetWorld()->SpawnActor<AActor>(AttackProjectile, Spawn_TM, SpawnParam);
 	GetCapsuleComponent()->IgnoreActorWhenMoving(Projectile, true);

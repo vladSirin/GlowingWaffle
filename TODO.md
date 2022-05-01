@@ -102,17 +102,8 @@
 - Player Character [React on Damage Received] - done
 - AttributeComponent [HealthMax Attribute] - done
 - UI [Animation]
-
-- Goal: ‘Health Potion’ power-up Actor in level to heal ‘Pawn’.
-React to Interact() // SGameplayInterface.h
-Inactivate for 10 seconds upon triggered (Invisible and unable to interact with) - timeline
-Re-activates on time elapsed to show mesh, and ready to be triggered again. - status reset
-Ignores interacting pawn if already at maximum health. - health check with Attri Comp
-Logic in C++ (Assets can always be assigned in Blueprint)
-
-- Magic Projectile
-Bonus: Play ‘Attached’ Particle Effect in player hand when ‘casting’ spell. (UGameplayStatics::SpawnEmitterAttached, Asset: P_Gideon_Primary_MuzzleFlash)
-Bonus: ‘World’ Camera shake on Projectile Impact. (UGameplayStatics::PlayWorldCameraShake, Assets: ExampleContent/CameraShake/...)
+- Goal: ‘Health Potion’ power-up Actor in level to heal ‘Pawn’. - done
+- Magic Projectile - done
 
 - Class Design: Consider future power-up/pick-up actors that share similar pickup/respawn logic but apply different reactions.
 Example Mesh: SM_PotionBottle (Note: has NO ‘primitive’ collision yet)

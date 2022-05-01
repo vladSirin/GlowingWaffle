@@ -56,6 +56,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackAnimMontage;
 
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
+	UParticleSystem* MuzzleFlash;
+
 	// Timer handler and Delegate
 	// Ref: https://www.tomlooman.com/unreal-engine-cpp-timers/
 	UPROPERTY()
