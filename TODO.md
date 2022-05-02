@@ -108,7 +108,11 @@
 
 
 
-# Lecture 10
+# Lecture 10 - done
 - Bot Behavior and Move to Player
 - Custom Check Range service for BT
 - Check LOS
+
+
+
+# Lecture 11 - Intermediate AI with Custom Tasks & EQS
