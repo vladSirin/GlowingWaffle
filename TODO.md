@@ -105,3 +105,10 @@
 - Goal: ‘Health Potion’ power-up Actor in level to heal ‘Pawn’. - done
 - Magic Projectile - done
 - Class Design: Consider future power-up/pick-up actors that share similar pickup/respawn logic but apply different reactions. - done
+
+
+
+# Lecture 10
+- Bot Behavior and Move to Player
+- Custom Check Range service for BT
+- Check LOS
