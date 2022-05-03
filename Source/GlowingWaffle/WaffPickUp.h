@@ -42,9 +42,13 @@ public:
 	// Interact Implementation
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
-	// Disable health potion
-	void Disable();
+	// Set whether the pick up is active, when not active, hidden and no collision.
+	void SetActiveState(bool bActive);
 
-	// Enable health potion
-	void Enable();
+	// Display the mesh
+	void ShowUp();
+
+	// Cooldown
+	void HideAndCoolDown();
 };
+

@@ -24,9 +24,11 @@ void UWaffAttributeComponent::BeginPlay()
 bool UWaffAttributeComponent::ApplyHealthChange(float Delta)
 {
 	// Change the health num with delta
+	const float OldHealth = Health;
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
-	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
-	return true;
+	const float ActualDelta = Health - OldHealth;
+	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
+	return ActualDelta != 0;
 }
 
 bool UWaffAttributeComponent::IsAlive() const

@@ -43,7 +43,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
 
-	// Define a Projectile class property and attack anim montage
+	// Attack and Abilities
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	TSubclassOf<AWaffProjectile> PrimaryProjectile;
 
@@ -56,25 +56,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackAnimMontage;
 
-	UPROPERTY(EditDefaultsOnly, Category="Attack")
+	UPROPERTY(EditDefaultsOnly, Category="Effect")
 	UParticleSystem* MuzzleFlash;
 
-	// Timer handler and Delegate
-	// Ref: https://www.tomlooman.com/unreal-engine-cpp-timers/
-	UPROPERTY()
-	FTimerHandle AttackTimerHandler;
+	UPROPERTY(VisibleAnywhere, Category="Effect")
+	FName HandSocketName; 	// HandSocketName used to spawn effects and projectile
 
-	// Timer Delegate to bind function with var to be used along with Timer handler
-	FTimerDelegate AttackTimerDelegate;
-
-	// Interactions
-	UPROPERTY(VisibleAnywhere)
-	UWaffInteractionComponent* InteractComp;
-
-	UFUNCTION(BlueprintCallable)
-	void PrimaryInteract();
-
-	// Attack and Abilities
+	UPROPERTY(VisibleAnywhere, Category="Effect")
+	FName TimeToHit; // The name of Material param for on hit flash
+	
 	UFUNCTION(BlueprintCallable)
 	void PrimaryAttack();
 
@@ -86,6 +76,19 @@ protected:
 
 	UFUNCTION()
 	void Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile);
+	
+	UPROPERTY() // Ref: https://www.tomlooman.com/unreal-engine-cpp-timers/
+	FTimerHandle AttackTimerHandler; 	// Timer handler and Delegate 
+
+	FTimerDelegate AttackTimerDelegate; 	// Timer Delegate to bind function with var to be used along with Timer handler
+
+
+	// Interactions
+	UPROPERTY(VisibleAnywhere)
+	UWaffInteractionComponent* InteractComp;
+
+	UFUNCTION(BlueprintCallable)
+	void PrimaryInteract();
 
 	// Movement functions
 	void MoveForward(float value);

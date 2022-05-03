@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Perception/AISenseConfig.h"
+#include "Perception/AISense_Sight.h"
 #include "WaffAIController.generated.h"
 
 /**
@@ -20,10 +22,17 @@ public:
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly, Category="BT")
+	UPROPERTY(EditDefaultsOnly, Category="AI")
 	UBehaviorTree* BT;
 
-	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
+
+	UPROPERTY(EditDefaultsOnly, Category="AI")
+	FGenericTeamId TeamId;
+
+	UFUNCTION(BlueprintCallable)
+	virtual FGenericTeamId GetGenericTeamId() const override;
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 };
 
 

@@ -37,23 +37,27 @@ void AWaffPickUp::Tick(float DeltaTime)
 
 void AWaffPickUp::Interact_Implementation(APawn* InstigatorPawn)
 {
-	Disable();
+	//To be implement...
+}
+
+void AWaffPickUp::SetActiveState(bool bActive)
+{
+	RootComponent->SetVisibility(bActive, true);
+	SetActorEnableCollision(bActive);
+}
+
+void AWaffPickUp::ShowUp()
+{
+	SetActiveState(true);
+}
+
+
+void AWaffPickUp::HideAndCoolDown()
+{
+	SetActiveState(false);
 	GetWorldTimerManager().ClearTimer(CooldownHandle);
-	GetWorldTimerManager().SetTimer(CooldownHandle, this, &AWaffPickUp::Enable, Cooldown, false
+	GetWorldTimerManager().SetTimer(CooldownHandle, this, &AWaffPickUp::ShowUp, Cooldown, false
 		);
-
 }
 
-void AWaffPickUp::Disable()
-{
-	SMComp->SetVisibility(false);
-	SetActorEnableCollision(false);
-}
-
-
-void AWaffPickUp::Enable()
-{
-	SMComp->SetVisibility(true);
-	SetActorEnableCollision(true);
-}
 

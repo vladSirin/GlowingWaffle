@@ -2,22 +2,27 @@
 
 
 #include "WaffAIController.h"
+#include "Perception/AIPerceptionComponent.h"
 
-#include "BehaviorTree/BlackboardComponent.h"
-#include "Kismet/GameplayStatics.h"
 
 AWaffAIController::AWaffAIController()
 {
-	
+	TeamId = FGenericTeamId(1);
 }
 
-void AWaffAIController::BeginPlay()
+void AWaffAIController::PostInitializeComponents()
 {
-	Super::BeginPlay();
+	Super::PostInitializeComponents();
+	SetGenericTeamId(TeamId);
 	RunBehaviorTree(BT);
+}
 
-	if(APawn* MyPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0))
-	{
-		GetBlackboardComponent()->SetValueAsObject("TargetActor", MyPawn); 
-	}
+FGenericTeamId AWaffAIController::GetGenericTeamId() const
+{
+	return TeamId;
+}
+
+ETeamAttitude::Type AWaffAIController::GetTeamAttitudeTowards(const AActor& Other) const
+{
+	return Super::GetTeamAttitudeTowards(Other);
 }

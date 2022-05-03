@@ -37,6 +37,10 @@ AWaffCharacter::AWaffCharacter()
 	// Basic 3C settings
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	// Var
+	HandSocketName = "Muzzle_01";
+	TimeToHit = "TimeToHit";
 }
 
 // Post Initialize
@@ -52,7 +56,7 @@ void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeCom
 {
 	if (Delta < 0.0f)
 	{
-		Cast<UMeshComponent>(GetMesh())->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+		Cast<UMeshComponent>(GetMesh())->SetScalarParameterValueOnMaterials(TimeToHit, GetWorld()->TimeSeconds);
 		if (NewHealth <= 0.0f)
 		{
 			APlayerController* PC = Cast<APlayerController>(GetController());
@@ -125,7 +129,7 @@ void AWaffCharacter::DashCast()
 void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile)
 {
 	// use the hand socket location as the spawn location
-	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	FVector HandLocation = GetMesh()->GetSocketLocation(HandSocketName);
 
 	// Do line trace to find the camera rotation hit target
 	FHitResult OutHit;
@@ -159,7 +163,7 @@ void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProje
 	SpawnParam.Instigator = this;
 
 	//Play Muzzle Flash
-	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, GetMesh(), FName("Muzzle_01"),FVector(ForceInit),
+	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, GetMesh(), HandSocketName,FVector(ForceInit),
 		FRotator::ZeroRotator, FVector(1),EAttachLocation::KeepRelativeOffset, true, EPSCPoolMethod::None, true);
 	// Spawn the projectile actor at the hand of the character
 	AActor* Projectile = GetWorld()->SpawnActor<AActor>(AttackProjectile, Spawn_TM, SpawnParam);
