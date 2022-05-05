@@ -115,6 +115,12 @@
 
 
 
+# Lecture 11 - done
+
+# Lecture 12
+- EQS to find spawn points
+- Game mode with custom AI spawn point
+
 # Assignment 4
 - New AI Behavior: Flee/hide when ‘low health’ and heal itself once arrived. 
   - Service: Check periodically if “low health”. 
