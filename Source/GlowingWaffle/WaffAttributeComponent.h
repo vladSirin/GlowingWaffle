@@ -54,6 +54,9 @@ public:
 	float GetHealth() const;
 
 	UFUNCTION(BlueprintGetter)
+	float GetHealthPercent() const;
+
+	UFUNCTION(BlueprintGetter)
 	bool IsFullHealth() const;
 
 	UPROPERTY(BlueprintAssignable)

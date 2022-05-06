@@ -41,6 +41,11 @@ float UWaffAttributeComponent::GetHealth() const
 	return Health;
 }
 
+float UWaffAttributeComponent::GetHealthPercent() const
+{
+	return Health/HealthMax;
+}
+
 bool UWaffAttributeComponent::IsFullHealth() const
 {
 	return Health == HealthMax;

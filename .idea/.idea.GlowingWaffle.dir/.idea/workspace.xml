@@ -8,9 +8,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPickUp.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPickUp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/AI/EQS_FindHidePosition.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffBTS_CheckHealth.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffBTS_CheckHealth.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffBTT_HealSelf.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffBTT_HealSelf.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/BB_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BB_RangedMinion.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/BP_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BP_RangedMinion.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/EQS_FindSpawnPoint_TestPawn.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/EQS_FindSpawnPoint_TestPawn.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/EmptyMap_P.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/EmptyMap_P.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/C/5U/9EUYS5SUICNBMHOOMCYTMD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/C/5U/9EUYS5SUICNBMHOOMCYTMD.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/C/MR/T4UJWD9NMU6I4LGKXPWFK8.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/C/MR/T4UJWD9NMU6I4LGKXPWFK8.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/D/32/19DTYNLI0K4178N4HD6J8T.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/D/32/19DTYNLI0K4178N4HD6J8T.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +34,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/winioctl.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt/wrl/module.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffGameplayInterface.gen.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -97,6 +113,7 @@
       <updated>1650805260492</updated>
       <workItem from="1650805304831" duration="917000" />
       <workItem from="1651320911716" duration="7198000" />
+      <workItem from="1651849390897" duration="360000" />
     </task>
     <servers />
   </component>
