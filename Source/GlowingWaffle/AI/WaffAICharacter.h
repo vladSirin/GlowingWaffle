@@ -20,8 +20,18 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	UWaffAttributeComponent* AttriComp;
+
+	// The param name of the material to trigger hit flash
+	UPROPERTY(VisibleAnywhere, Category="Effect")
+	FName TimeToHit;
+
+	UFUNCTION()
+	void OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent*
+					 OwingComp, float NewHealth, float Delta);
+
+	virtual void PostInitializeComponents() override;
 
 public:	
 	// Called every frame

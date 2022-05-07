@@ -23,6 +23,14 @@ public:
 	// Sets default values for this component's properties
 	UWaffAttributeComponent();
 
+	// Static functions
+	UFUNCTION(BlueprintCallable, Category="Attributes")
+	static UWaffAttributeComponent* GetAttributes(AActor* FromActor);
+
+	UFUNCTION(BlueprintCallable, Category="Attributes", meta=(AdvancedDisplay="IsAlive"))
+	static bool IsActorAlive(AActor* ActorToCheck);
+	
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

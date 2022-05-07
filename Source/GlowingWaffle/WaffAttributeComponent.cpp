@@ -50,3 +50,23 @@ bool UWaffAttributeComponent::IsFullHealth() const
 {
 	return Health == HealthMax;
 }
+
+UWaffAttributeComponent* UWaffAttributeComponent::GetAttributes(AActor* FromActor)
+{
+	UWaffAttributeComponent* AttriComp = Cast<UWaffAttributeComponent>(FromActor->GetComponentByClass(UWaffAttributeComponent::StaticClass()));
+	
+	if (AttriComp)
+	{
+		return AttriComp;
+	}
+	return nullptr;
+}
+
+bool UWaffAttributeComponent::IsActorAlive(AActor* ActorToCheck)
+{
+	if(const UWaffAttributeComponent* AttributeComponent = UWaffAttributeComponent::GetAttributes(ActorToCheck))
+	{
+		return AttributeComponent->IsAlive();
+	}
+	return false;
+}

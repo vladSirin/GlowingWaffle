@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "Perception/AISenseConfig.h"
 #include "Perception/AISense_Sight.h"
 #include "WaffAIController.generated.h"
@@ -20,6 +21,9 @@ public:
 	// Set default
 	AWaffAIController();
 
+	UFUNCTION()
+	void SetTargetActor(AActor* InstigatorActor);
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="AI")
@@ -30,6 +34,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	FGenericTeamId TeamId;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AI")
+	FName TargetActorKey;
+	
 	UFUNCTION(BlueprintCallable)
 	virtual FGenericTeamId GetGenericTeamId() const override;
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;

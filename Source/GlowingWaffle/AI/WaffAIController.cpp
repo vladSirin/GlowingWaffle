@@ -2,6 +2,8 @@
 
 
 #include "WaffAIController.h"
+
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 
 
@@ -13,8 +15,15 @@ AWaffAIController::AWaffAIController()
 void AWaffAIController::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
+	TargetActorKey = "TargetActor";
 	SetGenericTeamId(TeamId);
 	RunBehaviorTree(BT);
+}
+
+void AWaffAIController::SetTargetActor(AActor* InstigatorActor)
+{
+	UBlackboardComponent* BB = GetBlackboardComponent();
+	BB->SetValueAsObject(TargetActorKey, InstigatorActor);
 }
 
 FGenericTeamId AWaffAIController::GetGenericTeamId() const

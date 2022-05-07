@@ -14,9 +14,15 @@ class GLOWINGWAFFLE_API UWaffBTT_RangedAttack : public UBTTaskNode
 {
 	GENERATED_BODY()
 
+public:
+	UWaffBTT_RangedAttack();
+	
 protected:
 	UPROPERTY(EditAnywhere, Category="BTT")
 	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category="BTT")
+	float MaxBulletSpread;
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

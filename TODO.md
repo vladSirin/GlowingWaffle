@@ -117,18 +117,16 @@
 
 # Lecture 11 - done
 
-# Lecture 12
+# Lecture 12 - done
 - EQS to find spawn points
 - Game mode with custom AI spawn point
 
-# Assignment 4
+# Assignment 4 - done
 - New AI Behavior: Flee/hide when ‘low health’ and heal itself once arrived. 
-  - Service: Check periodically if “low health”. 
-  - EQS: Find hidden position away from player, close to AI itself. 
-  - BT Task: “Heal” back to max hitpoints. 
-  - This behavior can only run once every 60 seconds. 
-  - After healing, the AI will continue to fight as before.
-  
-- Notes: 
-  - The AI Character does not yet have an AttributeComponent to handle the health. Be sure to add that first before attempting this assignment.
-  Use clear naming of intend on all your nodes (selector/sequence) including tasks, services, decorators so it’s easy to read and debug.
+  - Service: Check periodically if “low health”. - done
+  - EQS: Find hidden position away from player, close to AI itself. - done
+  - BT Task: “Heal” back to max hitpoints. - done
+  - This behavior can only run once every 60 seconds. -done
+  - After healing, the AI will continue to fight as before. - done
+
+# Lecture 13 - done

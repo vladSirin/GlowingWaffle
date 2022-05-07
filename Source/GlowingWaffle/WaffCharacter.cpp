@@ -50,6 +50,14 @@ void AWaffCharacter::PostInitializeComponents()
 	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffCharacter::OnHealthChanged);
 }
 
+
+// Called when the game starts or when spawned
+void AWaffCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+// Attributes
 // On health change ,check if player is dead, if so, disable input.
 void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent* OwingComp, float NewHealth,
                                      float Delta)
@@ -65,12 +73,7 @@ void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeCom
 	}
 }
 
-// Called when the game starts or when spawned
-void AWaffCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
+// Movement controls
 void AWaffCharacter::MoveForward(float value)
 {
 	FRotator ControllerRotation = GetControlRotation();
