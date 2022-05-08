@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GlowingWaffle/WaffAttributeComponent.h"
+#include "GlowingWaffle/WaffWorldUserWidget.h"
 #include "WaffAICharacter.generated.h"
 
 UCLASS()
@@ -17,25 +18,30 @@ public:
 	AWaffAICharacter();
 
 protected:
-	// Called when the game starts or when spawned
+	// Generic
 	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
-	UWaffAttributeComponent* AttriComp;
-
-	// The param name of the material to trigger hit flash
-	UPROPERTY(VisibleAnywhere, Category="Effect")
-	FName TimeToHit;
-
-	UFUNCTION()
-	void OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent*
-					 OwingComp, float NewHealth, float Delta);
 
 	virtual void PostInitializeComponents() override;
 
-public:	
+	// UI
+	UWaffWorldUserWidget* ActiveHealthBar;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UWaffWorldUserWidget> HealthWidgetClass;
+
+	// Attributes
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	UWaffAttributeComponent* AttriComp;
+
+	UFUNCTION()
+	void OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent*
+	                     OwingComp, float NewHealth, float Delta);
+
+	// Effects
+	UPROPERTY(VisibleAnywhere, Category="Effect")
+	FName TimeToHit; // The param name of the material to trigger hit flash
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
-
 };

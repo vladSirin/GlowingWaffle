@@ -7,12 +7,19 @@
 
 void UWaffBTT_HealSelf::HealPerTick()
 {
-	if(AttributeComponent->IsFullHealth())
+	if(AttributeComponent->IsAlive())
 	{
-		FinishTask();
-		return;
+		if(AttributeComponent->IsFullHealth())
+		{
+			FinishTask();
+			return;
+		}
+		AttributeComponent->ApplyHealthChange(HealAmountPerTick);
 	}
-	AttributeComponent->ApplyHealthChange(HealAmountPerTick);
+	else
+	{
+		AttributeComponent->GetOwner()->GetWorldTimerManager().ClearTimer(HealHandler);
+	}
 }
 
 void UWaffBTT_HealSelf::FinishTask()

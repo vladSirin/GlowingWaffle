@@ -7,11 +7,12 @@
 #include "BrainComponent.h"
 #include "WaffAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 AWaffAICharacter::AWaffAICharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	AttriComp = CreateDefaultSubobject<UWaffAttributeComponent>(TEXT("AttriComp"));
@@ -29,32 +30,43 @@ void AWaffAICharacter::PostInitializeComponents()
 void AWaffAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent* OwingComp, float NewHealth,
-	float Delta)
+                                       float Delta)
 {
+	// UI
+	if (ActiveHealthBar == nullptr)
+	{
+		ActiveHealthBar = CreateWidget<UWaffWorldUserWidget>(GetWorld(), HealthWidgetClass);
+		if (ActiveHealthBar)
+		{
+			ActiveHealthBar->AttachedActor = this;
+			ActiveHealthBar->AddToViewport();
+		}
+	}
+
 	if (Delta < 0.0)
 	{
 		AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
 		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHit, GetWorld()->TimeSeconds);
 		// Set the damage instigator to target when hit.
-		if(ChangeInstigator != this)
+		if (ChangeInstigator != this)
 		{
 			AIC->SetTargetActor(ChangeInstigator);
 		}
 
 
 		// Handle death
-		if(NewHealth <= 0.0)
+		if (NewHealth <= 0.0)
 		{
+			
 			// Stop BT
-			if(AIC)
+			if (AIC)
 			{
 				AIC->GetBrainComponent()->StopLogic("Killed");
 			}
-			
+
 			// Ragdoll
 			GetMesh()->SetAllBodiesSimulatePhysics(true);
 			GetMesh()->SetCollisionProfileName("Ragdoll");
@@ -66,12 +78,8 @@ void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeC
 }
 
 
-
 // Called every frame
 void AWaffAICharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
-
-
