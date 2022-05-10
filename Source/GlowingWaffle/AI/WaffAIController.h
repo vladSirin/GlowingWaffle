@@ -21,8 +21,11 @@ public:
 	// Set default
 	AWaffAIController();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintSetter)
 	void SetTargetActor(AActor* InstigatorActor);
+
+	UFUNCTION(BlueprintGetter)
+	AActor* GetTargetActor();
 
 protected:
 

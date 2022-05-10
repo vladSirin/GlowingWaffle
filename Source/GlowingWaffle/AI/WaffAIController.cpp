@@ -26,6 +26,12 @@ void AWaffAIController::SetTargetActor(AActor* InstigatorActor)
 	BB->SetValueAsObject(TargetActorKey, InstigatorActor);
 }
 
+AActor* AWaffAIController::GetTargetActor()
+{
+	const UBlackboardComponent* BB = GetBlackboardComponent();
+	return Cast<AActor>(BB->GetValueAsObject(TargetActorKey));
+}
+
 FGenericTeamId AWaffAIController::GetGenericTeamId() const
 {
 	return TeamId;
