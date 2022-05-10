@@ -52,9 +52,15 @@ protected:
 	float HealthMax;
 
 public:
+
+	// Health change
 	UFUNCTION(BlueprintCallable)
 	bool ApplyHealthChange(float Delta);
 
+	UFUNCTION(BlueprintCallable)
+	bool Kill(AActor* InstigatorActor);
+
+	// Const functions
 	UFUNCTION(BlueprintPure)
 	bool IsAlive() const;
 
@@ -65,8 +71,12 @@ public:
 	float GetHealthPercent() const;
 
 	UFUNCTION(BlueprintGetter)
+	float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintGetter)
 	bool IsFullHealth() const;
 
+	// Delegate
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
 };

@@ -21,8 +21,14 @@ class GLOWINGWAFFLE_API AGlowingWaffleGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	AGlowingWaffleGameModeBase();
+
+	// Console Command
+	UFUNCTION(Exec)
+	void KillAll(AActor* InstigatorActor);
 	
 protected:
+
+	// Bot Spawn
 	UPROPERTY()
 	FTimerHandle SpawnBotTimerHandle;
 
@@ -37,12 +43,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	UCurveFloat* MaxMinionCurve;
-	
-	virtual void StartPlay() override;
+
+	UFUNCTION()
+	void OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 
 	UFUNCTION()
 	void SpawnBotTimerElapsed();
 
-	UFUNCTION()
-	void OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+	// Generic
+	virtual void StartPlay() override;
 };

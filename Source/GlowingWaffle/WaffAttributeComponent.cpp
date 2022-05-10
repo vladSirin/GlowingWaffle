@@ -23,12 +23,23 @@ void UWaffAttributeComponent::BeginPlay()
 
 bool UWaffAttributeComponent::ApplyHealthChange(float Delta)
 {
+	// Check if in god
+	if(!GetOwner()->CanBeDamaged())
+	{
+		return  false;
+	}
+
 	// Change the health num with delta
 	const float OldHealth = Health;
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	const float ActualDelta = Health - OldHealth;
 	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
 	return ActualDelta != 0;
+}
+
+bool UWaffAttributeComponent::Kill(AActor* InstigatorActor)
+{
+	return ApplyHealthChange(-GetMaxHealth());
 }
 
 bool UWaffAttributeComponent::IsAlive() const
@@ -44,6 +55,11 @@ float UWaffAttributeComponent::GetHealth() const
 float UWaffAttributeComponent::GetHealthPercent() const
 {
 	return Health/HealthMax;
+}
+
+float UWaffAttributeComponent::GetMaxHealth() const
+{
+	return HealthMax;
 }
 
 bool UWaffAttributeComponent::IsFullHealth() const

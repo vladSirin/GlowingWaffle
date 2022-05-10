@@ -11,6 +11,18 @@ AGlowingWaffleGameModeBase::AGlowingWaffleGameModeBase()
 	SpawnInterval = 2.0f;
 }
 
+void AGlowingWaffleGameModeBase::KillAll(AActor* InstigatorActor)
+{
+	for(TActorIterator<AWaffAICharacter> ItActor(GetWorld()); ItActor; ++ItActor)
+	{
+		UActorComponent* AttriComp = UWaffAttributeComponent::GetAttributes(*ItActor);
+		if(ensure(AttriComp) && UWaffAttributeComponent::IsActorAlive(*ItActor))
+		{
+			Cast<UWaffAttributeComponent>(AttriComp)->Kill(this); //@ToDo, Pass in player later
+		}
+	}
+}
+
 void AGlowingWaffleGameModeBase::StartPlay()
 {
 	Super::StartPlay();

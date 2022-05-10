@@ -221,3 +221,10 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &AWaffCharacter::SecondaryAttack);
 	PlayerInputComponent->BindAction("DashCast", IE_Pressed, this, &AWaffCharacter::DashCast);
 }
+
+
+// Console Commands
+void AWaffCharacter::HealSelf(float Amount /* = 100 */) const
+{
+	AttriComp->ApplyHealthChange(100);
+}
