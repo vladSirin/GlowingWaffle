@@ -224,7 +224,7 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 
 // Console Commands
-void AWaffCharacter::HealSelf(float Amount /* = 100 */) const
+void AWaffCharacter::HealSelf(float Amount /* = 100 */)
 {
-	AttriComp->ApplyHealthChange(100);
+	AttriComp->ApplyHealthChange(100, Cast<AActor>(this));
 }

@@ -9,10 +9,15 @@
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffBTT_HealSelf.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffBTT_HealSelf.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffHealthPotion.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffHealthPotion.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffMagicProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffMagicProjectile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +122,7 @@
       <workItem from="1652019263214" duration="3541000" />
       <workItem from="1652061471427" duration="8151000" />
       <workItem from="1652162932918" duration="3470000" />
-      <workItem from="1652170929120" duration="2738000" />
+      <workItem from="1652170929120" duration="6092000" />
     </task>
     <servers />
   </component>

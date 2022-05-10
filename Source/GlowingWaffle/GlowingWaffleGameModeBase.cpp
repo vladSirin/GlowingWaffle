@@ -69,8 +69,9 @@ void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 
 }
 
+// Spawn bot at location when query finished
 void AGlowingWaffleGameModeBase::OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance,
-	EEnvQueryStatus::Type QueryStatus)
+                                                 EEnvQueryStatus::Type QueryStatus)
 {
 	if(QueryStatus != EEnvQueryStatus::Success)
 	{
@@ -86,5 +87,32 @@ void AGlowingWaffleGameModeBase::OnQueryFinished(UEnvQueryInstanceBlueprintWrapp
 
 		// Debug position of spawning
 		DrawDebugSphere(GetWorld(), QueryLocationArray[0], 50.0f, 20, FColor::Blue, false, 60.0f);
+	}
+}
+
+
+// Handle when actor is killed in game
+void AGlowingWaffleGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
+{
+	if(const AWaffAICharacter* Character = Cast<AWaffAICharacter>(Victim))
+	{
+		FTimerHandle RespawnDelay;
+
+		FTimerDelegate RespawnDelegate;
+		RespawnDelegate.BindUFunction(this, "RespawnPlayerElapsed", Character->GetController());
+
+		GetWorldTimerManager().SetTimer(RespawnDelay, RespawnDelegate, 5.0f,false);
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("On Actor Killed: Victim %s, Killer %s"), *GetNameSafe(Victim), *GetNameSafe(Killer));
+}
+
+// respawn player by controller.
+void AGlowingWaffleGameModeBase::RespawnPlayerElapsed(APlayerController* PlayerController)
+{
+	if(ensure(PlayerController))
+	{
+		PlayerController->UnPossess();
+		RestartPlayer(PlayerController);
 	}
 }

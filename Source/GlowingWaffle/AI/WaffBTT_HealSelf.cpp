@@ -14,7 +14,7 @@ void UWaffBTT_HealSelf::HealPerTick()
 			FinishTask();
 			return;
 		}
-		AttributeComponent->ApplyHealthChange(HealAmountPerTick);
+		AttributeComponent->ApplyHealthChange(HealAmountPerTick, AttributeComponent->GetOwner());
 	}
 	else
 	{

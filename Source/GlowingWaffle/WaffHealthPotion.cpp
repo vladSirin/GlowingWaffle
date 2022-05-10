@@ -32,7 +32,7 @@ void AWaffHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		UWaffAttributeComponent* AttriComp =  Cast<UWaffAttributeComponent>(InstigatorPawn->GetComponentByClass(UWaffAttributeComponent::StaticClass()));
 		if (AttriComp && !AttriComp->IsFullHealth())
 		{
-			if(AttriComp->ApplyHealthChange(HealValue))
+			if(AttriComp->ApplyHealthChange(HealValue, InstigatorPawn))
 			{
 				HideAndCoolDown();
 			}

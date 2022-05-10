@@ -3,6 +3,9 @@
 
 #include "WaffAttributeComponent.h"
 
+#include "GlowingWaffleGameModeBase.h"
+#include "GameFramework/GameModeBase.h"
+
 // Sets default values for this component's properties
 UWaffAttributeComponent::UWaffAttributeComponent()
 {
@@ -21,7 +24,7 @@ void UWaffAttributeComponent::BeginPlay()
 }
 
 
-bool UWaffAttributeComponent::ApplyHealthChange(float Delta)
+bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 {
 	// Check if in god
 	if(!GetOwner()->CanBeDamaged())
@@ -34,12 +37,17 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta)
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	const float ActualDelta = Health - OldHealth;
 	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
+	
+	// Call On Actor Killed in Game mode
+	AGlowingWaffleGameModeBase* GM = GetWorld()->GetAuthGameMode<AGlowingWaffleGameModeBase>();
+	GM->OnActorKilled(GetOwner(), Instigator);
+	
 	return ActualDelta != 0;
 }
 
 bool UWaffAttributeComponent::Kill(AActor* InstigatorActor)
 {
-	return ApplyHealthChange(-GetMaxHealth());
+	return ApplyHealthChange(-GetMaxHealth(), InstigatorActor);
 }
 
 bool UWaffAttributeComponent::IsAlive() const

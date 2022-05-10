@@ -116,5 +116,5 @@ public:
 
 	// Console Commands
 	UFUNCTION(Exec)
-	void HealSelf(float Amount = 100) const;
+	void HealSelf(float Amount = 100);
 };

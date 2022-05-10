@@ -25,6 +25,10 @@ public:
 	// Console Command
 	UFUNCTION(Exec)
 	void KillAll(AActor* InstigatorActor);
+
+	// Called when any actor get killed.
+	UFUNCTION()
+	void OnActorKilled(AActor* Victim, AActor* Killer);
 	
 protected:
 
@@ -49,6 +53,9 @@ protected:
 
 	UFUNCTION()
 	void SpawnBotTimerElapsed();
+
+	UFUNCTION()
+	void RespawnPlayerElapsed(APlayerController* PlayerController);
 
 	// Generic
 	virtual void StartPlay() override;

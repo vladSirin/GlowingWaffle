@@ -55,7 +55,7 @@ public:
 
 	// Health change
 	UFUNCTION(BlueprintCallable)
-	bool ApplyHealthChange(float Delta);
+	bool ApplyHealthChange(float Delta, AActor* Instigator);
 
 	UFUNCTION(BlueprintCallable)
 	bool Kill(AActor* InstigatorActor);
