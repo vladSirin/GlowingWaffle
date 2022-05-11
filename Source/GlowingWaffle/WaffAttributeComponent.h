@@ -29,12 +29,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Attributes", meta=(AdvancedDisplay="IsAlive"))
 	static bool IsActorAlive(AActor* ActorToCheck);
-	
+
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 	// EditAnywhere - edit in BP editor and per-instance in level.
 	// VisibleAnywhere - 'read-only' in editor and level. (Use for Components)
 	// EditDefaultsOnly - hide variable per-instance, edit in BP editor only
@@ -52,7 +49,6 @@ protected:
 	float HealthMax;
 
 public:
-
 	// Health change
 	UFUNCTION(BlueprintCallable)
 	bool ApplyHealthChange(float Delta, AActor* Instigator);

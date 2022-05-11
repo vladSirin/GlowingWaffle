@@ -8,6 +8,8 @@
 #include "WaffAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AWaffAICharacter::AWaffAICharacter()
@@ -17,6 +19,9 @@ AWaffAICharacter::AWaffAICharacter()
 
 	AttriComp = CreateDefaultSubobject<UWaffAttributeComponent>(TEXT("AttriComp"));
 	TimeToHit = "TimeToHit";
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(true);
 }
 
 // Post init
@@ -70,6 +75,8 @@ void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeC
 			// Ragdoll
 			GetMesh()->SetAllBodiesSimulatePhysics(true);
 			GetMesh()->SetCollisionProfileName("Ragdoll");
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			GetCharacterMovement()->DisableMovement();
 
 			// set lifespan
 			SetLifeSpan(10.0f);

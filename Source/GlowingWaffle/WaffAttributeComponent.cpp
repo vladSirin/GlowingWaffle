@@ -6,6 +6,12 @@
 #include "GlowingWaffleGameModeBase.h"
 #include "GameFramework/GameModeBase.h"
 
+// Console variables
+static TAutoConsoleVariable<float> CVarDamageMultiplier(
+	TEXT("su.DamageMultiplier"), 1.0f, TEXT("Globale Damage Multiplier for attribute components"),
+	ECVF_Cheat);
+
+
 // Sets default values for this component's properties
 UWaffAttributeComponent::UWaffAttributeComponent()
 {
@@ -14,22 +20,19 @@ UWaffAttributeComponent::UWaffAttributeComponent()
 	HealthMax = 100;
 }
 
-
-// Called when the game starts
-void UWaffAttributeComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-}
-
-
 bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 {
-	// Check if in god
-	if(!GetOwner()->CanBeDamaged())
+	// CVar, damage multiplier applied
+	if(Delta < 0.0f)
 	{
-		return  false;
+		Delta *= CVarDamageMultiplier.GetValueOnGameThread();
+	}
+
+	
+	// Check if in god
+	if (!GetOwner()->CanBeDamaged() && Delta < 0.0f)
+	{
+		return false;
 	}
 
 	// Change the health num with delta
@@ -37,11 +40,13 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	const float ActualDelta = Health - OldHealth;
 	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
-	
-	// Call On Actor Killed in Game mode
-	AGlowingWaffleGameModeBase* GM = GetWorld()->GetAuthGameMode<AGlowingWaffleGameModeBase>();
-	GM->OnActorKilled(GetOwner(), Instigator);
-	
+
+	// Call On Actor Killed in Game mode if health is 0.0
+	if(Health == 0.0f)
+	{
+		AGlowingWaffleGameModeBase* GM = GetWorld()->GetAuthGameMode<AGlowingWaffleGameModeBase>();
+		GM->OnActorKilled(GetOwner(), Instigator);
+	}
 	return ActualDelta != 0;
 }
 
@@ -62,7 +67,7 @@ float UWaffAttributeComponent::GetHealth() const
 
 float UWaffAttributeComponent::GetHealthPercent() const
 {
-	return Health/HealthMax;
+	return Health / HealthMax;
 }
 
 float UWaffAttributeComponent::GetMaxHealth() const
@@ -77,8 +82,9 @@ bool UWaffAttributeComponent::IsFullHealth() const
 
 UWaffAttributeComponent* UWaffAttributeComponent::GetAttributes(AActor* FromActor)
 {
-	UWaffAttributeComponent* AttriComp = Cast<UWaffAttributeComponent>(FromActor->GetComponentByClass(UWaffAttributeComponent::StaticClass()));
-	
+	UWaffAttributeComponent* AttriComp = Cast<UWaffAttributeComponent>(
+		FromActor->GetComponentByClass(UWaffAttributeComponent::StaticClass()));
+
 	if (AttriComp)
 	{
 		return AttriComp;
@@ -88,7 +94,7 @@ UWaffAttributeComponent* UWaffAttributeComponent::GetAttributes(AActor* FromActo
 
 bool UWaffAttributeComponent::IsActorAlive(AActor* ActorToCheck)
 {
-	if(const UWaffAttributeComponent* AttributeComponent = UWaffAttributeComponent::GetAttributes(ActorToCheck))
+	if (const UWaffAttributeComponent* AttributeComponent = UWaffAttributeComponent::GetAttributes(ActorToCheck))
 	{
 		return AttributeComponent->IsAlive();
 	}

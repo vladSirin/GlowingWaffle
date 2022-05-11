@@ -50,6 +50,11 @@ void AWaffCharacter::PostInitializeComponents()
 	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffCharacter::OnHealthChanged);
 }
 
+FVector AWaffCharacter::GetPawnViewLocation() const
+{
+	return CameraComp->GetComponentLocation();
+}
+
 
 // Called when the game starts or when spawned
 void AWaffCharacter::BeginPlay()

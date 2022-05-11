@@ -135,4 +135,10 @@
 
 # Lecture 15 - done
 
-# Lecture 16
+# Assignment 5
+- “Credits-system” to gain and spend (Design for ease-of-use in C++ & Blueprint) // Credits must persist even if player dies (store in ‘PlayerState’ derived-class)
+- Killing Minions grants credits via SGameModeBase.
+- Health Potion: costs credits to interact.
+- Coin Pick-up: grants credits. // Must use shared base-class with Health Potion. Shares same behavior of activate, hide, respawn.
+- Credits-widget hooked up to show current credits.
+- Bonus: Randomly Spawn Coin and Health potions throughout a simple level at Game start (EQS)

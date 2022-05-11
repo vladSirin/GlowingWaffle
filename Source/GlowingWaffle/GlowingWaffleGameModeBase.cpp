@@ -3,8 +3,13 @@
 
 #include "GlowingWaffleGameModeBase.h"
 #include "EngineUtils.h"
+#include "WaffCharacter.h"
 #include "AI/WaffAICharacter.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
+
+// Console variables
+static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("su.SpawnBots"), true, TEXT("Enable Spawning of Bots via timer"),
+                                                ECVF_Cheat);
 
 AGlowingWaffleGameModeBase::AGlowingWaffleGameModeBase()
 {
@@ -13,10 +18,10 @@ AGlowingWaffleGameModeBase::AGlowingWaffleGameModeBase()
 
 void AGlowingWaffleGameModeBase::KillAll(AActor* InstigatorActor)
 {
-	for(TActorIterator<AWaffAICharacter> ItActor(GetWorld()); ItActor; ++ItActor)
+	for (TActorIterator<AWaffAICharacter> ItActor(GetWorld()); ItActor; ++ItActor)
 	{
 		UActorComponent* AttriComp = UWaffAttributeComponent::GetAttributes(*ItActor);
-		if(ensure(AttriComp) && UWaffAttributeComponent::IsActorAlive(*ItActor))
+		if (ensure(AttriComp) && UWaffAttributeComponent::IsActorAlive(*ItActor))
 		{
 			Cast<UWaffAttributeComponent>(AttriComp)->Kill(this); //@ToDo, Pass in player later
 		}
@@ -28,7 +33,8 @@ void AGlowingWaffleGameModeBase::StartPlay()
 	Super::StartPlay();
 
 	// Continue bot spawning based on timer
-	GetWorldTimerManager().SetTimer(SpawnBotTimerHandle, this, &AGlowingWaffleGameModeBase::SpawnBotTimerElapsed, SpawnInterval, true);
+	GetWorldTimerManager().SetTimer(SpawnBotTimerHandle, this, &AGlowingWaffleGameModeBase::SpawnBotTimerElapsed,
+	                                SpawnInterval, true);
 
 	// Make sure necessary items are set
 	ensure(MinionClass);
@@ -38,14 +44,22 @@ void AGlowingWaffleGameModeBase::StartPlay()
 
 void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 {
+	// Checking console var
+	if(!CVarSpawnBots.GetValueOnGameThread())
+	{
+		// Output log so we know it is because of Cvar
+		UE_LOG(LogTemp, Warning, TEXT("Bots spawning disabled via Cvar 'CVarSpawnBots'"),);
+		return;
+	}
+
 	float CurrentAliveMinions = 0;
 
 	// this is the C++ version of get actor of class in level, and iterate on this
 	// Iterate in level to find the alive bots, if too many dont spawn.
-	for(TActorIterator<AWaffAICharacter> ItActor(GetWorld()); ItActor; ++ItActor)
+	for (TActorIterator<AWaffAICharacter> ItActor(GetWorld()); ItActor; ++ItActor)
 	{
 		UActorComponent* AttriComp = UWaffAttributeComponent::GetAttributes(*ItActor);
-		if(ensure(AttriComp) && UWaffAttributeComponent::IsActorAlive(*ItActor))
+		if (ensure(AttriComp) && UWaffAttributeComponent::IsActorAlive(*ItActor))
 		{
 			CurrentAliveMinions++;
 		}
@@ -53,9 +67,9 @@ void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 
 	UE_LOG(LogTemp, Log, TEXT("Found %i alive bots."), CurrentAliveMinions);
 
-	if(ensure(MaxMinionCurve))
+	if (ensure(MaxMinionCurve))
 	{
-		if(MaxMinionCurve->GetFloatValue(GetWorld()->TimeSeconds) <= CurrentAliveMinions)
+		if (MaxMinionCurve->GetFloatValue(GetWorld()->TimeSeconds) <= CurrentAliveMinions)
 		{
 			UE_LOG(LogTemp, Log, TEXT("Max Minion Count Reached!"))
 			return;
@@ -63,17 +77,16 @@ void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 	}
 
 	// Start Spawn position query
-	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(GetWorld(), SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
+	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(
+		GetWorld(), SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
 	QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &AGlowingWaffleGameModeBase::OnQueryFinished);
-
-
 }
 
 // Spawn bot at location when query finished
 void AGlowingWaffleGameModeBase::OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance,
                                                  EEnvQueryStatus::Type QueryStatus)
 {
-	if(QueryStatus != EEnvQueryStatus::Success)
+	if (QueryStatus != EEnvQueryStatus::Success)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Query Failed, cannot spawn bot!"))
 		return;
@@ -81,9 +94,10 @@ void AGlowingWaffleGameModeBase::OnQueryFinished(UEnvQueryInstanceBlueprintWrapp
 	TArray<FVector> QueryLocationArray;
 	QueryInstance->GetQueryResultsAsLocations(QueryLocationArray);
 
-	if(!QueryLocationArray.IsEmpty())
+	if (!QueryLocationArray.IsEmpty())
 	{
-		AActor* SpawnedMinion = GetWorld()->SpawnActor<AActor>(MinionClass, QueryLocationArray[0], FRotator::ZeroRotator);
+		AActor* SpawnedMinion = GetWorld()->SpawnActor<AActor>(MinionClass, QueryLocationArray[0],
+		                                                       FRotator::ZeroRotator);
 
 		// Debug position of spawning
 		DrawDebugSphere(GetWorld(), QueryLocationArray[0], 50.0f, 20, FColor::Blue, false, 60.0f);
@@ -94,14 +108,14 @@ void AGlowingWaffleGameModeBase::OnQueryFinished(UEnvQueryInstanceBlueprintWrapp
 // Handle when actor is killed in game
 void AGlowingWaffleGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 {
-	if(const AWaffAICharacter* Character = Cast<AWaffAICharacter>(Victim))
+	if (AWaffCharacter* Character = Cast<AWaffCharacter>(Victim))
 	{
 		FTimerHandle RespawnDelay;
 
 		FTimerDelegate RespawnDelegate;
 		RespawnDelegate.BindUFunction(this, "RespawnPlayerElapsed", Character->GetController());
 
-		GetWorldTimerManager().SetTimer(RespawnDelay, RespawnDelegate, 5.0f,false);
+		GetWorldTimerManager().SetTimer(RespawnDelay, RespawnDelegate, 5.0f, false);
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("On Actor Killed: Victim %s, Killer %s"), *GetNameSafe(Victim), *GetNameSafe(Killer));
@@ -110,7 +124,7 @@ void AGlowingWaffleGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 // respawn player by controller.
 void AGlowingWaffleGameModeBase::RespawnPlayerElapsed(APlayerController* PlayerController)
 {
-	if(ensure(PlayerController))
+	if (ensure(PlayerController))
 	{
 		PlayerController->UnPossess();
 		RestartPlayer(PlayerController);

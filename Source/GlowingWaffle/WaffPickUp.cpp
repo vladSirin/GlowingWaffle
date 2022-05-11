@@ -3,8 +3,6 @@
 
 #include "WaffPickUp.h"
 
-#include "WaffAttributeComponent.h"
-
 // Sets default values
 AWaffPickUp::AWaffPickUp()
 {

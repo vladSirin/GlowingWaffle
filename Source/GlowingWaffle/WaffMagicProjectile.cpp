@@ -4,6 +4,7 @@
 #include "WaffMagicProjectile.h"
 
 #include "WaffAttributeComponent.h"
+#include "WaffGameplayFunctionLibrary.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -26,13 +27,9 @@ void AWaffMagicProjectile::OnOverlap_Implementation(UPrimitiveComponent* Overlap
 {
 	Super::OnOverlap_Implementation(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep,
 	                                SweepResult);
-	if (OtherActor)
+	if (OtherActor && OtherActor != GetInstigator())
 	{
-		UActorComponent* OtherAttriComp = OtherActor->GetComponentByClass(UWaffAttributeComponent::StaticClass());
-		if (OtherAttriComp)
-		{
-			Cast<UWaffAttributeComponent>(OtherAttriComp)->ApplyHealthChange(-Damage, this->GetInstigator());
-		}
+		UWaffGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, SweepResult);
 	}
 }
 

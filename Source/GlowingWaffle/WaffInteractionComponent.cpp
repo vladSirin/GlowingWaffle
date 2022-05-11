@@ -5,6 +5,11 @@
 #include "WaffGameplayInterface.h"
 #include "DrawDebugHelpers.h"
 
+// Console variables
+static TAutoConsoleVariable<bool> CVarDebugDrawInteraction(
+	TEXT("su.DebugDrawInteraction"), false, TEXT("Draw Debug info for Interaction Components"),
+	ECVF_Cheat);
+
 // Sets default values for this component's properties
 UWaffInteractionComponent::UWaffInteractionComponent()
 {
@@ -18,6 +23,9 @@ UWaffInteractionComponent::UWaffInteractionComponent()
 
 void UWaffInteractionComponent::PrimaryInteract()
 {
+	// CVar for debug Draw
+	bool bDebugDraw = CVarDebugDrawInteraction.GetValueOnGameThread();
+
 	// Setup on the arguments for the solution
 	APawn* MyPawn = Cast<APawn>(GetOwner());
 	TArray<FHitResult> HitResults;
@@ -44,18 +52,23 @@ void UWaffInteractionComponent::PrimaryInteract()
 	// Check the hit actor
 	for (FHitResult HitResult : HitResults)
 	{
+		if (bDebugDraw)
+		{
+			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 30.0f, 32, DebugColor, false, 2.0f, 0, 2.0f);
+		}
 		if (HitResult.GetActor())
 		{
 			if (HitResult.GetActor()->Implements<UWaffGameplayInterface>())
 			{
 				IWaffGameplayInterface::Execute_Interact(HitResult.GetActor(), MyPawn);
+				break;
 			}
-
-			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 30.0f, 32, DebugColor, false, 2.0f, 0, 2.0f);
-			break;
 		}
 	}
-	DrawDebugLine(GetWorld(), Start, End, DebugColor, false, 2.0f, 0, 2.9f);
+	if (bDebugDraw)
+	{
+		DrawDebugLine(GetWorld(), Start, End, DebugColor, false, 2.0f, 0, 2.9f);
+	}
 }
 
 // Called when the game starts

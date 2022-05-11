@@ -53,8 +53,12 @@ void AWaffProjectile::OnOverlap_Implementation(UPrimitiveComponent* OverlappedCo
                                                UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                                const FHitResult& SweepResult)
 {
-	Explode();
-	Destroy();
+	if (OtherActor && OtherActor != GetInstigator())
+	{
+		Explode();
+		Destroy();
+	}
+
 }
 
 // On hit
@@ -62,8 +66,11 @@ void AWaffProjectile::OnHit_Implementation(UPrimitiveComponent* HitComponent, AA
                                            UPrimitiveComponent* OtherComp,
                                            FVector NormalImpulse, const FHitResult& Hit)
 {
-	Explode();
-	Destroy();
+	if (OtherActor && OtherActor != GetInstigator())
+	{
+		Explode();
+		Destroy();
+	}
 }
 
 // Explode
