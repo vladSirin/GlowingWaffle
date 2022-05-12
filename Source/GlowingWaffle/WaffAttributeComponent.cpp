@@ -39,7 +39,9 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 	const float OldHealth = Health;
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	const float ActualDelta = Health - OldHealth;
-	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
+
+	// Broadcast for health change delegate
+	OnHealthChanged.Broadcast(Instigator, this, Health, ActualDelta);
 
 	// Call On Actor Killed in Game mode if health is 0.0
 	if(Health == 0.0f)

@@ -3,30 +3,25 @@
 
 #include "WaffHealthPotion.h"
 #include "WaffAttributeComponent.h"
+#include "WaffPlayerState.h"
 #include "Engine/ActorChannel.h"
 
 // Sets default values
 AWaffHealthPotion::AWaffHealthPotion()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-}
-
-// Called when the game starts or when spawned
-void AWaffHealthPotion::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-// Called every frame
-void AWaffHealthPotion::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	HealValue = 50.0f;
+	CreditCost = 5.0f;
 }
 
 void AWaffHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 {
 	Super::Interact_Implementation(InstigatorPawn);
+	AWaffPlayerState* PlayerState = Cast<AWaffPlayerState>(InstigatorPawn->GetPlayerState());
+	if(PlayerState->GetPlayerCredit() < CreditCost)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Interat Failed Not enough Credits!"))
+		return;
+	}
 	if (InstigatorPawn)
 	{
 		UWaffAttributeComponent* AttriComp =  Cast<UWaffAttributeComponent>(InstigatorPawn->GetComponentByClass(UWaffAttributeComponent::StaticClass()));
@@ -34,6 +29,7 @@ void AWaffHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		{
 			if(AttriComp->ApplyHealthChange(HealValue, InstigatorPawn))
 			{
+				PlayerState->ApplyCreditChange(-CreditCost);
 				HideAndCoolDown();
 			}
 		}

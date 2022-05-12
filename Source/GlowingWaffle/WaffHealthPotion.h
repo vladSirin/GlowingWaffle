@@ -24,17 +24,13 @@ public:
 	// Sets default values for this actor's properties
 	AWaffHealthPotion();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	// Interact Implementation
+	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
+protected:
 	UPROPERTY(EditDefaultsOnly, Category="Heal")
 	float HealValue;
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Interact Implementation
-	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
+	UPROPERTY(EditDefaultsOnly, Category="Heal")
+	float CreditCost;
 };

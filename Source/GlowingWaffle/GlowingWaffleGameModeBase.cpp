@@ -4,6 +4,8 @@
 #include "GlowingWaffleGameModeBase.h"
 #include "EngineUtils.h"
 #include "WaffCharacter.h"
+#include "WaffPlayerController.h"
+#include "WaffPlayerState.h"
 #include "AI/WaffAICharacter.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
 
@@ -14,6 +16,7 @@ static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("su.SpawnBots"), true, TEXT
 AGlowingWaffleGameModeBase::AGlowingWaffleGameModeBase()
 {
 	SpawnInterval = 2.0f;
+	MinionCreditValue = 1.0f;
 }
 
 void AGlowingWaffleGameModeBase::KillAll(AActor* InstigatorActor)
@@ -116,6 +119,11 @@ void AGlowingWaffleGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 		RespawnDelegate.BindUFunction(this, "RespawnPlayerElapsed", Character->GetController());
 
 		GetWorldTimerManager().SetTimer(RespawnDelay, RespawnDelegate, 5.0f, false);
+	}
+	else if(AWaffAICharacter* AICharacter = Cast<AWaffAICharacter>(Victim))
+	{
+		AWaffPlayerController* PC = Cast<AWaffPlayerController>(Killer->GetInstigatorController());
+		PC->GetPlayerState<AWaffPlayerState>()->ApplyCreditChange(MinionCreditValue);
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("On Actor Killed: Victim %s, Killer %s"), *GetNameSafe(Victim), *GetNameSafe(Killer));

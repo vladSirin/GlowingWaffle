@@ -14,11 +14,15 @@
  * Considering the Max amount of Minions on the ground, based on a float curve
  */
 
+
+
+
 class UEnvQueryInstanceBlueprintWrapper;
 UCLASS()
 class GLOWINGWAFFLE_API AGlowingWaffleGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+	
 public:
 	AGlowingWaffleGameModeBase();
 
@@ -47,6 +51,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	UCurveFloat* MaxMinionCurve;
+
+	UPROPERTY(EditDefaultsOnly, Category="AI")
+	float MinionCreditValue;
 
 	UFUNCTION()
 	void OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
