@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WaffAction.h"
 #include "GameFramework/Character.h"
 #include "WaffCharacter.generated.h"
 
@@ -11,6 +12,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UWaffInteractionComponent;
 class AWaffProjectile;
+class UWaffActionComponent;
 
 UCLASS()
 class GLOWINGWAFFLE_API AWaffCharacter : public ACharacter
@@ -44,27 +46,15 @@ protected:
 	UCameraComponent* CameraComp;
 
 	// Attack and Abilities
-	UPROPERTY(EditDefaultsOnly, Category="Attack")
-	TSubclassOf<AWaffProjectile> PrimaryProjectile;
+	UPROPERTY(BlueprintReadOnly, Category="Actions")
+	UWaffActionComponent* ActionComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category="Attack")
-	TSubclassOf<AWaffProjectile> SecondaryProjectile;
-
-	UPROPERTY(EditDefaultsOnly, Category="Attack")
-	TSubclassOf<AWaffProjectile> DashProjectile;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Attack")
-	UAnimMontage* AttackAnimMontage;
-
-	UPROPERTY(EditDefaultsOnly, Category="Effect")
-	UParticleSystem* MuzzleFlash;
-
-	UPROPERTY(VisibleAnywhere, Category="Effect")
-	FName HandSocketName; 	// HandSocketName used to spawn effects and projectile
+	UPROPERTY(EditDefaultsOnly, Category="Actions")
+	TArray<TSubclassOf<UWaffAction>> ActionClassList;
 
 	UPROPERTY(VisibleAnywhere, Category="Effect")
 	FName TimeToHit; // The name of Material param for on hit flash
-	
+
 	UFUNCTION(BlueprintCallable)
 	void PrimaryAttack();
 
@@ -73,15 +63,6 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void DashCast();
-
-	UFUNCTION()
-	void Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile);
-	
-	UPROPERTY() // Ref: https://www.tomlooman.com/unreal-engine-cpp-timers/
-	FTimerHandle AttackTimerHandler; 	// Timer handler and Delegate 
-
-	FTimerDelegate AttackTimerDelegate; 	// Timer Delegate to bind function with var to be used along with Timer handler
-
 
 	// Interactions
 	UPROPERTY(VisibleAnywhere)
@@ -94,6 +75,10 @@ protected:
 	void MoveForward(float value);
 
 	void MoveRight(float value);
+
+	void StartSprint();
+
+	void StopSprint();
 
 	// Attributes related
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

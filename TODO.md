@@ -142,3 +142,5 @@
 	- Coin Pick-up: grants credits. - done // Must use shared base-class with Health Potion. Shares same behavior of activate, hide, respawn.
 	- Credits-widget hooked up to show current credits. - done
 	- Bonus: Randomly Spawn Coin and Health potions throughout a simple level at Game start (EQS)
+
+# Lecture 16

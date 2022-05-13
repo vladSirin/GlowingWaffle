@@ -17,13 +17,17 @@ bool UWaffGameplayFunctionLibrary::ApplyDamage(AActor* DamageCauser, AActor* Tar
 bool UWaffGameplayFunctionLibrary::ApplyDirectionalDamage(AActor* DamageCauser, AActor* TargetActor, float DamageAmount,
                                                           const FHitResult& HitResult)
 {
-	if(ApplyDamage(DamageCauser, TargetActor, DamageAmount))
+	if (ApplyDamage(DamageCauser, TargetActor, DamageAmount))
 	{
 		UPrimitiveComponent* HitComp = HitResult.GetComponent();
-		if(HitComp && HitComp->IsSimulatingPhysics(HitResult.BoneName))
+
+		FVector Direction = HitResult.TraceEnd - HitResult.TraceStart;
+		Direction.Normalize();
+		
+		if (HitComp && HitComp->IsSimulatingPhysics(HitResult.BoneName))
 		{
-			HitComp->AddImpulseAtLocation(-HitResult.ImpactNormal * 300000.0f, HitResult.ImpactPoint, HitResult.BoneName);
-			
+			HitComp->AddImpulseAtLocation(Direction * 300000.0f, HitResult.ImpactPoint,
+			                              HitResult.BoneName);
 		}
 		return true;
 	}

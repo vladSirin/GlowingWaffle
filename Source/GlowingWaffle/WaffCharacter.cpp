@@ -6,12 +6,12 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "DrawDebugHelpers.h"
+#include "WaffActionComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "WaffInteractionComponent.h"
 #include "WaffProjectile.h"
 #include "WaffAttributeComponent.h"
-#include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -38,8 +38,10 @@ AWaffCharacter::AWaffCharacter()
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
+	// Action Comp
+	ActionComponent = CreateDefaultSubobject<UWaffActionComponent>(TEXT("ActionComp"));
+
 	// Var
-	HandSocketName = "Muzzle_01";
 	TimeToHit = "TimeToHit";
 }
 
@@ -48,13 +50,17 @@ void AWaffCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffCharacter::OnHealthChanged);
+
+	for(TSubclassOf<UWaffAction> ActionClass : ActionClassList)
+	{
+		ActionComponent->AddAction(ActionClass);
+	}
 }
 
 FVector AWaffCharacter::GetPawnViewLocation() const
 {
 	return CameraComp->GetComponentLocation();
 }
-
 
 // Called when the game starts or when spawned
 void AWaffCharacter::BeginPlay()
@@ -100,82 +106,31 @@ void AWaffCharacter::MoveRight(float value)
 	AddMovementInput(FRotationMatrix(ControllerRotation).GetScaledAxis(EAxis::Y), value);
 }
 
+void AWaffCharacter::StartSprint()
+{
+	ActionComponent->StartActionByName(this, "Sprint");
+}
+
+void AWaffCharacter::StopSprint()
+{
+	ActionComponent->StopActionByName(this, "Sprint");
+
+}
+
 
 void AWaffCharacter::PrimaryAttack()
 {
-	// Using animation montage
-	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
-
-	// Bind the timer handler delegates with specific var.
-	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), PrimaryProjectile);
-	// Call the Bound function after 0.2f sec
-	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
+	ActionComponent->StartActionByName(this, "PrimaryAttack");
 }
 
 void AWaffCharacter::SecondaryAttack()
 {
-	// Using animation montage
-	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
-
-	// Bind the timer handler function with specific var.
-	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), SecondaryProjectile);
-	// Call the Bound function after 0.2f sec
-	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
+	ActionComponent->StartActionByName(this, "SecondaryAttack");
 }
 
 void AWaffCharacter::DashCast()
 {
-	// Using animation montage
-	PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
-
-	// Bind the timer handler function with specific var.
-	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), DashProjectile);
-	// Call the Bound function after 0.2f sec
-	GetWorldTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, 0.2f, false);
-}
-
-void AWaffCharacter::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile)
-{
-	// use the hand socket location as the spawn location
-	FVector HandLocation = GetMesh()->GetSocketLocation(HandSocketName);
-
-	// Do line trace to find the camera rotation hit target
-	FHitResult OutHit;
-	FVector Start;
-	FRotator PlayerView;
-	GetController()->GetPlayerViewPoint(Start, PlayerView);
-
-	FVector End = Start + CameraComp->GetComponentRotation().Vector() * 1000;
-	FCollisionQueryParams QueryParam;
-	QueryParam.AddIgnoredActor(this);
-
-	GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, QueryParam);
-	// DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 2.0f, 0, 2.0f);
-
-	// Decide the Final rotation for the projectile to hit target
-	FRotator ProjectileSpawnRotation;
-	if (OutHit.GetActor())
-	{
-		ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, OutHit.ImpactPoint);
-	}
-	else
-	{
-		ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, End);
-	}
-
-	// Combine with the ControlRotation, so he actor will spawn at the hand position and facing the camera direction.
-	FTransform Spawn_TM = FTransform(ProjectileSpawnRotation, HandLocation);
-
-	FActorSpawnParameters SpawnParam;
-	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParam.Instigator = this;
-
-	//Play Muzzle Flash
-	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, GetMesh(), HandSocketName,FVector(ForceInit),
-		FRotator::ZeroRotator, FVector(1),EAttachLocation::KeepRelativeOffset, true, EPSCPoolMethod::None, true);
-	// Spawn the projectile actor at the hand of the character
-	AActor* Projectile = GetWorld()->SpawnActor<AActor>(AttackProjectile, Spawn_TM, SpawnParam);
-	GetCapsuleComponent()->IgnoreActorWhenMoving(Projectile, true);
+	ActionComponent->StartActionByName(this, "DashCast");
 }
 
 void AWaffCharacter::PrimaryInteract()
@@ -225,6 +180,9 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &AWaffCharacter::PrimaryInteract);
 	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &AWaffCharacter::SecondaryAttack);
 	PlayerInputComponent->BindAction("DashCast", IE_Pressed, this, &AWaffCharacter::DashCast);
+
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AWaffCharacter::StartSprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AWaffCharacter::StopSprint);
 }
 
 
