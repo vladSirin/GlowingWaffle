@@ -51,7 +51,7 @@ void AWaffCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffCharacter::OnHealthChanged);
 
-	for(TSubclassOf<UWaffAction> ActionClass : ActionClassList)
+	for(TSubclassOf<UWaffAction> ActionClass : ActionComponent->DefaultActions)
 	{
 		ActionComponent->AddAction(ActionClass);
 	}

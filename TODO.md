@@ -143,4 +143,4 @@
 	- Credits-widget hooked up to show current credits. - done
 	- Bonus: Randomly Spawn Coin and Health potions throughout a simple level at Game start (EQS)
 
-# Lecture 16
+# Lecture 16 - done

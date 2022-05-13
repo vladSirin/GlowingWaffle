@@ -22,6 +22,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	bool StopActionByName(AActor* Instigator, FName ActionName);
+
+	UPROPERTY(EditDefaultsOnly, Category="Actions")
+	TArray<TSubclassOf<UWaffAction>> DefaultActions;
 	
 	// Sets default values for this component's properties
 	UWaffActionComponent();

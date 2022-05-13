@@ -46,12 +46,9 @@ protected:
 	UCameraComponent* CameraComp;
 
 	// Attack and Abilities
-	UPROPERTY(BlueprintReadOnly, Category="Actions")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Actions")
 	UWaffActionComponent* ActionComponent;
-
-	UPROPERTY(EditDefaultsOnly, Category="Actions")
-	TArray<TSubclassOf<UWaffAction>> ActionClassList;
-
+	
 	UPROPERTY(VisibleAnywhere, Category="Effect")
 	FName TimeToHit; // The name of Material param for on hit flash
 
