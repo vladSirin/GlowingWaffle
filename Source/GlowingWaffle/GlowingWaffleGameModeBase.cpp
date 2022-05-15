@@ -82,6 +82,7 @@ void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 	// Start Spawn position query
 	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(
 		GetWorld(), SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
+	
 	QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &AGlowingWaffleGameModeBase::OnQueryFinished);
 }
 
@@ -120,10 +121,12 @@ void AGlowingWaffleGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 
 		GetWorldTimerManager().SetTimer(RespawnDelay, RespawnDelegate, 5.0f, false);
 	}
-	else if(AWaffAICharacter* AICharacter = Cast<AWaffAICharacter>(Victim))
+	else if(APawn* KillerPawn = Cast<APawn>(Killer))
 	{
-		AWaffPlayerController* PC = Cast<AWaffPlayerController>(Killer->GetInstigatorController());
-		PC->GetPlayerState<AWaffPlayerState>()->ApplyCreditChange(MinionCreditValue);
+		if(AWaffPlayerState* PS = KillerPawn->GetPlayerState<AWaffPlayerState>())
+		{
+			PS->ApplyCreditChange(MinionCreditValue);
+		}
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("On Actor Killed: Victim %s, Killer %s"), *GetNameSafe(Victim), *GetNameSafe(Killer));
