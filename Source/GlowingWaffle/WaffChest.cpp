@@ -9,11 +9,11 @@ AWaffChest::AWaffChest()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	ChestBottmComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ChestBottom"));
+	ChestBottomComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ChestBottom"));
 	ChestLidComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ChestLid"));
 
-	RootComponent = ChestBottmComp;
-	ChestLidComp->SetupAttachment(ChestBottmComp);
+	RootComponent = ChestBottomComp;
+	ChestLidComp->SetupAttachment(ChestBottomComp);
 }
 
 // Called when the game starts or when spawned

@@ -8,7 +8,7 @@ public class GlowingWaffle : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "AIModule", "InputCore" ,"GameplayTasks"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "AIModule", "InputCore" ,"GameplayTasks","GameplayTags"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

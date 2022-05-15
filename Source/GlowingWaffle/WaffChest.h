@@ -22,7 +22,7 @@ protected:
 
 	// Static Mesh comps
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* ChestBottmComp;
+	UStaticMeshComponent* ChestBottomComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ChestLidComp;

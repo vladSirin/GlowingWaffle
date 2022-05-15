@@ -3,7 +3,7 @@
 
 #include "WaffMagicProjectile.h"
 
-#include "WaffAttributeComponent.h"
+#include "WaffActionComponent.h"
 #include "WaffGameplayFunctionLibrary.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -25,11 +25,20 @@ void AWaffMagicProjectile::OnOverlap_Implementation(UPrimitiveComponent* Overlap
                                                     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
                                                     bool bFromSweep, const FHitResult& SweepResult)
 {
-	Super::OnOverlap_Implementation(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep,
-	                                SweepResult);
 	if (OtherActor && OtherActor != GetInstigator())
 	{
-		UWaffGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, SweepResult);
+		UWaffActionComponent* ActionComponent = Cast<UWaffActionComponent>(OtherActor->GetComponentByClass(UWaffActionComponent::StaticClass()));
+		if(ActionComponent && ActionComponent->ActiveGameplayTag.HasTag(ParryTag))
+		{
+			MoveComp->Velocity = - MoveComp->Velocity;
+			SetInstigator(Cast<APawn>(OtherActor));
+			return;
+		}
+		
+		if(UWaffGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, SweepResult))
+		{
+			Explode();
+		}
 	}
 }
 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "WaffProjectile.h"
 #include "WaffMagicProjectile.generated.h"
 
@@ -22,6 +23,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// Parry Tag
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
+	FGameplayTag ParryTag;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

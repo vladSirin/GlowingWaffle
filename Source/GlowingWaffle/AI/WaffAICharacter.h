@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GlowingWaffle/WaffActionComponent.h"
 #include "GlowingWaffle/WaffAttributeComponent.h"
 #include "GlowingWaffle/WaffWorldUserWidget.h"
 #include "WaffAICharacter.generated.h"
@@ -32,6 +33,9 @@ protected:
 	// Attributes
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	UWaffAttributeComponent* AttriComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	UWaffActionComponent* ActionComponent;
 
 	UFUNCTION()
 	void OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent*

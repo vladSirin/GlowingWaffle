@@ -8,11 +8,36 @@
 void UWaffAction::StartAction_Implementation(AActor* Instigator)
 {
 	UE_LOG(LogTemp, Log, TEXT("Running: %s"), *GetNameSafe(this));
+	UWaffActionComponent* Comp = GetOwningComponent();
+	Comp->ActiveGameplayTag.AppendTags(TagsToGrant);
+	bRunning = true;
 }
 
 void UWaffAction::StopAction_Implementation(AActor* Instigator)
 {
 	UE_LOG(LogTemp, Log, TEXT("Stopped: %s"), *GetNameSafe(this));
+
+	ensureAlways(bRunning);
+	
+	UWaffActionComponent* Comp = GetOwningComponent();
+	Comp->ActiveGameplayTag.RemoveTags(TagsToGrant);
+	bRunning = false;
+}
+
+bool UWaffAction::CanStart_Implementation(AActor* Instigator)
+{
+	if(bRunning)
+	{
+		return false;
+	}
+	
+	UWaffActionComponent* Comp = GetOwningComponent();
+	if(Comp->ActiveGameplayTag.HasAny(BlockingTags))
+	{
+		return false;
+	}
+	return true;
+
 }
 
 UWorld* UWaffAction::GetWorld() const
@@ -24,4 +49,14 @@ UWorld* UWaffAction::GetWorld() const
 		return Comp->GetWorld();
 	}
 	return nullptr;
+}
+
+UWaffActionComponent* UWaffAction::GetOwningComponent() const
+{
+	return Cast<UWaffActionComponent>(GetOuter());
+}
+
+bool UWaffAction::IsRunning() const
+{
+	return bRunning;
 }

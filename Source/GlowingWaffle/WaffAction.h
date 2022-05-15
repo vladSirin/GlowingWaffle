@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "WaffActionComponent.h"
 #include "UObject/NoExportTypes.h"
 #include "WaffAction.generated.h"
 
@@ -15,18 +17,36 @@ class GLOWINGWAFFLE_API UWaffAction : public UObject
 {
 	GENERATED_BODY()
 
-public:
-	UFUNCTION(BlueprintNativeEvent, Category="Action")
-	void StartAction(AActor* Instigator);
+protected:
+	/* Tags added to owning actor when activated, removed when stopped */
+	UPROPERTY(EditDefaultsOnly, Category="Tags")
+	FGameplayTagContainer TagsToGrant;
 
-	UFUNCTION(BlueprintNativeEvent, Category="Action")
-	void StopAction(AActor* Instigator);
-
+	/* Actions can only start when actor has none of the Tags applied */
+	UPROPERTY(EditDefaultsOnly, Category="Tags")
+	FGameplayTagContainer BlockingTags;
 	
+	bool bRunning;
+public:
 	/* Action Nick Name to start/stop an action without referencing */
 	UPROPERTY(EditDefaultsOnly, Category="Action")
 	FName ActonName;
 	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Action")
+	void StartAction(AActor* Instigator);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Action")
+	void StopAction(AActor* Instigator);
+
+	UFUNCTION(BlueprintNativeEvent, Category="Action")
+	bool CanStart(AActor* Instigator);
+
 	virtual UWorld* GetWorld() const override;
-	
+
+	// Getters
+	UFUNCTION(BlueprintCallable)
+	UWaffActionComponent* GetOwningComponent() const;
+
+	UFUNCTION(BlueprintCallable)
+	bool IsRunning() const;
 };

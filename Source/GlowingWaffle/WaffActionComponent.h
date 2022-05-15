@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Components/ActorComponent.h"
 #include "WaffActionComponent.generated.h"
 
@@ -14,6 +15,11 @@ class GLOWINGWAFFLE_API UWaffActionComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
+	
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tags")
+	FGameplayTagContainer ActiveGameplayTag;
+	
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	void AddAction(TSubclassOf<UWaffAction> ActionClass);
 

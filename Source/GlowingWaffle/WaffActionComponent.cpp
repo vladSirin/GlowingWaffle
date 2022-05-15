@@ -32,6 +32,9 @@ void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	FString DebugMsg = GetNameSafe(GetOwner()) + ":" + ActiveGameplayTag.ToStringSimple();
+	GEngine->AddOnScreenDebugMessage(-1,0.0f, FColor::White, DebugMsg);
+
 	// ...
 }
 
@@ -52,6 +55,13 @@ bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionNam
 {
 	for(UWaffAction* Action : Actions)
 	{
+		if(!Action->CanStart(Instigator))
+		{
+			FString FailMsg = FString::Printf(TEXT("Fail to run: %s"), *ActionName.ToString());
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FailMsg);
+			continue;
+		}
+			
 		if(Action && Action->ActonName == ActionName)
 		{
 			Action->StartAction(Instigator);
@@ -65,6 +75,10 @@ bool UWaffActionComponent::StopActionByName(AActor* Instigator, FName ActionName
 {
 	for(UWaffAction* Action : Actions)
 	{
+		if(!Action->IsRunning())
+		{
+			continue;
+		}
 		if(Action && Action->ActonName == ActionName)
 		{
 			Action->StopAction(Instigator);

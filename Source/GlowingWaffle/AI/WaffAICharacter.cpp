@@ -18,6 +18,7 @@ AWaffAICharacter::AWaffAICharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	AttriComp = CreateDefaultSubobject<UWaffAttributeComponent>(TEXT("AttriComp"));
+	ActionComponent = CreateDefaultSubobject<UWaffActionComponent>(TEXT("ActionComp"));
 	TimeToHit = "TimeToHit";
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Ignore);
