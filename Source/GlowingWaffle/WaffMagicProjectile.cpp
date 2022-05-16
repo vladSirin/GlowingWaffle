@@ -38,6 +38,12 @@ void AWaffMagicProjectile::OnOverlap_Implementation(UPrimitiveComponent* Overlap
 		if(UWaffGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, SweepResult))
 		{
 			Explode();
+
+			// Applying burning effect
+			if(ActionComponent)
+			{
+				ActionComponent->AddAction(GetInstigator(), EffectActionClass);
+			}
 		}
 	}
 }

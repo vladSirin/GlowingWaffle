@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
+#include "WaffAction.h"
 #include "WaffProjectile.h"
 #include "WaffMagicProjectile.generated.h"
 
@@ -27,6 +28,10 @@ protected:
 	// Parry Tag
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
 	FGameplayTag ParryTag;
+
+	// Status Effect on Damage tag
+	UPROPERTY(EditDefaultsOnly, Category="Effect")
+	TSubclassOf<UWaffAction> EffectActionClass;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

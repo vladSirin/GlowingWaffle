@@ -22,7 +22,13 @@ void UWaffActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	if(!DefaultActions.IsEmpty())
+	{
+		for (TSubclassOf<UWaffAction> ActionClass : DefaultActions)
+		{
+			AddAction(GetOwner(), ActionClass);
+		}
+	}
 	
 }
 
@@ -38,7 +44,7 @@ void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UWaffActionComponent::AddAction(TSubclassOf<UWaffAction> ActionClass)
+void UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass)
 {
 	if(!ensure(ActionClass))
 	{
@@ -48,14 +54,27 @@ void UWaffActionComponent::AddAction(TSubclassOf<UWaffAction> ActionClass)
 	if(ensure(NewAction))
 	{
 		Actions.Add(NewAction);
+		if(NewAction->bAutoStart && ensure(NewAction->CanStart(Instigator)))
+		{
+			NewAction->StartAction(Instigator);
+		}
 	}
+}
+
+void UWaffActionComponent::RemoveAction(UWaffAction* Action)
+{
+	if(!ensure(Action || !Action->IsRunning()))
+	{
+		return;
+	}
+	Actions.Remove(Action);
 }
 
 bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 {
 	for(UWaffAction* Action : Actions)
 	{
-		if(!Action->CanStart(Instigator))
+		if(Action && !Action->CanStart(Instigator))
 		{
 			FString FailMsg = FString::Printf(TEXT("Fail to run: %s"), *ActionName.ToString());
 			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FailMsg);

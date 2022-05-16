@@ -21,7 +21,10 @@ public:
 	FGameplayTagContainer ActiveGameplayTag;
 	
 	UFUNCTION(BlueprintCallable, Category="Actions")
-	void AddAction(TSubclassOf<UWaffAction> ActionClass);
+	void AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass);
+
+	UFUNCTION(BlueprintCallable, Category="Actions")
+	void RemoveAction(UWaffAction* Action);
 
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	bool StartActionByName(AActor* Instigator, FName ActionName);
@@ -29,6 +32,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	bool StopActionByName(AActor* Instigator, FName ActionName);
 
+	// The list of Class of default actions
 	UPROPERTY(EditDefaultsOnly, Category="Actions")
 	TArray<TSubclassOf<UWaffAction>> DefaultActions;
 	
@@ -36,8 +40,7 @@ public:
 	UWaffActionComponent();
 
 protected:
-	// Action list
-	UPROPERTY(EditDefaultsOnly)
+	
 	TArray<UWaffAction*> Actions;
 	
 	// Called when the game starts

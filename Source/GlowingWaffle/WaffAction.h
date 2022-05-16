@@ -25,9 +25,16 @@ protected:
 	/* Actions can only start when actor has none of the Tags applied */
 	UPROPERTY(EditDefaultsOnly, Category="Tags")
 	FGameplayTagContainer BlockingTags;
+
+	
 	
 	bool bRunning;
 public:
+	
+	/* Start immediately when added to the component */
+	UPROPERTY(EditDefaultsOnly, Category="Action")
+	bool bAutoStart;
+	
 	/* Action Nick Name to start/stop an action without referencing */
 	UPROPERTY(EditDefaultsOnly, Category="Action")
 	FName ActonName;
