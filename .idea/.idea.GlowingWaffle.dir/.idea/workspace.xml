@@ -8,9 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/MISC/Curve_RageTransRate_Float.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +21,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/corecrt_math.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/winioctl.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt/wrl/module.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffAction.gen.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -118,7 +122,7 @@
       <workItem from="1652162932918" duration="3470000" />
       <workItem from="1652170929120" duration="10396000" />
       <workItem from="1652600601110" duration="19676000" />
-      <workItem from="1652772159775" duration="3258000" />
+      <workItem from="1652772159775" duration="9038000" />
     </task>
     <servers />
   </component>
@@ -141,5 +145,16 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp</url>
+          <line>57</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

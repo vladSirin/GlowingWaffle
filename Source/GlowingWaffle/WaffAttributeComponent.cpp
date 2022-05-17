@@ -18,17 +18,21 @@ UWaffAttributeComponent::UWaffAttributeComponent()
 	// Initialize the values
 	Health = 100;
 	HealthMax = 100;
+
+	bEnableRage = false;
+	Rage = 0.0f;
+	RageMax = 100.0f;
 }
 
 bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 {
 	// CVar, damage multiplier applied
-	if(Delta < 0.0f)
+	if (Delta < 0.0f)
 	{
 		Delta *= CVarDamageMultiplier.GetValueOnGameThread();
 	}
 
-	
+
 	// Check if in god
 	if (!GetOwner()->CanBeDamaged() && Delta < 0.0f)
 	{
@@ -44,17 +48,36 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 	OnHealthChanged.Broadcast(Instigator, this, Health, ActualDelta);
 
 	// Call On Actor Killed in Game mode if health is 0.0
-	if(Health == 0.0f)
+	if (Health == 0.0f)
 	{
 		AGlowingWaffleGameModeBase* GM = GetWorld()->GetAuthGameMode<AGlowingWaffleGameModeBase>();
 		GM->OnActorKilled(GetOwner(), Instigator);
 	}
+	else if (bEnableRage)
+	{
+		ApplyRageChange( abs(ActualDelta) * RageTransRate->GetFloatValue(abs(ActualDelta)), Instigator);
+	}
+
 	return ActualDelta != 0;
 }
 
 bool UWaffAttributeComponent::Kill(AActor* InstigatorActor)
 {
 	return ApplyHealthChange(-GetMaxHealth(), InstigatorActor);
+}
+
+bool UWaffAttributeComponent::ApplyRageChange(float Delta, AActor* Instigator)
+{
+	if (Instigator == GetOwner())
+	{
+		return false;
+	}
+
+	float OldRage = Rage;
+	Rage = FMath::Clamp(Rage + Delta, 0.0f, RageMax);
+	float ActualDelta = Rage - OldRage;
+
+	return ActualDelta != 0;
 }
 
 bool UWaffAttributeComponent::IsAlive() const
@@ -80,6 +103,16 @@ float UWaffAttributeComponent::GetMaxHealth() const
 bool UWaffAttributeComponent::IsFullHealth() const
 {
 	return Health == HealthMax;
+}
+
+float UWaffAttributeComponent::GetRagePercent() const
+{
+	return Rage / RageMax;
+}
+
+float UWaffAttributeComponent::GetRage() const
+{
+	return Rage;
 }
 
 UWaffAttributeComponent* UWaffAttributeComponent::GetAttributes(AActor* FromActor)

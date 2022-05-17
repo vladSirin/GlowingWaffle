@@ -41,6 +41,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool Kill(AActor* InstigatorActor);
 
+	// Rage Change
+	UFUNCTION(BlueprintCallable)
+	bool ApplyRageChange(float Delta, AActor* Instigator);
+
 	// Const functions
 	UFUNCTION(BlueprintPure)
 	bool IsAlive() const;
@@ -56,6 +60,12 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	bool IsFullHealth() const;
+
+	UFUNCTION(BlueprintGetter)
+	float GetRagePercent() const;
+
+	UFUNCTION(BlueprintGetter)
+	float GetRage() const;
 
 protected:
 	// EditAnywhere - edit in BP editor and per-instance in level.
@@ -73,4 +83,16 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float HealthMax;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
+	bool bEnableRage;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
+	float Rage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
+	float RageMax;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
+	UCurveFloat* RageTransRate;
 };

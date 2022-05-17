@@ -143,4 +143,30 @@
 	- Credits-widget hooked up to show current credits. - done
 	- Bonus: Randomly Spawn Coin and Health potions throughout a simple level at Game start (EQS)
 
-# Lecture 16 - done
+# Assignment 6
+
+- New 'Rage' Attribute
+	Player receiving damage adds to Rage value. // Amount of rage added based on amount of damage received.
+	Blackhole Action costs rage to activate.
+	Display current Rage on-screen.
+	RageMax Attribute to clamp values and for UI display
+
+- 'Thorns' Buff Effect
+	ActionEffect in C++ that deals fraction of damage back to attacker.
+	Round reflected damage to nearest integer.
+	'Infinite' Duration.
+	Don't reflect damage owner caused to himself.
+
+	Notes:
+	- For Thorns Effect: Bind to OnHealthChanged of Owner in StartAction (don’t forget to ‘unbind’ .RemoveDynamic(...) in StopAction())
+	Extras
+
+- 'Player Spotted' UMG Widget on Minion Bot. ("!" above head)
+	Derived from SWorldUserWidget
+	Show “!” for a moment when minion sees player. 
+	Only show if Player is not already TargetActor.
+	Animate for nice pop-in.
+	
+- New Power-up to grant Actions on Interact.
+	Only interact successfully if user does not have that Action class yet.
+	Grant ‘Dash’ on Interact.
