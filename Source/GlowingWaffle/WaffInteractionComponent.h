@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WaffWorldUserWidget.h"
 #include "Components/ActorComponent.h"
 #include "WaffInteractionComponent.generated.h"
 
@@ -20,8 +21,27 @@ public:
 	void PrimaryInteract();
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void FindBestInteractable();
+
+	UPROPERTY()
+	AActor* FocusedActor;
+
+	UPROPERTY(EditDefaultsOnly, Category="Trace")
+	float TraceDistance;
+
+	UPROPERTY(EditDefaultsOnly, Category="Trace")
+	float TraceRadius;
+
+	UPROPERTY(EditDefaultsOnly, Category="Trace")
+	TEnumAsByte<ECollisionChannel> CollisionChannel;
+
+	UPROPERTY(EditDefaultsOnly, Category="Interact")
+	TSubclassOf<UWaffWorldUserWidget> DefaultWidgetClass;
+
+	UPROPERTY()
+	UWaffWorldUserWidget* DefaultWidgetInstance;
 
 public:
 	// Called every frame

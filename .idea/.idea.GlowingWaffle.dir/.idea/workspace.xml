@@ -8,20 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprint/Actions/BP_Burning_Effect.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionEffect.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionEffect.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGameplayTags.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGameplayTags.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile_AI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile_AI.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MainHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MainHUD.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAction.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAction.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffMagicProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffMagicProjectile.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffMagicProjectile.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffMagicProjectile.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffInteractionComponent.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +28,6 @@
     <setting file="file://$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://E:/OneDrive/Projects/GlowingWaffle/Source/GlowingWaffle/WaffCharacter.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/GlowingWaffle/WaffCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Unreal Learning/UE_5.0/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Unreal Learning/UE_5.0/Engine/Source/Runtime/Core/Public/Delegates/DelegateSignatureImpl.inl" root0="FORCE_HIGHLIGHTING" />
@@ -130,6 +118,7 @@
       <workItem from="1652162932918" duration="3470000" />
       <workItem from="1652170929120" duration="10396000" />
       <workItem from="1652600601110" duration="19676000" />
+      <workItem from="1652772159775" duration="3258000" />
     </task>
     <servers />
   </component>

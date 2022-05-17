@@ -18,65 +18,9 @@ UWaffInteractionComponent::UWaffInteractionComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
-}
-
-
-void UWaffInteractionComponent::PrimaryInteract()
-{
-	// CVar for debug Draw
-	bool bDebugDraw = CVarDebugDrawInteraction.GetValueOnGameThread();
-
-	// Setup on the arguments for the solution
-	APawn* MyPawn = Cast<APawn>(GetOwner());
-	TArray<FHitResult> HitResults;
-	FVector EyeLocation;
-	FRotator EyeRotation;
-	GetOwner()->GetActorEyesViewPoint(EyeLocation, EyeRotation);
-
-	FVector Start = EyeLocation;
-	FVector End = EyeLocation + (EyeRotation.Vector() * 1000);
-	FCollisionObjectQueryParams ObjectParam;
-	ObjectParam.AddObjectTypesToQuery(ECC_WorldDynamic);
-
-	// Now is the solution for check which object we want to interact with, multiple solutions
-
-	// Single Line Trace:
-	// FHitResult OutHit;
-	//GetWorld()->LineTraceSingleByObjectType(OutHit, Start, End, ObjectParam);
-
-	// Multi Sweep Trace approach, FQuat is using Identity as default.
-	bool bIsBlocking = GetWorld()->SweepMultiByObjectType(HitResults, Start, End, FQuat::Identity, ObjectParam,
-	                                                      FCollisionShape::MakeSphere(30.0f));
-	FColor DebugColor = bIsBlocking ? FColor::Red : FColor::Green;
-
-	// Check the hit actor
-	for (FHitResult HitResult : HitResults)
-	{
-		if (bDebugDraw)
-		{
-			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 30.0f, 32, DebugColor, false, 2.0f, 0, 2.0f);
-		}
-		if (HitResult.GetActor())
-		{
-			if (HitResult.GetActor()->Implements<UWaffGameplayInterface>())
-			{
-				IWaffGameplayInterface::Execute_Interact(HitResult.GetActor(), MyPawn);
-				break;
-			}
-		}
-	}
-	if (bDebugDraw)
-	{
-		DrawDebugLine(GetWorld(), Start, End, DebugColor, false, 2.0f, 0, 2.9f);
-	}
-}
-
-// Called when the game starts
-void UWaffInteractionComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
+	TraceDistance = 1000.0f;
+	TraceRadius = 30.0f;
+	CollisionChannel = ECC_WorldDynamic;
 }
 
 
@@ -85,6 +29,92 @@ void UWaffInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
                                               FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	FindBestInteractable();
 	// ...
+}
+
+
+void UWaffInteractionComponent::FindBestInteractable()
+{
+	// CVar for debug Draw
+ 	bool bDebugDraw = CVarDebugDrawInteraction.GetValueOnGameThread();
+ 
+ 	// Setup on the arguments for the solution
+ 	TArray<FHitResult> HitResults;
+ 	FVector EyeLocation;
+ 	FRotator EyeRotation;
+ 	GetOwner()->GetActorEyesViewPoint(EyeLocation, EyeRotation);
+ 
+ 	FVector Start = EyeLocation;
+ 	FVector End = EyeLocation + (EyeRotation.Vector() * TraceDistance);
+ 	FCollisionObjectQueryParams ObjectParam;
+ 	ObjectParam.AddObjectTypesToQuery(ECC_WorldDynamic);
+ 
+ 	// Now is the solution for check which object we want to interact with, multiple solutions
+ 
+ 	// Single Line Trace:
+ 	// FHitResult OutHit;
+ 	//GetWorld()->LineTraceSingleByObjectType(OutHit, Start, End, ObjectParam);
+ 
+ 	// Multi Sweep Trace approach, FQuat is using Identity as default.
+ 	bool bIsBlocking = GetWorld()->SweepMultiByObjectType(HitResults, Start, End, FQuat::Identity, ObjectParam,
+ 	                                                      FCollisionShape::MakeSphere(TraceRadius));
+ 	FColor DebugColor = bIsBlocking ? FColor::Red : FColor::Green;
+
+	// Clear the focused actor before trying to find one
+	FocusedActor = nullptr;
+	
+ 	// Check the hit actors and find one as focused actor
+ 	for (FHitResult HitResult : HitResults)
+ 	{
+ 		if (bDebugDraw)
+ 		{
+ 			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 30.0f, 32, DebugColor, false, 2.0f, 0, 2.0f);
+ 		}
+ 		if (HitResult.GetActor())
+ 		{
+ 			if (HitResult.GetActor()->Implements<UWaffGameplayInterface>())
+ 			{
+ 				FocusedActor = HitResult.GetActor();
+ 				break;
+ 			}
+ 		}
+ 	}
+
+	if(FocusedActor)
+	{
+		if(DefaultWidgetInstance == nullptr && ensure(DefaultWidgetClass))
+		{
+			DefaultWidgetInstance = CreateWidget<UWaffWorldUserWidget>(GetWorld(), DefaultWidgetClass);
+		}
+
+		if(DefaultWidgetInstance)
+		{
+			DefaultWidgetInstance->AttachedActor = FocusedActor;
+			if(!DefaultWidgetInstance->IsInViewport())
+			{
+				DefaultWidgetInstance->AddToViewport();
+			}
+		}
+	}
+	else
+	{
+		if(DefaultWidgetInstance)
+		{
+			DefaultWidgetInstance->RemoveFromParent();
+		}
+	}
+	
+ 	if (bDebugDraw)
+ 	{
+ 		DrawDebugLine(GetWorld(), Start, End, DebugColor, false, 2.0f, 0, 2.9f);
+ 	}
+}
+
+void UWaffInteractionComponent::PrimaryInteract()
+{
+	if(ensure(FocusedActor))
+	{
+		IWaffGameplayInterface::Execute_Interact(FocusedActor, Cast<APawn>(GetOwner()));
+	}
 }
