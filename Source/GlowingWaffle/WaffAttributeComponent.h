@@ -13,6 +13,11 @@ class UWaffAttributeComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*,
                                               OwingComp, float, NewHealth, float, Delta);
 
+// Declare delegate event for rage change
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnRageChanged, AActor*, ChangeInstigatpr, UWaffAttributeComponent*,
+                                              OwningComp,
+                                              float, NewRage, float, Delta);
+
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GLOWINGWAFFLE_API UWaffAttributeComponent : public UActorComponent
@@ -23,7 +28,10 @@ public:
 	// Delegate
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
-	
+
+	UPROPERTY(BlueprintAssignable)
+	FOnRageChanged OnRageChanged;
+
 	// Sets default values for this component's properties
 	UWaffAttributeComponent();
 
@@ -86,7 +94,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
 	bool bEnableRage;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
 	float Rage;
 

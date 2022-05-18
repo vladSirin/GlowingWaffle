@@ -40,7 +40,7 @@ public:
 	UWaffActionComponent();
 
 protected:
-	
+	UPROPERTY()
 	TArray<UWaffAction*> Actions;
 	
 	// Called when the game starts

@@ -146,10 +146,10 @@
 # Assignment 6
 
 - New 'Rage' Attribute
-	Player receiving damage adds to Rage value. // Amount of rage added based on amount of damage received.
-	Blackhole Action costs rage to activate.
-	Display current Rage on-screen.
-	RageMax Attribute to clamp values and for UI display
+	Player receiving damage adds to Rage value. // Amount of rage added based on amount of damage received. - done
+	Blackhole Action costs rage to activate. - done
+	Display current Rage on-screen. - done
+	RageMax Attribute to clamp values and for UI display - done
 
 - 'Thorns' Buff Effect
 	ActionEffect in C++ that deals fraction of damage back to attacker.

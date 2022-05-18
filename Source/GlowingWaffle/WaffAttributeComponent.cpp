@@ -68,14 +68,12 @@ bool UWaffAttributeComponent::Kill(AActor* InstigatorActor)
 
 bool UWaffAttributeComponent::ApplyRageChange(float Delta, AActor* Instigator)
 {
-	if (Instigator == GetOwner())
-	{
-		return false;
-	}
-
 	float OldRage = Rage;
 	Rage = FMath::Clamp(Rage + Delta, 0.0f, RageMax);
 	float ActualDelta = Rage - OldRage;
+
+	// Broadcast for rage change delegate
+	OnRageChanged.Broadcast(Instigator, this, Rage, ActualDelta);
 
 	return ActualDelta != 0;
 }

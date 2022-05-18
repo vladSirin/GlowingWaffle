@@ -14,6 +14,15 @@ bool UWaffGameplayFunctionLibrary::ApplyDamage(AActor* DamageCauser, AActor* Tar
 	return false;
 }
 
+bool UWaffGameplayFunctionLibrary::ConsumeRage(AActor* Instigator,AActor* TargetActor, float ConsumeAmount)
+{
+	if(UWaffAttributeComponent* AttributeComponent = UWaffAttributeComponent::GetAttributes(TargetActor))
+	{
+		return AttributeComponent->ApplyRageChange(-ConsumeAmount, Instigator);
+	}
+	return false;
+}
+
 bool UWaffGameplayFunctionLibrary::ApplyDirectionalDamage(AActor* DamageCauser, AActor* TargetActor, float DamageAmount,
                                                           const FHitResult& HitResult)
 {

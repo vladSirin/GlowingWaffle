@@ -8,11 +8,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/MISC/Curve_RageTransRate_Float.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_PlayerRage.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/MI_RageBar.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/M_AttributeBar.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Actions/BP_BlackHole_Action.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Actions/BP_BlackHole_Action.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_BlackHoleProjectile.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_BlackHoleProjectile.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile_AI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_MagicProjectile_AI.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MainHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MainHUD.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MinionHealth.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MinionHealth.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_PlayerHealth.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_PlayerHealth.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Materials/M_HealhBar.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +37,7 @@
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/winioctl.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt/wrl/module.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffAction.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffGameplayFunctionLibrary.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffGameplayInterface.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffProjectile.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -122,7 +135,10 @@
       <workItem from="1652162932918" duration="3470000" />
       <workItem from="1652170929120" duration="10396000" />
       <workItem from="1652600601110" duration="19676000" />
-      <workItem from="1652772159775" duration="9038000" />
+      <workItem from="1652772159775" duration="9580000" />
+      <workItem from="1652848268812" duration="3912000" />
+      <workItem from="1652887868495" duration="73000" />
+      <workItem from="1652887990141" duration="1317000" />
     </task>
     <servers />
   </component>
@@ -145,16 +161,5 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp</url>
-          <line>57</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
