@@ -152,10 +152,10 @@
 	RageMax Attribute to clamp values and for UI display - done
 
 - 'Thorns' Buff Effect
-	ActionEffect in C++ that deals fraction of damage back to attacker.
-	Round reflected damage to nearest integer.
-	'Infinite' Duration.
-	Don't reflect damage owner caused to himself.
+	ActionEffect in C++ that deals fraction of damage back to attacker. - done
+	Round reflected damage to nearest integer. - done
+	'Infinite' Duration. - done
+	Don't reflect damage owner caused to himself. - done
 
 	Notes:
 	- For Thorns Effect: Bind to OnHealthChanged of Owner in StartAction (don’t forget to ‘unbind’ .RemoveDynamic(...) in StopAction())
