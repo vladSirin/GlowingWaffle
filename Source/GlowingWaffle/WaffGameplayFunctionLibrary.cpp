@@ -3,6 +3,7 @@
 
 #include "WaffGameplayFunctionLibrary.h"
 
+#include "WaffActionComponent.h"
 #include "WaffAttributeComponent.h"
 
 bool UWaffGameplayFunctionLibrary::ApplyDamage(AActor* DamageCauser, AActor* TargetActor, float DamageAmount)
@@ -39,6 +40,15 @@ bool UWaffGameplayFunctionLibrary::ApplyDirectionalDamage(AActor* DamageCauser, 
 			                              HitResult.BoneName);
 		}
 		return true;
+	}
+	return false;
+}
+
+bool UWaffGameplayFunctionLibrary::AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass)
+{
+	if(UWaffActionComponent* ActionComponent = UWaffActionComponent::GetActionComponent(Instigator))
+	{
+		return ActionComponent->AddAction(Instigator, ActionClass);
 	}
 	return false;
 }

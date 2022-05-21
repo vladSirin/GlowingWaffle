@@ -16,54 +16,83 @@ UWaffActionComponent::UWaffActionComponent()
 	// ...
 }
 
+UWaffActionComponent* UWaffActionComponent::GetActionComponent(AActor* FromActor)
+{
+	UWaffActionComponent* Comp = Cast<UWaffActionComponent>(
+		FromActor->GetComponentByClass(UWaffActionComponent::StaticClass()));
+	if (Comp)
+	{
+		return Comp;
+	}
+	return nullptr;
+}
+
+bool UWaffActionComponent::IsActionExist(AActor* FromActor, TSubclassOf<UWaffAction> ActionClass)
+{
+	UWaffAction** Action = GetActionComponent(FromActor)->Actions.FindByPredicate
+	(
+		[&](const UWaffAction* WaffAction)
+		{
+			return WaffAction->GetClass() == ActionClass;
+		}
+	);
+	if(Action)
+	{
+		return true;
+	}
+	return false;
+}
+
 
 // Called when the game starts
 void UWaffActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(!DefaultActions.IsEmpty())
+	if (!DefaultActions.IsEmpty())
 	{
 		for (TSubclassOf<UWaffAction> ActionClass : DefaultActions)
 		{
 			AddAction(GetOwner(), ActionClass);
 		}
 	}
-	
 }
 
 
 // Called every frame
-void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
+                                         FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	FString DebugMsg = GetNameSafe(GetOwner()) + ":" + ActiveGameplayTag.ToStringSimple();
-	GEngine->AddOnScreenDebugMessage(-1,0.0f, FColor::White, DebugMsg);
+	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::White, DebugMsg);
 
 	// ...
 }
 
-void UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass)
+bool UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass)
 {
-	if(!ensure(ActionClass))
+	if (!ensure(ActionClass))
 	{
-		return;
+		return false;
 	}
 	UWaffAction* NewAction = NewObject<UWaffAction>(this, ActionClass);
-	if(ensure(NewAction))
+	if (ensure(NewAction))
 	{
 		Actions.Add(NewAction);
-		if(NewAction->bAutoStart && ensure(NewAction->CanStart(Instigator)))
+		if (NewAction->bAutoStart && ensure(NewAction->CanStart(Instigator)))
 		{
 			NewAction->StartAction(Instigator);
+			return true;
 		}
 	}
+	return false;
 }
 
 void UWaffActionComponent::RemoveAction(UWaffAction* Action)
 {
-	if(!ensure(Action || !Action->IsRunning()))
+	if (!ensure(Action || !Action->IsRunning()))
 	{
 		return;
 	}
@@ -72,16 +101,16 @@ void UWaffActionComponent::RemoveAction(UWaffAction* Action)
 
 bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 {
-	for(UWaffAction* Action : Actions)
+	for (UWaffAction* Action : Actions)
 	{
-		if(Action && !Action->CanStart(Instigator))
+		if (Action && !Action->CanStart(Instigator))
 		{
 			FString FailMsg = FString::Printf(TEXT("Fail to run: %s"), *ActionName.ToString());
 			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FailMsg);
 			continue;
 		}
-			
-		if(Action && Action->ActonName == ActionName)
+
+		if (Action && Action->ActonName == ActionName)
 		{
 			Action->StartAction(Instigator);
 			return true;
@@ -92,13 +121,13 @@ bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionNam
 
 bool UWaffActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
 {
-	for(UWaffAction* Action : Actions)
+	for (UWaffAction* Action : Actions)
 	{
-		if(!Action->IsRunning())
+		if (!Action->IsRunning())
 		{
 			continue;
 		}
-		if(Action && Action->ActonName == ActionName)
+		if (Action && Action->ActonName == ActionName)
 		{
 			Action->StopAction(Instigator);
 			return true;

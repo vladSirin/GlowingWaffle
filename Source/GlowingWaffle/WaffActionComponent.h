@@ -21,7 +21,7 @@ public:
 	FGameplayTagContainer ActiveGameplayTag;
 	
 	UFUNCTION(BlueprintCallable, Category="Actions")
-	void AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass);
+	bool AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass);
 
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	void RemoveAction(UWaffAction* Action);
@@ -38,6 +38,14 @@ public:
 	
 	// Sets default values for this component's properties
 	UWaffActionComponent();
+
+	// Static Function, get Action Component
+	UFUNCTION(BlueprintCallable, Category="Actions")
+	static UWaffActionComponent* GetActionComponent(AActor* FromActor);
+
+	// Static FUnction, check if action already exist
+	UFUNCTION(BlueprintCallable, Category="Actions")
+	static  bool IsActionExist(AActor* FromActor, TSubclassOf<UWaffAction> ActionClass);
 
 protected:
 	UPROPERTY()

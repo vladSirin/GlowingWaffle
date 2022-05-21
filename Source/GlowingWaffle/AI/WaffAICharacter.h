@@ -30,6 +30,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UWaffWorldUserWidget> HealthWidgetClass;
 
+	UWaffWorldUserWidget* AlertMark;
+
+	UFUNCTION()
+	void OnTargetFirstSight(AActor* TargetActor);
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UWaffWorldUserWidget> AlertMarkWidgetClass;
+
 	// Attributes
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	UWaffAttributeComponent* AttriComp;

@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+class UWaffAction;
+
 UCLASS()
 class GLOWINGWAFFLE_API UWaffGameplayFunctionLibrary : public UBlueprintFunctionLibrary
 {
@@ -24,4 +27,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Gameplay")
 	static bool ApplyDirectionalDamage(AActor* DamageCauser, AActor* TargetActor, float DamageAmount, const FHitResult& HitResult);
+
+	UFUNCTION(BlueprintCallable, Category="Gameplay")
+	static bool AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass);
 };

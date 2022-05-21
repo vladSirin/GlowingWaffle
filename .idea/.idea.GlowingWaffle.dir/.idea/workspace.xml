@@ -8,12 +8,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprint/Actions/BP_Thorn_Effect.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionEffect_Thorn.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionEffect_Thorn.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprint/BP_Dash_Pickup.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MinionAlert.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/7/R5/Z1WKB8N5E2V1RBI30W496G.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionPowerUp.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionPowerUp.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGameplayTags.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGameplayTags.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/AIC_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/AIC_RangedMinion.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/BP_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BP_RangedMinion.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -128,7 +140,7 @@
       <workItem from="1652772159775" duration="9580000" />
       <workItem from="1652848268812" duration="3912000" />
       <workItem from="1652887868495" duration="73000" />
-      <workItem from="1652887990141" duration="10974000" />
+      <workItem from="1652887990141" duration="26826000" />
     </task>
     <servers />
   </component>

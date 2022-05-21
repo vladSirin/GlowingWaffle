@@ -21,9 +21,14 @@ void AWaffAIController::PostInitializeComponents()
 }
 
 void AWaffAIController::SetTargetActor(AActor* InstigatorActor)
-{
+{	
+	AActor* OldTarget = GetTargetActor();
 	UBlackboardComponent* BB = GetBlackboardComponent();
 	BB->SetValueAsObject(TargetActorKey, InstigatorActor);
+	if(OldTarget != InstigatorActor)
+	{
+		OnTargetFirstSight.Broadcast(InstigatorActor);
+	}
 }
 
 AActor* AWaffAIController::GetTargetActor()

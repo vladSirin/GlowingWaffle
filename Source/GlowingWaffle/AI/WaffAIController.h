@@ -12,6 +12,10 @@
 /**
  * 
  */
+
+// Delegate event for when first set an actor as target.
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTargetFirstSight, AActor*, TargetActor);
+
 UCLASS()
 class GLOWINGWAFFLE_API AWaffAIController : public AAIController
 {
@@ -21,11 +25,14 @@ public:
 	// Set default
 	AWaffAIController();
 
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintCallable)
 	void SetTargetActor(AActor* InstigatorActor);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintCallable)
 	AActor* GetTargetActor();
+
+	UPROPERTY(BlueprintAssignable)
+	FOnTargetFirstSight OnTargetFirstSight;
 
 protected:
 

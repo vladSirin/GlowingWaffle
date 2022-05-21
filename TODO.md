@@ -162,11 +162,11 @@
 	Extras
 
 - 'Player Spotted' UMG Widget on Minion Bot. ("!" above head)
-	Derived from SWorldUserWidget
-	Show “!” for a moment when minion sees player. 
-	Only show if Player is not already TargetActor.
-	Animate for nice pop-in.
+	Derived from SWorldUserWidget - done
+	Show “!” for a moment when minion sees player. - AI Controller trigger events in AI Character to show UI - done
+	Only show if Player is not already TargetActor. - done
+	Animate for nice pop-in. - done
 	
-- New Power-up to grant Actions on Interact.
-	Only interact successfully if user does not have that Action class yet.
-	Grant ‘Dash’ on Interact.
+- New Power-up to grant Actions on Interact. - done
+	Only interact successfully if user does not have that Action class yet.-done
+	Grant ‘Dash’ on Interact. -done

@@ -32,10 +32,26 @@ void AWaffAICharacter::PostInitializeComponents()
 	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffAICharacter::OnHealthChanged);
 }
 
+void AWaffAICharacter::OnTargetFirstSight(AActor* TargetActor)
+{
+	// UI for alert
+	if(AlertMark == nullptr)
+	{
+		AlertMark = CreateWidget<UWaffWorldUserWidget>(GetWorld(), AlertMarkWidgetClass);
+		if(AlertMark)
+		{
+			AlertMark->AttachedActor = this;
+			AlertMark->AddToViewport();
+		}
+	}
+}
+
 // Called when the game starts or when spawned
 void AWaffAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
+	AIC->OnTargetFirstSight.AddDynamic(this, &AWaffAICharacter::OnTargetFirstSight);
 }
 
 void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent* OwingComp, float NewHealth,
