@@ -30,6 +30,11 @@ void AWaffAICharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffAICharacter::OnHealthChanged);
+	AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
+	if(AIC)
+	{
+		AIC->OnTargetFirstSight.AddDynamic(this, &AWaffAICharacter::OnTargetFirstSight);
+	}
 }
 
 void AWaffAICharacter::OnTargetFirstSight(AActor* TargetActor)
@@ -50,8 +55,6 @@ void AWaffAICharacter::OnTargetFirstSight(AActor* TargetActor)
 void AWaffAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
-	AIC->OnTargetFirstSight.AddDynamic(this, &AWaffAICharacter::OnTargetFirstSight);
 }
 
 void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeComponent* OwingComp, float NewHealth,

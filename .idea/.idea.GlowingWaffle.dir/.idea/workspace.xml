@@ -8,25 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprint/BP_Dash_Pickup.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MinionAlert.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/7/R5/Z1WKB8N5E2V1RBI30W496G.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionPowerUp.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionPowerUp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/8/HY/Z4AHEANDSU609S5G6SHTLV.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/C/7R/GFYGZKKUS1VP83XERJ735V.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AI/AIC_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/AIC_RangedMinion.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AI/BP_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BP_RangedMinion.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BT_RangedMinion.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/1/2Q/9SRP8KFZ25EWVUBU3J6SH5.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/C/MR/T4UJWD9NMU6I4LGKXPWFK8.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAICharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/AI/WaffAIController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayFunctionLibrary.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAttributeComponent.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +27,7 @@
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/corecrt_math.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/winioctl.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt/wrl/module.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/GlowingWaffleGameModeBase.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffAction.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffActionEffect_Thorn.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/GlowingWaffle/WaffGameplayFunctionLibrary.gen.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -140,7 +131,7 @@
       <workItem from="1652772159775" duration="9580000" />
       <workItem from="1652848268812" duration="3912000" />
       <workItem from="1652887868495" duration="73000" />
-      <workItem from="1652887990141" duration="26826000" />
+      <workItem from="1652887990141" duration="31391000" />
     </task>
     <servers />
   </component>

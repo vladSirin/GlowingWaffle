@@ -48,7 +48,7 @@ void AGlowingWaffleGameModeBase::StartPlay()
 void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 {
 	// Checking console var
-	if(!CVarSpawnBots.GetValueOnGameThread())
+	if (!CVarSpawnBots.GetValueOnGameThread())
 	{
 		// Output log so we know it is because of Cvar
 		UE_LOG(LogTemp, Warning, TEXT("Bots spawning disabled via Cvar 'CVarSpawnBots'"),);
@@ -82,7 +82,7 @@ void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 	// Start Spawn position query
 	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(
 		GetWorld(), SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
-	
+
 	QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &AGlowingWaffleGameModeBase::OnQueryFinished);
 }
 
@@ -121,9 +121,9 @@ void AGlowingWaffleGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 
 		GetWorldTimerManager().SetTimer(RespawnDelay, RespawnDelegate, 5.0f, false);
 	}
-	else if(APawn* KillerPawn = Cast<APawn>(Killer))
+	else if (APawn* KillerPawn = Cast<APawn>(Killer))
 	{
-		if(AWaffPlayerState* PS = KillerPawn->GetPlayerState<AWaffPlayerState>())
+		if (AWaffPlayerState* PS = KillerPawn->GetPlayerState<AWaffPlayerState>())
 		{
 			PS->ApplyCreditChange(MinionCreditValue);
 		}
@@ -138,6 +138,7 @@ void AGlowingWaffleGameModeBase::RespawnPlayerElapsed(APlayerController* PlayerC
 	if (ensure(PlayerController))
 	{
 		PlayerController->UnPossess();
+
 		RestartPlayer(PlayerController);
 	}
 }

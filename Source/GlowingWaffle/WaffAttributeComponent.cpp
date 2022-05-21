@@ -26,6 +26,12 @@ UWaffAttributeComponent::UWaffAttributeComponent()
 
 bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 {
+	// is alive
+	if(!IsAlive())
+	{
+		return false;
+	}
+
 	// CVar, damage multiplier applied
 	if (Delta < 0.0f)
 	{
@@ -51,7 +57,10 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 	if (Health == 0.0f)
 	{
 		AGlowingWaffleGameModeBase* GM = GetWorld()->GetAuthGameMode<AGlowingWaffleGameModeBase>();
-		GM->OnActorKilled(GetOwner(), Instigator);
+		if(GM)
+		{
+			GM->OnActorKilled(GetOwner(), Instigator);
+		}
 	}
 	else if (bEnableRage)
 	{
