@@ -22,6 +22,11 @@ public:
 
 protected:
 
+	// Reliable, request will always arrive, eventually. Request will resent unless and acknowledgement is received.
+	// Unreliable, not guaranteed, packet can be lost and will not retry.
+	UFUNCTION(Server, Reliable)
+	void Server_Interact(AActor* TargetActor);
+
 	UFUNCTION(BlueprintCallable)
 	void FindBestInteractable();
 

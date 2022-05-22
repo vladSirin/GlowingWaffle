@@ -3,6 +3,8 @@
 
 #include "WaffChest.h"
 
+#include "Net/UnrealNetwork.h"
+
 // Sets default values
 AWaffChest::AWaffChest()
 {
@@ -14,6 +16,9 @@ AWaffChest::AWaffChest()
 
 	RootComponent = ChestBottomComp;
 	ChestLidComp->SetupAttachment(ChestBottomComp);
+
+	// Open Replicates
+	SetReplicates(true);
 }
 
 // Called when the game starts or when spawned
@@ -30,5 +35,20 @@ void AWaffChest::Tick(float DeltaTime)
 
 void AWaffChest::Interact_Implementation(APawn* InstigatorPawn)
 {
-	ChestLidComp->SetRelativeRotation(FRotator(TargetPitch, 0, 0));
+	bLidOpened = !bLidOpened;
+	OnRep_LidOpened(); //Calling this still, cause RepNotify only works on clients
+}
+
+void AWaffChest::OnRep_LidOpened() const
+{
+	const float CurrentPitch = bLidOpened ? TargetPitch : 0.0f;
+	ChestLidComp->SetRelativeRotation(FRotator(CurrentPitch, 0, 0));
+}
+
+// Replicate the props to different clients
+void AWaffChest::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AWaffChest, bLidOpened);
 }

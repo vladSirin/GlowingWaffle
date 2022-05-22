@@ -74,6 +74,10 @@ void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeC
 	if (Delta < 0.0)
 	{
 		AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
+		if(AIC == nullptr)
+		{
+			return;
+		}
 		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHit, GetWorld()->TimeSeconds);
 		
 		//@Todo, Set the damage instigator to target when hit. this should be normally done by a middle system or send message.

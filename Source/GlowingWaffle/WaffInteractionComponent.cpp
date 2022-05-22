@@ -29,7 +29,12 @@ void UWaffInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
                                               FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	FindBestInteractable();
+	APawn* Pawn = Cast<APawn>(GetOwner());
+	if(Pawn->IsLocallyControlled())
+	{
+		FindBestInteractable();
+	}
+
 	// ...
 }
 
@@ -113,8 +118,13 @@ void UWaffInteractionComponent::FindBestInteractable()
 
 void UWaffInteractionComponent::PrimaryInteract()
 {
-	if(ensure(FocusedActor))
+	Server_Interact(FocusedActor);
+}
+
+void UWaffInteractionComponent::Server_Interact_Implementation(AActor* TargetActor)
+{
+	if(ensure(TargetActor))
 	{
-		IWaffGameplayInterface::Execute_Interact(FocusedActor, Cast<APawn>(GetOwner()));
+		IWaffGameplayInterface::Execute_Interact(TargetActor, Cast<APawn>(GetOwner()));
 	}
 }

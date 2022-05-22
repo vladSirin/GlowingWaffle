@@ -17,6 +17,8 @@ AWaffPickUp::AWaffPickUp()
 	RootComponent = SMComp;
 
 	Cooldown = 10.0f;
+
+	SetReplicates(true);
 }
 
 // Called when the game starts or when spawned
