@@ -11,7 +11,7 @@ class UWaffAttributeComponent;
 
 // Declare delegate event for health change
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*,
-                                              OwingComp, float, NewHealth, float, Delta);
+                                              OwningComp, float, NewHealth, float, Delta);
 
 // Declare delegate event for rage change
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnRageChanged, AActor*, ChangeInstigatpr, UWaffAttributeComponent*,
@@ -86,10 +86,10 @@ protected:
 	// BlueprintReadWrite - read-write access in Blueprints
 	// --
 	// Category = "" - display only for detail panels and blueprint context menu.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, Replicated, BlueprintReadOnly)
 	float Health;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, Replicated, BlueprintReadOnly)
 	float HealthMax;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
@@ -103,4 +103,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
 	UCurveFloat* RageTransRate;
+
+	// Multicast or onHealthChange, Multicast is ideal for events, while state change should be handled by RepNotify
+	// State changes can also easily used for sync between different players, like joined later
+	// Reliable multicasts are always considered with Relevancy, which means all the clients on server will get notified, good for message
+	UFUNCTION(NetMulticast, Reliable) //@FIXME: Mark as unreliable once we moved 'state' change out of the character class
+	void MulticastOnHealthChanged(AActor* InstigatorActor, float NewHealth, float Delta);
 };

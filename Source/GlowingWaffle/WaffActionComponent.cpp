@@ -53,7 +53,10 @@ void UWaffActionComponent::BeginPlay()
 	{
 		for (TSubclassOf<UWaffAction> ActionClass : DefaultActions)
 		{
-			AddAction(GetOwner(), ActionClass);
+			if(ActionClass)
+			{
+				AddAction(GetOwner(), ActionClass);
+			}
 		}
 	}
 }

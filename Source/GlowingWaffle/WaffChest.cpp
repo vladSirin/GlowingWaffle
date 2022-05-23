@@ -2,7 +2,6 @@
 
 
 #include "WaffChest.h"
-
 #include "Net/UnrealNetwork.h"
 
 // Sets default values

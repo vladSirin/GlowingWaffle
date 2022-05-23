@@ -5,6 +5,7 @@
 
 #include "GlowingWaffleGameModeBase.h"
 #include "GameFramework/GameModeBase.h"
+#include "Net/UnrealNetwork.h"
 
 // Console variables
 static TAutoConsoleVariable<float> CVarDamageMultiplier(
@@ -16,12 +17,15 @@ static TAutoConsoleVariable<float> CVarDamageMultiplier(
 UWaffAttributeComponent::UWaffAttributeComponent()
 {
 	// Initialize the values
-	Health = 100;
 	HealthMax = 100;
+	Health = HealthMax;
 
 	bEnableRage = false;
 	Rage = 0.0f;
 	RageMax = 100.0f;
+
+	// Replication
+	SetIsReplicatedByDefault(true);
 }
 
 bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
@@ -51,7 +55,11 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 	const float ActualDelta = Health - OldHealth;
 
 	// Broadcast for health change delegate
-	OnHealthChanged.Broadcast(Instigator, this, Health, ActualDelta);
+	// OnHealthChanged.Broadcast(Instigator, this, Health, ActualDelta);
+	if(ActualDelta != 0.0)
+	{
+		MulticastOnHealthChanged(Instigator, Health, ActualDelta);
+	}
 
 	// Call On Actor Killed in Game mode if health is 0.0
 	if (Health == 0.0f)
@@ -122,6 +130,12 @@ float UWaffAttributeComponent::GetRage() const
 	return Rage;
 }
 
+void UWaffAttributeComponent::MulticastOnHealthChanged_Implementation(AActor* InstigatorActor, float NewHealth,
+	float Delta)
+{
+	OnHealthChanged.Broadcast(InstigatorActor, this, NewHealth, Delta);
+}
+
 UWaffAttributeComponent* UWaffAttributeComponent::GetAttributes(AActor* FromActor)
 {
 	UWaffAttributeComponent* AttriComp = Cast<UWaffAttributeComponent>(
@@ -141,4 +155,15 @@ bool UWaffAttributeComponent::IsActorAlive(AActor* ActorToCheck)
 		return AttributeComponent->IsAlive();
 	}
 	return false;
+}
+
+// prop replication
+void UWaffAttributeComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UWaffAttributeComponent, Health);
+	DOREPLIFETIME(UWaffAttributeComponent, HealthMax);
+
+	// Used for optimization, only replicate when necessary
+	// DOREPLIFETIME_CONDITION(UWaffAttributeComponent, HealthMax, COND_InitialOnly);
 }

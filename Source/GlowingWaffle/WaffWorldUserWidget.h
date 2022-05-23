@@ -18,7 +18,7 @@ class GLOWINGWAFFLE_API UWaffWorldUserWidget : public UUserWidget
 public:
 
 	// The Actor the UI is attached to
-	UPROPERTY(BlueprintReadWrite, Category="UI")
+	UPROPERTY(BlueprintReadWrite, Category="UI", meta=(ExposeOnSpawn=true))
 	AActor* AttachedActor;
 
 	UPROPERTY(EditAnywhere, Category="UI")
