@@ -13,6 +13,7 @@ UWaffActionComponent::UWaffActionComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+	SetIsReplicatedByDefault(true);
 	// ...
 }
 
@@ -36,7 +37,7 @@ bool UWaffActionComponent::IsActionExist(AActor* FromActor, TSubclassOf<UWaffAct
 			return WaffAction->GetClass() == ActionClass;
 		}
 	);
-	if(Action)
+	if (Action)
 	{
 		return true;
 	}
@@ -53,7 +54,7 @@ void UWaffActionComponent::BeginPlay()
 	{
 		for (TSubclassOf<UWaffAction> ActionClass : DefaultActions)
 		{
-			if(ActionClass)
+			if (ActionClass)
 			{
 				AddAction(GetOwner(), ActionClass);
 			}
@@ -115,11 +116,21 @@ bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionNam
 
 		if (Action && Action->ActonName == ActionName)
 		{
+			// If not server, call server function
+			if (!GetOwner()->HasAuthority())
+			{
+				Server_StartAction(Instigator, ActionName);
+			}
 			Action->StartAction(Instigator);
 			return true;
 		}
 	}
 	return false;
+}
+
+void UWaffActionComponent::Server_StartAction_Implementation(AActor* Instigator, FName ActionName)
+{
+	StartActionByName(Instigator, ActionName);
 }
 
 bool UWaffActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
