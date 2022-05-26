@@ -31,7 +31,7 @@ void AWaffAICharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	AttriComp->OnHealthChanged.AddDynamic(this, &AWaffAICharacter::OnHealthChanged);
 	AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
-	if(AIC)
+	if (AIC)
 	{
 		AIC->OnTargetFirstSight.AddDynamic(this, &AWaffAICharacter::OnTargetFirstSight);
 	}
@@ -40,13 +40,15 @@ void AWaffAICharacter::PostInitializeComponents()
 void AWaffAICharacter::OnTargetFirstSight(AActor* TargetActor)
 {
 	// UI for alert
-	if(AlertMark == nullptr)
+	if (AlertMark == nullptr)
 	{
 		AlertMark = CreateWidget<UWaffWorldUserWidget>(GetWorld(), AlertMarkWidgetClass);
-		if(AlertMark)
+		if (AlertMark)
 		{
 			AlertMark->AttachedActor = this;
-			AlertMark->AddToViewport();
+			// Index of 10 (or anything higher than the default of 0) places this on top of other widgets
+			// May end up behind the minion health bar otherwise
+			AlertMark->AddToViewport(10);
 		}
 	}
 }
@@ -74,12 +76,12 @@ void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeC
 	if (Delta < 0.0)
 	{
 		AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
-		if(AIC == nullptr)
+		if (AIC == nullptr)
 		{
 			return;
 		}
 		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHit, GetWorld()->TimeSeconds);
-		
+
 		//@Todo, Set the damage instigator to target when hit. this should be normally done by a middle system or send message.
 		if (!AIC->GetTargetActor())
 		{
@@ -89,7 +91,6 @@ void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeC
 		// Handle death
 		if (NewHealth <= 0.0)
 		{
-			
 			// Stop BT
 			if (AIC)
 			{

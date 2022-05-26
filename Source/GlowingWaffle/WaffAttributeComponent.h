@@ -9,14 +9,17 @@
 
 class UWaffAttributeComponent;
 
-// Declare delegate event for health change
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*,
-                                              OwningComp, float, NewHealth, float, Delta);
+// // Declare delegate event for health change
+// DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*,
+//                                               OwningComp, float, NewHealth, float, Delta);
+// // Declare delegate event for rage change
+// DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnRageChanged, AActor*, ChangeInstigatpr, UWaffAttributeComponent*,
+//                                               OwningComp,
+//                                               float, NewRage, float, Delta);
 
-// Declare delegate event for rage change
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnRageChanged, AActor*, ChangeInstigatpr, UWaffAttributeComponent*,
-                                              OwningComp,
-                                              float, NewRage, float, Delta);
+// Declare a delegate general event for both rage and health
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnAttributeChanged, AActor*, ChangeInstigator, UWaffAttributeComponent*,
+                                              OwningComp, float, NewValue, float, Delta);
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -27,10 +30,10 @@ class GLOWINGWAFFLE_API UWaffAttributeComponent : public UActorComponent
 public:
 	// Delegate
 	UPROPERTY(BlueprintAssignable)
-	FOnHealthChanged OnHealthChanged;
+	FOnAttributeChanged OnHealthChanged;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnRageChanged OnRageChanged;
+	FOnAttributeChanged OnRageChanged;
 
 	// Sets default values for this component's properties
 	UWaffAttributeComponent();
@@ -107,6 +110,7 @@ protected:
 	// Multicast or onHealthChange, Multicast is ideal for events, while state change should be handled by RepNotify
 	// State changes can also easily used for sync between different players, like joined later
 	// Reliable multicasts are always considered with Relevancy, which means all the clients on server will get notified, good for message
-	UFUNCTION(NetMulticast, Reliable) //@FIXME: Mark as unreliable once we moved 'state' change out of the character class
+	UFUNCTION(NetMulticast, Reliable)
+	//@FIXME: Mark as unreliable once we moved 'state' change out of the character class
 	void MulticastOnHealthChanged(AActor* InstigatorActor, float NewHealth, float Delta);
 };
