@@ -49,7 +49,7 @@ public:
 
 protected:
 	UPROPERTY()
-	TArray<UWaffAction*> Actions;
+	TArray<UWaffAction*> ActionList;
 	
 	// Called when the game starts
 	virtual void BeginPlay() override;

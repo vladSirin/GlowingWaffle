@@ -3,6 +3,7 @@
 
 #include "WaffActionComponent.h"
 
+#include "GlowingWaffle.h"
 #include "WaffAction.h"
 
 
@@ -30,7 +31,7 @@ UWaffActionComponent* UWaffActionComponent::GetActionComponent(AActor* FromActor
 
 bool UWaffActionComponent::IsActionExist(AActor* FromActor, TSubclassOf<UWaffAction> ActionClass)
 {
-	UWaffAction** Action = GetActionComponent(FromActor)->Actions.FindByPredicate
+	UWaffAction** Action = GetActionComponent(FromActor)->ActionList.FindByPredicate
 	(
 		[&](const UWaffAction* WaffAction)
 		{
@@ -69,10 +70,21 @@ void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	FString DebugMsg = GetNameSafe(GetOwner()) + ":" + ActiveGameplayTag.ToStringSimple();
-	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::White, DebugMsg);
+	// FString DebugMsg = GetNameSafe(GetOwner()) + ":" + ActiveGameplayTag.ToStringSimple();
+	// GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::White, DebugMsg);
 
-	// ...
+	// Log on screen to debug server client
+	for (UWaffAction* Action : ActionList)
+	{
+		FColor TextColor = Action->IsRunning() ? FColor::Blue : FColor::White;
+
+		FString Msg;
+		Msg = FString::Printf(
+			TEXT("[%s] Action: %s : IsRunning: %s : Outer %s"), *GetNameSafe(GetOwner()), *Action->ActonName.ToString(),
+			Action->IsRunning() ? TEXT("true") : TEXT("false"), *GetNameSafe(GetOuter()));
+
+		LogOnScreen(this, Msg, TextColor, 0.0f);
+	}
 }
 
 bool UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass)
@@ -84,7 +96,7 @@ bool UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction
 	UWaffAction* NewAction = NewObject<UWaffAction>(this, ActionClass);
 	if (ensure(NewAction))
 	{
-		Actions.Add(NewAction);
+		ActionList.Add(NewAction);
 		if (NewAction->bAutoStart && ensure(NewAction->CanStart(Instigator)))
 		{
 			NewAction->StartAction(Instigator);
@@ -100,12 +112,12 @@ void UWaffActionComponent::RemoveAction(UWaffAction* Action)
 	{
 		return;
 	}
-	Actions.Remove(Action);
+	ActionList.Remove(Action);
 }
 
 bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 {
-	for (UWaffAction* Action : Actions)
+	for (UWaffAction* Action : ActionList)
 	{
 		if (Action && !Action->CanStart(Instigator))
 		{
@@ -135,7 +147,7 @@ void UWaffActionComponent::Server_StartAction_Implementation(AActor* Instigator,
 
 bool UWaffActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
 {
-	for (UWaffAction* Action : Actions)
+	for (UWaffAction* Action : ActionList)
 	{
 		if (!Action->IsRunning())
 		{
