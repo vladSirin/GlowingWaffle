@@ -8,12 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprint/Actions/BP_MPTest_Action.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Actions/BP_MPTest_Action.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Actions/BP_MPTest_Action.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_PlayerCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffle.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MinionHealth.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_MinionHealth.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_PlayerHealth.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WBP_PlayerHealth.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAction.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAction.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAction.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffAction.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffActionComponent.h" afterDir="false" />
     </list>
@@ -132,7 +134,7 @@
       <workItem from="1652772159775" duration="9580000" />
       <workItem from="1652848268812" duration="3912000" />
       <workItem from="1652887868495" duration="73000" />
-      <workItem from="1652887990141" duration="64589000" />
+      <workItem from="1652887990141" duration="72945000" />
     </task>
     <servers />
   </component>

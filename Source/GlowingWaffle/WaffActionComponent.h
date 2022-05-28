@@ -9,17 +9,15 @@
 
 class UWaffAction;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GLOWINGWAFFLE_API UWaffActionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	
-	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tags")
 	FGameplayTagContainer ActiveGameplayTag;
-	
+
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	bool AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass);
 
@@ -35,7 +33,7 @@ public:
 	// The list of Class of default actions
 	UPROPERTY(EditDefaultsOnly, Category="Actions")
 	TArray<TSubclassOf<UWaffAction>> DefaultActions;
-	
+
 	// Sets default values for this component's properties
 	UWaffActionComponent();
 
@@ -45,21 +43,30 @@ public:
 
 	// Static FUnction, check if action already exist
 	UFUNCTION(BlueprintCallable, Category="Actions")
-	static  bool IsActionExist(AActor* FromActor, TSubclassOf<UWaffAction> ActionClass);
+	static bool IsActionExist(AActor* FromActor, TSubclassOf<UWaffAction> ActionClass);
 
 protected:
-	UPROPERTY()
-	TArray<UWaffAction*> ActionList;
-	
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	/*
+	 * [Networking]
+	 */
+	// Running on server only
+	UPROPERTY(Replicated)
+	TArray<UWaffAction*> ActionList;
 
 	UFUNCTION(Server, Reliable)
 	void Server_StartAction(AActor* Instigator, FName ActionName);
 
-public:	
+public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+	                           FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	/*
+	 * [Networking]
+	 */
+	// replicate sub object
+	virtual bool ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
 };

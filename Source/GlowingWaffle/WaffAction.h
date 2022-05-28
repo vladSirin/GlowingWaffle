@@ -10,7 +10,7 @@
 
 class UWorld;
 /**
- * 
+ * WaffAction class is a child class of UObject, which means it does not replicate lik Actors and Components
  */
 UCLASS(Blueprintable)
 class GLOWINGWAFFLE_API UWaffAction : public UObject
@@ -26,19 +26,35 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Tags")
 	FGameplayTagContainer BlockingTags;
 
-	
-	
+	/*
+	 * [Networking]
+	 */
+	UPROPERTY(ReplicatedUsing="OnRep_IsRunning")
 	bool bRunning;
+
+	UFUNCTION()
+	void OnRep_IsRunning();
+
+	// Despite the ActionList will be synced to the Client by the ActionComponent Class
+	// We need to make sure the client knows the ActionComponent so the Get owning component could work on client.
+	UPROPERTY(Replicated)
+	UWaffActionComponent* OwningComponent;
+	/*
+	 * [Networking]
+	 */
+
 public:
+	UFUNCTION()
+	void Initialize(UWaffActionComponent* ActionComponent);
 	
 	/* Start immediately when added to the component */
 	UPROPERTY(EditDefaultsOnly, Category="Action")
 	bool bAutoStart;
-	
+
 	/* Action Nick Name to start/stop an action without referencing */
 	UPROPERTY(EditDefaultsOnly, Category="Action")
 	FName ActonName;
-	
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Action")
 	void StartAction(AActor* Instigator);
 
@@ -56,4 +72,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsRunning() const;
+
+	//[Networking] Make sure the class support networking, as UObject base class does not.
+	virtual bool IsSupportedForNetworking() const override
+	{
+		return true;
+	}
 };

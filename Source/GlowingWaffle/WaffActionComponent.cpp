@@ -5,6 +5,8 @@
 
 #include "GlowingWaffle.h"
 #include "WaffAction.h"
+#include "Engine/ActorChannel.h"
+#include "Net/UnrealNetwork.h"
 
 
 // Sets default values for this component's properties
@@ -51,14 +53,13 @@ void UWaffActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!DefaultActions.IsEmpty())
+	// [Netwokring]
+	// Server only, we only want the actions instantiated once on server.
+	if (GetOwner()->HasAuthority())
 	{
 		for (TSubclassOf<UWaffAction> ActionClass : DefaultActions)
 		{
-			if (ActionClass)
-			{
-				AddAction(GetOwner(), ActionClass);
-			}
+			AddAction(GetOwner(), ActionClass);
 		}
 	}
 }
@@ -81,11 +82,13 @@ void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		FString Msg;
 		Msg = FString::Printf(
 			TEXT("[%s] Action: %s : IsRunning: %s : Outer %s"), *GetNameSafe(GetOwner()), *Action->ActonName.ToString(),
-			Action->IsRunning() ? TEXT("true") : TEXT("false"), *GetNameSafe(GetOuter()));
+			Action->IsRunning() ? TEXT("true") : TEXT("false"), *GetNameSafe(Action->GetOuter()));
 
 		LogOnScreen(this, Msg, TextColor, 0.0f);
 	}
 }
+
+
 
 bool UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass)
 {
@@ -93,9 +96,10 @@ bool UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction
 	{
 		return false;
 	}
-	UWaffAction* NewAction = NewObject<UWaffAction>(this, ActionClass);
+	UWaffAction* NewAction = NewObject<UWaffAction>(GetOwner(), ActionClass);
 	if (ensure(NewAction))
 	{
+		NewAction->Initialize(this);
 		ActionList.Add(NewAction);
 		if (NewAction->bAutoStart && ensure(NewAction->CanStart(Instigator)))
 		{
@@ -140,10 +144,6 @@ bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionNam
 	return false;
 }
 
-void UWaffActionComponent::Server_StartAction_Implementation(AActor* Instigator, FName ActionName)
-{
-	StartActionByName(Instigator, ActionName);
-}
 
 bool UWaffActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
 {
@@ -160,4 +160,35 @@ bool UWaffActionComponent::StopActionByName(AActor* Instigator, FName ActionName
 		}
 	}
 	return false;
+}
+
+/*
+ * Network related
+ */
+
+void UWaffActionComponent::Server_StartAction_Implementation(AActor* Instigator, FName ActionName)
+{
+	StartActionByName(Instigator, ActionName);
+}
+
+void UWaffActionComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UWaffActionComponent, ActionList);
+}
+
+
+// Using the actor channel to replicate he UObjects subclass - Actions
+bool UWaffActionComponent::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
+{
+	bool WroteSomthing = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
+	for(UWaffAction* Action : ActionList)
+	{
+		if(Action)
+		{
+			WroteSomthing |= Channel->ReplicateSubobject(Action, *Bunch, *RepFlags);
+		}
+	}
+	return WroteSomthing;
 }
