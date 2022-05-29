@@ -9,6 +9,22 @@
 #include "WaffAction.generated.h"
 
 class UWorld;
+
+
+/*Creating first struct data*/
+USTRUCT()
+struct FActionRepData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY()
+	bool bRunning;
+
+	UPROPERTY()
+	AActor* Instigator;
+};
+
 /**
  * WaffAction class is a child class of UObject, which means it does not replicate lik Actors and Components
  */
@@ -28,12 +44,15 @@ protected:
 
 	/*
 	 * [Networking]
+	 * The RepNotify function only runs when server pushes a different value from what's on the client.
+	 * Thus here if @bRunning is already the same as server, and server pushes a value change replication to the client, the RepNotify function will not run
 	 */
-	UPROPERTY(ReplicatedUsing="OnRep_IsRunning")
-	bool bRunning;
+	UPROPERTY(ReplicatedUsing="OnRep_RepData")
+	FActionRepData RepData;
+	//bool bRunning;
 
 	UFUNCTION()
-	void OnRep_IsRunning();
+	void OnRep_RepData();
 
 	// Despite the ActionList will be synced to the Client by the ActionComponent Class
 	// We need to make sure the client knows the ActionComponent so the Get owning component could work on client.
@@ -46,7 +65,7 @@ protected:
 public:
 	UFUNCTION()
 	void Initialize(UWaffActionComponent* ActionComponent);
-	
+
 	/* Start immediately when added to the component */
 	UPROPERTY(EditDefaultsOnly, Category="Action")
 	bool bAutoStart;

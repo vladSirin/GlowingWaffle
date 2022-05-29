@@ -4,13 +4,13 @@
 #include "WaffAction.h"
 
 #include "GlowingWaffle.h"
-#include "Engine/ActorChannel.h"
 #include "Net/UnrealNetwork.h"
 
 void UWaffAction::Initialize(UWaffActionComponent* ActionComponent)
 {
 	OwningComponent = ActionComponent;
 }
+
 void UWaffAction::StartAction_Implementation(AActor* Instigator)
 {
 	UE_LOG(LogTemp, Log, TEXT("Running: %s"), *GetNameSafe(this));
@@ -20,7 +20,8 @@ void UWaffAction::StartAction_Implementation(AActor* Instigator)
 
 	UWaffActionComponent* Comp = GetOwningComponent();
 	Comp->ActiveGameplayTag.AppendTags(TagsToGrant);
-	bRunning = true;
+	RepData.bRunning = true;
+	RepData.Instigator = Instigator;
 }
 
 void UWaffAction::StopAction_Implementation(AActor* Instigator)
@@ -34,12 +35,13 @@ void UWaffAction::StopAction_Implementation(AActor* Instigator)
 
 	UWaffActionComponent* Comp = GetOwningComponent();
 	Comp->ActiveGameplayTag.RemoveTags(TagsToGrant);
-	bRunning = false;
+	RepData.bRunning = false;
+	RepData.Instigator = Instigator;
 }
 
 bool UWaffAction::CanStart_Implementation(AActor* Instigator)
 {
-	if (bRunning)
+	if (RepData.bRunning)
 	{
 		return false;
 	}
@@ -72,7 +74,7 @@ UWaffActionComponent* UWaffAction::GetOwningComponent() const
 
 bool UWaffAction::IsRunning() const
 {
-	return bRunning;
+	return RepData.bRunning;
 }
 
 /* [Networking]
@@ -81,24 +83,23 @@ bool UWaffAction::IsRunning() const
  */
 
 // RepNotify for bRunning
-void UWaffAction::OnRep_IsRunning()
+void UWaffAction::OnRep_RepData()
 {
-	if (bRunning)
+	if (RepData.bRunning)
 	{
-		StartAction(nullptr);
+		StartAction(RepData.Instigator);
 	}
 	else
 	{
-		StopAction(nullptr);
+		StopAction(RepData.Instigator);
 	}
 }
-
 
 
 // Prop replication function
 void UWaffAction::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UWaffAction, bRunning);
+	DOREPLIFETIME(UWaffAction, RepData);
 	DOREPLIFETIME(UWaffAction, OwningComponent);
 }

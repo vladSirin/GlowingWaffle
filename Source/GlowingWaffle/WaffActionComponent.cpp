@@ -53,7 +53,7 @@ void UWaffActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// [Netwokring]
+	// [Networking]
 	// Server only, we only want the actions instantiated once on server.
 	if (GetOwner()->HasAuthority())
 	{

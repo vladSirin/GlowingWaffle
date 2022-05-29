@@ -23,22 +23,29 @@ void UWaffAction_Projectile::StartAction_Implementation(AActor* Instigator)
 	ACharacter* Character = Cast<ACharacter>(Instigator);
 
 	// Using animation montage
-	if(Character)
+	if (Character)
 	{
 		Character->PlayAnimMontage(AttackAnimMontage, 1.0f, NAME_None);
 	}
 
-	// Bind the timer handler delegates with specific var.
-	AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), Projectile, Instigator);
-	// Call the Bound function after 0.2f sec
-	GetWorld()->GetTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, AttackDelay, false);
+	/*
+	 * [Networking] Binding and timer should only be set on server
+	 * otherwise client will run and has null pointer issues for data not on clients
+	 */
+	if (Instigator->HasAuthority())
+	{
+		// Bind the timer handler delegates with specific var.
+		AttackTimerDelegate.BindUFunction(this, FName("Attack_TimeElapsed"), Projectile, Instigator);
+		// Call the Bound function after 0.2f sec
+		GetWorld()->GetTimerManager().SetTimer(AttackTimerHandler, AttackTimerDelegate, AttackDelay, false);
+	}
 }
 
 void UWaffAction_Projectile::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> AttackProjectile, AActor* Instigator)
 {
 	// Get the character
 	ACharacter* Character = Cast<ACharacter>(Instigator);
-	
+
 	// use the hand socket location as the spawn location
 	FVector HandLocation = Character->GetMesh()->GetSocketLocation(HandSocketName);
 
@@ -74,8 +81,9 @@ void UWaffAction_Projectile::Attack_TimeElapsed(TSubclassOf<AWaffProjectile> Att
 	SpawnParam.Instigator = Character;
 
 	//Play Muzzle Flash
-	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Character->GetMesh(), HandSocketName,FVector(ForceInit),
-		FRotator::ZeroRotator, FVector(1),EAttachLocation::KeepRelativeOffset, true, EPSCPoolMethod::None, true);
+	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Character->GetMesh(), HandSocketName, FVector(ForceInit),
+	                                       FRotator::ZeroRotator, FVector(1), EAttachLocation::KeepRelativeOffset, true,
+	                                       EPSCPoolMethod::None, true);
 	// Spawn the projectile actor at the hand of the character
 	AActor* NewProjectile = GetWorld()->SpawnActor<AActor>(AttackProjectile, Spawn_TM, SpawnParam);
 	Character->GetCapsuleComponent()->IgnoreActorWhenMoving(NewProjectile, true);
