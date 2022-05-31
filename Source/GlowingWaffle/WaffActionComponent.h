@@ -59,6 +59,9 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void Server_StartAction(AActor* Instigator, FName ActionName);
 
+	UFUNCTION(Server, Reliable)
+	void Server_StopAction(AActor* Instigator, FName ActionName);
+
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,

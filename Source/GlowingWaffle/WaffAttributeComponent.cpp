@@ -31,7 +31,7 @@ UWaffAttributeComponent::UWaffAttributeComponent()
 bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 {
 	// is alive
-	if(!IsAlive())
+	if (!IsAlive())
 	{
 		return false;
 	}
@@ -51,28 +51,35 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 
 	// Change the health num with delta
 	const float OldHealth = Health;
-	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
-	const float ActualDelta = Health - OldHealth;
 
-	// Broadcast for health change delegate
-	// OnHealthChanged.Broadcast(Instigator, this, Health, ActualDelta);
-	if(ActualDelta != 0.0)
-	{
-		MulticastOnHealthChanged(Instigator, Health, ActualDelta);
-	}
+	// Set a local new health for checking damage apply possible or not
+	float NewHealthLocal = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
+	const float ActualDelta = NewHealthLocal - OldHealth;
 
-	// Call On Actor Killed in Game mode if health is 0.0
-	if (Health == 0.0f)
+	// Only apply and replicate when on server
+	if (GetOwner()->HasAuthority())
 	{
-		AGlowingWaffleGameModeBase* GM = GetWorld()->GetAuthGameMode<AGlowingWaffleGameModeBase>();
-		if(GM)
+		Health = NewHealthLocal;
+		// Broadcast for health change delegate
+		if (ActualDelta != 0.0)
 		{
-			GM->OnActorKilled(GetOwner(), Instigator);
+			MulticastOnHealthChanged(Instigator, Health, ActualDelta);
+		}
+
+		// Call On Actor Killed in Game mode if health is 0.0
+		if (Health == 0.0f)
+		{
+			AGlowingWaffleGameModeBase* GM = GetWorld()->GetAuthGameMode<AGlowingWaffleGameModeBase>();
+			if (GM)
+			{
+				GM->OnActorKilled(GetOwner(), Instigator);
+			}
 		}
 	}
+	
 	else if (bEnableRage)
 	{
-		ApplyRageChange( abs(ActualDelta) * RageTransRate->GetFloatValue(abs(ActualDelta)), Instigator);
+		ApplyRageChange(abs(ActualDelta) * RageTransRate->GetFloatValue(abs(ActualDelta)), Instigator);
 	}
 
 	return ActualDelta != 0;
@@ -131,7 +138,7 @@ float UWaffAttributeComponent::GetRage() const
 }
 
 void UWaffAttributeComponent::MulticastOnHealthChanged_Implementation(AActor* InstigatorActor, float NewHealth,
-	float Delta)
+                                                                      float Delta)
 {
 	OnHealthChanged.Broadcast(InstigatorActor, this, NewHealth, Delta);
 }

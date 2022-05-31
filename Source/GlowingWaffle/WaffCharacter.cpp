@@ -75,6 +75,7 @@ void AWaffCharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeCom
 		{
 			APlayerController* PC = Cast<APlayerController>(GetController());
 			DisableInput(PC);
+			SetLifeSpan(10.0f);
 		}
 	}
 }
@@ -184,5 +185,5 @@ void AWaffCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 // Console Commands
 void AWaffCharacter::HealSelf(float Amount /* = 100 */)
 {
-	AttriComp->ApplyHealthChange(100, Cast<AActor>(this));
+	AttriComp->ApplyHealthChange(Amount, Cast<AActor>(this));
 }

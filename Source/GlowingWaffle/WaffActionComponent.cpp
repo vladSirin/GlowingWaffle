@@ -81,13 +81,12 @@ void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 		FString Msg;
 		Msg = FString::Printf(
-			TEXT("[%s] Action: %s : IsRunning: %s : Outer %s"), *GetNameSafe(GetOwner()), *Action->ActonName.ToString(),
-			Action->IsRunning() ? TEXT("true") : TEXT("false"), *GetNameSafe(Action->GetOuter()));
+			TEXT("[%s] Action: %s : IsRunning: %s"), *GetNameSafe(GetOwner()), *GetNameSafe(Action),
+			Action->IsRunning() ? TEXT("true") : TEXT("false"));
 
 		LogOnScreen(this, Msg, TextColor, 0.0f);
 	}
 }
-
 
 
 bool UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction> ActionClass)
@@ -96,6 +95,14 @@ bool UWaffActionComponent::AddAction(AActor* Instigator, TSubclassOf<UWaffAction
 	{
 		return false;
 	}
+
+	// Skip for clients
+	if (!GetOwner()->HasAuthority())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Client Attempting to Add Action. [Class: %s]"), *GetNameSafe(ActionClass));
+		return false;
+	}
+
 	UWaffAction* NewAction = NewObject<UWaffAction>(GetOwner(), ActionClass);
 	if (ensure(NewAction))
 	{
@@ -155,6 +162,11 @@ bool UWaffActionComponent::StopActionByName(AActor* Instigator, FName ActionName
 		}
 		if (Action && Action->ActonName == ActionName)
 		{
+			// If not server, Call server function
+			if (!GetOwner()->HasAuthority())
+			{
+				Server_StopAction(Instigator, ActionName);
+			}
 			Action->StopAction(Instigator);
 			return true;
 		}
@@ -171,6 +183,11 @@ void UWaffActionComponent::Server_StartAction_Implementation(AActor* Instigator,
 	StartActionByName(Instigator, ActionName);
 }
 
+void UWaffActionComponent::Server_StopAction_Implementation(AActor* Instigator, FName ActionName)
+{
+	StopActionByName(Instigator, ActionName);
+}
+
 void UWaffActionComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -183,9 +200,9 @@ void UWaffActionComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProp
 bool UWaffActionComponent::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
 {
 	bool WroteSomthing = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
-	for(UWaffAction* Action : ActionList)
+	for (UWaffAction* Action : ActionList)
 	{
-		if(Action)
+		if (Action)
 		{
 			WroteSomthing |= Channel->ReplicateSubobject(Action, *Bunch, *RepFlags);
 		}

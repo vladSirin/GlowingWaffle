@@ -7,6 +7,8 @@
 #include "GameFramework/PlayerController.h"
 #include "WaffPlayerController.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPawnChanged, APawn*, NewPawn);
+
 /**
  * 
  */
@@ -19,6 +21,11 @@ public:
 	AWaffPlayerController();
 	
 protected:
+
+	UPROPERTY(BlueprintAssignable)
+	FOnPawnChanged OnPawnChange;
+
+	virtual void SetPawn(APawn* InPawn) override;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Faction")
 	FGenericTeamId TeamId;

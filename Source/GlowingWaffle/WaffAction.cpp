@@ -16,7 +16,7 @@ void UWaffAction::StartAction_Implementation(AActor* Instigator)
 	UE_LOG(LogTemp, Log, TEXT("Running: %s"), *GetNameSafe(this));
 
 	//Log on screen
-	LogOnScreen(this, FString::Printf(TEXT("%s Action Start"), *ActonName.ToString()), FColor::Green);
+	// LogOnScreen(this, FString::Printf(TEXT("%s Action Start"), *ActonName.ToString()), FColor::Green);
 
 	UWaffActionComponent* Comp = GetOwningComponent();
 	Comp->ActiveGameplayTag.AppendTags(TagsToGrant);
@@ -29,7 +29,7 @@ void UWaffAction::StopAction_Implementation(AActor* Instigator)
 	UE_LOG(LogTemp, Log, TEXT("Stopped: %s"), *GetNameSafe(this));
 
 	//Log on screen
-	LogOnScreen(this, FString::Printf(TEXT("%s Action Stop"), *ActonName.ToString()), FColor::Green);
+	// LogOnScreen(this, FString::Printf(TEXT("%s Action Stop"), *ActonName.ToString()), FColor::Green);
 
 	// ensureAlways(bRunning); not longer necessary as now server decides on this.
 

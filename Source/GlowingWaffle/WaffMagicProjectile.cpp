@@ -41,7 +41,7 @@ void AWaffMagicProjectile::OnOverlap_Implementation(UPrimitiveComponent* Overlap
 			Explode();
 
 			// Applying burning effect
-			if(ActionComponent)
+			if(ActionComponent && HasAuthority())
 			{
 				ActionComponent->AddAction(GetInstigator(), EffectActionClass);
 			}

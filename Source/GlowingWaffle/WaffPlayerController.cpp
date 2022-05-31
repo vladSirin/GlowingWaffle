@@ -8,6 +8,13 @@ AWaffPlayerController::AWaffPlayerController()
 	TeamId = FGenericTeamId(0);
 }
 
+void AWaffPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	OnPawnChange.Broadcast(InPawn);
+}
+
 FGenericTeamId AWaffPlayerController::GetGenericTeamId() const
 {
 	return TeamId;
