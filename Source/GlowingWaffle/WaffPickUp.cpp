@@ -3,6 +3,8 @@
 
 #include "WaffPickUp.h"
 
+#include "Net/UnrealNetwork.h"
+
 // Sets default values
 AWaffPickUp::AWaffPickUp()
 {
@@ -17,7 +19,8 @@ AWaffPickUp::AWaffPickUp()
 	RootComponent = SMComp;
 
 	Cooldown = 10.0f;
-
+	bActive = true;
+	
 	SetReplicates(true);
 }
 
@@ -27,6 +30,8 @@ void AWaffPickUp::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
+
 
 // Called every frame
 void AWaffPickUp::Tick(float DeltaTime)
@@ -40,10 +45,21 @@ void AWaffPickUp::Interact_Implementation(APawn* InstigatorPawn)
 	//To be implement...
 }
 
-void AWaffPickUp::SetActiveState(bool bActive)
+void AWaffPickUp::SetActiveState(bool bActiveState)
 {
+	// Only Server updates the active state
+	if(HasAuthority())
+	{
+		bActive = bActiveState;
+	}
 	RootComponent->SetVisibility(bActive, true);
 	SetActorEnableCollision(bActive);
+}
+
+// Change visibility and collision based on state on client when state is replicated
+void AWaffPickUp::OnRep_IsActive()
+{
+	SetActiveState(bActive); 
 }
 
 void AWaffPickUp::ShowUp()
@@ -58,6 +74,13 @@ void AWaffPickUp::HideAndCoolDown()
 	GetWorldTimerManager().ClearTimer(CooldownHandle);
 	GetWorldTimerManager().SetTimer(CooldownHandle, this, &AWaffPickUp::ShowUp, Cooldown, false
 		);
+}
+
+void AWaffPickUp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AWaffPickUp, bActive);
 }
 
 

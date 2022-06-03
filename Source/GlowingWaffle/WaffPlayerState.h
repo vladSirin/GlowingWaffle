@@ -9,10 +9,29 @@
 /**
  * 
  */
+
+// Using a struct to make sure player credits change are synced
+USTRUCT(BlueprintType)
+struct FPlayerCredit
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Gameplay")
+	float CreditNum;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Gameplay")
+	float LastDelta;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Gameplay")
+	float CreditMax;
+};
+
 class AWaffPlayerState;
 
 // Declare delegate event for health change
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnCreditChanged, AWaffPlayerState*, OwningState, float,NewCreditNum, float, Delta);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnCreditChanged, AWaffPlayerState*, OwningState, float, NewCreditNum,
+                                               float, Delta);
 
 UCLASS()
 class GLOWINGWAFFLE_API AWaffPlayerState : public APlayerState
@@ -21,10 +40,9 @@ class GLOWINGWAFFLE_API AWaffPlayerState : public APlayerState
 
 
 public:
-
 	// Constructor
 	AWaffPlayerState();
-	
+
 	UFUNCTION(BlueprintCallable)
 	float GetPlayerCredit() const;
 
@@ -33,13 +51,13 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnCreditChanged OnCreditChanged;
-	
+
 protected:
+	// Using a struct to make sure player credits change are synced
+	UPROPERTY(ReplicatedUsing="OnRep_Credit", EditDefaultsOnly, Category="Gameplay")
+	FPlayerCredit PlayerCredit;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, Category="Gameplay")
-	float Credit;
-
-	UPROPERTY(Replicated, EditDefaultsOnly, Category="Gameplay")
-	float CreditMax;
-
+	// [Networking]
+	UFUNCTION()
+	void OnRep_Credit();
 };
