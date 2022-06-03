@@ -36,10 +36,10 @@ public:
 	
 protected:
 
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category="Gameplay")
 	float Credit;
 
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category="Gameplay")
 	float CreditMax;
 
 };

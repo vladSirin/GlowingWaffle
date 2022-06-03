@@ -8,6 +8,7 @@
 #include "WaffPlayerController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPawnChanged, APawn*, NewPawn);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStateChanged, APlayerState*, NewPlayerState);
 
 /**
  * 
@@ -25,6 +26,9 @@ protected:
 	UPROPERTY(BlueprintAssignable)
 	FOnPawnChanged OnPawnChange;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnPlayerStateChanged OnPlayerStateChanged;
+
 	virtual void SetPawn(APawn* InPawn) override;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Faction")
@@ -34,5 +38,7 @@ protected:
 	virtual FGenericTeamId GetGenericTeamId() const override;
 
 	virtual void PostInitializeComponents() override;
+
+	virtual void OnRep_PlayerState() override;
 	
 };

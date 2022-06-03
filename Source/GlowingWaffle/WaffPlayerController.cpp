@@ -25,3 +25,9 @@ void AWaffPlayerController::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	SetGenericTeamId(TeamId);
 }
+
+void AWaffPlayerController::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	OnPlayerStateChanged.Broadcast(PlayerState);
+}
