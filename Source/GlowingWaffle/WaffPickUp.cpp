@@ -8,7 +8,7 @@
 // Sets default values
 AWaffPickUp::AWaffPickUp()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -20,24 +20,21 @@ AWaffPickUp::AWaffPickUp()
 
 	Cooldown = 10.0f;
 	bActive = true;
-	
-	SetReplicates(true);
+
+	bReplicates = true;
 }
 
 // Called when the game starts or when spawned
 void AWaffPickUp::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
-
 
 
 // Called every frame
 void AWaffPickUp::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AWaffPickUp::Interact_Implementation(APawn* InstigatorPawn)
@@ -48,7 +45,7 @@ void AWaffPickUp::Interact_Implementation(APawn* InstigatorPawn)
 void AWaffPickUp::SetActiveState(bool bActiveState)
 {
 	// Only Server updates the active state
-	if(HasAuthority())
+	if (HasAuthority())
 	{
 		bActive = bActiveState;
 	}
@@ -59,7 +56,7 @@ void AWaffPickUp::SetActiveState(bool bActiveState)
 // Change visibility and collision based on state on client when state is replicated
 void AWaffPickUp::OnRep_IsActive()
 {
-	SetActiveState(bActive); 
+	SetActiveState(bActive);
 }
 
 void AWaffPickUp::ShowUp()
@@ -73,7 +70,7 @@ void AWaffPickUp::HideAndCoolDown()
 	SetActiveState(false);
 	GetWorldTimerManager().ClearTimer(CooldownHandle);
 	GetWorldTimerManager().SetTimer(CooldownHandle, this, &AWaffPickUp::ShowUp, Cooldown, false
-		);
+	);
 }
 
 void AWaffPickUp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -82,5 +79,3 @@ void AWaffPickUp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 
 	DOREPLIFETIME(AWaffPickUp, bActive);
 }
-
-

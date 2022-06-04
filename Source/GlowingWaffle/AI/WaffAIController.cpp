@@ -46,3 +46,4 @@ ETeamAttitude::Type AWaffAIController::GetTeamAttitudeTowards(const AActor& Othe
 {
 	return Super::GetTeamAttitudeTowards(Other);
 }
+

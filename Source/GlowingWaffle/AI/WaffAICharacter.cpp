@@ -33,7 +33,7 @@ void AWaffAICharacter::PostInitializeComponents()
 	AWaffAIController* AIC = Cast<AWaffAIController>(GetController());
 	if (AIC)
 	{
-		AIC->OnTargetFirstSight.AddDynamic(this, &AWaffAICharacter::OnTargetFirstSight);
+		AIC->OnTargetFirstSight.AddDynamic(this, &AWaffAICharacter::MulticastOnTargetFirstSight);
 	}
 }
 
@@ -109,6 +109,11 @@ void AWaffAICharacter::OnHealthChanged(AActor* ChangeInstigator, UWaffAttributeC
 	}
 }
 
+// [Networking] Function called on both sides to display the alert marker
+void AWaffAICharacter::MulticastOnTargetFirstSight_Implementation(AActor* TargetActor)
+{
+	OnTargetFirstSight(TargetActor);
+}
 
 // Called every frame
 void AWaffAICharacter::Tick(float DeltaTime)

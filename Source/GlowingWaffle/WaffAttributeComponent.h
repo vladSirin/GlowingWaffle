@@ -98,10 +98,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
 	bool bEnableRage;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
+	UPROPERTY(EditDefaultsOnly, Replicated, BlueprintReadOnly, Category="Rage")
 	float Rage;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
+	UPROPERTY(EditDefaultsOnly, Replicated, BlueprintReadOnly, Category="Rage")
 	float RageMax;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Rage")
@@ -113,4 +113,8 @@ protected:
 	UFUNCTION(NetMulticast, Reliable)
 	//@FIXME: Mark as unreliable once we moved 'state' change out of the character class
 	void MulticastOnHealthChanged(AActor* InstigatorActor, float NewHealth, float Delta);
+
+	UFUNCTION(NetMulticast, Reliable)
+	//@Todo: same as Health changed
+	void MulticastOnRageChanged(AActor* InstigatorActor, float NewRage, float Delta);
 };

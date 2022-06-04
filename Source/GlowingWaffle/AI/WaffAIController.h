@@ -20,7 +20,7 @@ UCLASS()
 class GLOWINGWAFFLE_API AWaffAIController : public AAIController
 {
 	GENERATED_BODY()
-	
+
 public:
 	// Set default
 	AWaffAIController();
@@ -35,7 +35,6 @@ public:
 	FOnTargetFirstSight OnTargetFirstSight;
 
 protected:
-
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	UBehaviorTree* BT;
 
@@ -46,10 +45,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AI")
 	FName TargetActorKey;
-	
+
 	UFUNCTION(BlueprintCallable)
 	virtual FGenericTeamId GetGenericTeamId() const override;
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 };
-
-

@@ -75,12 +75,15 @@ bool UWaffAttributeComponent::ApplyHealthChange(float Delta, AActor* Instigator)
 				GM->OnActorKilled(GetOwner(), Instigator);
 			}
 		}
+
+		// Apply rage change if damaged and enable rage
+		if (bEnableRage && ActualDelta < 0)
+		{
+			ApplyRageChange(abs(ActualDelta) * RageTransRate->GetFloatValue(abs(ActualDelta)), Instigator);
+		}
 	}
 	
-	else if (bEnableRage)
-	{
-		ApplyRageChange(abs(ActualDelta) * RageTransRate->GetFloatValue(abs(ActualDelta)), Instigator);
-	}
+
 
 	return ActualDelta != 0;
 }
@@ -94,10 +97,13 @@ bool UWaffAttributeComponent::ApplyRageChange(float Delta, AActor* Instigator)
 {
 	float OldRage = Rage;
 	Rage = FMath::Clamp(Rage + Delta, 0.0f, RageMax);
+	Rage = FMath::RoundToFloat(Rage);
 	float ActualDelta = Rage - OldRage;
 
 	// Broadcast for rage change delegate
-	OnRageChanged.Broadcast(Instigator, this, Rage, ActualDelta);
+	// OnRageChanged.Broadcast(Instigator, this, Rage, ActualDelta);
+	MulticastOnRageChanged(Instigator, Rage, ActualDelta);
+	UE_LOG(LogTemp, Log, TEXT("Changing Rage to %f"), Rage);
 
 	return ActualDelta != 0;
 }
@@ -137,6 +143,11 @@ float UWaffAttributeComponent::GetRage() const
 	return Rage;
 }
 
+void UWaffAttributeComponent::MulticastOnRageChanged_Implementation(AActor* InstigatorActor, float NewRage, float Delta)
+{
+	OnRageChanged.Broadcast(InstigatorActor, this, NewRage, Delta);
+}
+
 void UWaffAttributeComponent::MulticastOnHealthChanged_Implementation(AActor* InstigatorActor, float NewHealth,
                                                                       float Delta)
 {
@@ -170,6 +181,8 @@ void UWaffAttributeComponent::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UWaffAttributeComponent, Health);
 	DOREPLIFETIME(UWaffAttributeComponent, HealthMax);
+	DOREPLIFETIME(UWaffAttributeComponent, Rage);
+	DOREPLIFETIME(UWaffAttributeComponent, RageMax);
 
 	// Used for optimization, only replicate when necessary
 	// DOREPLIFETIME_CONDITION(UWaffAttributeComponent, HealthMax, COND_InitialOnly);

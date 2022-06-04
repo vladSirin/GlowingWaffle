@@ -53,6 +53,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category="Effect")
 	FName TimeToHit; // The param name of the material to trigger hit flash
 
+	// [Networking] Multicast to call on target first sight
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastOnTargetFirstSight(AActor* TargetActor);
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
