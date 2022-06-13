@@ -8,6 +8,7 @@
 #include "WaffPlayerState.h"
 #include "AI/WaffAICharacter.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
+#include "Kismet/GameplayStatics.h"
 
 // Console variables
 static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("su.SpawnBots"), true, TEXT("Enable Spawning of Bots via timer"),
@@ -17,19 +18,11 @@ AGlowingWaffleGameModeBase::AGlowingWaffleGameModeBase()
 {
 	SpawnInterval = 2.0f;
 	MinionCreditValue = 1.0f;
+
+	SlotName = "SaveGame01";
 }
 
-void AGlowingWaffleGameModeBase::KillAll(AActor* InstigatorActor)
-{
-	for (TActorIterator<AWaffAICharacter> ItActor(GetWorld()); ItActor; ++ItActor)
-	{
-		UActorComponent* AttriComp = UWaffAttributeComponent::GetAttributes(*ItActor);
-		if (ensure(AttriComp) && UWaffAttributeComponent::IsActorAlive(*ItActor))
-		{
-			Cast<UWaffAttributeComponent>(AttriComp)->Kill(this); //@ToDo, Pass in player later
-		}
-	}
-}
+
 
 void AGlowingWaffleGameModeBase::StartPlay()
 {
@@ -43,6 +36,12 @@ void AGlowingWaffleGameModeBase::StartPlay()
 	ensure(MinionClass);
 	ensure(SpawnBotQuery);
 	ensure(MaxMinionCurve);
+}
+
+void AGlowingWaffleGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	LoadSaveGame();
 }
 
 void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
@@ -132,6 +131,7 @@ void AGlowingWaffleGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 	UE_LOG(LogTemp, Log, TEXT("On Actor Killed: Victim %s, Killer %s"), *GetNameSafe(Victim), *GetNameSafe(Killer));
 }
 
+
 // respawn player by controller.
 void AGlowingWaffleGameModeBase::RespawnPlayerElapsed(APlayerController* PlayerController)
 {
@@ -140,5 +140,41 @@ void AGlowingWaffleGameModeBase::RespawnPlayerElapsed(APlayerController* PlayerC
 		PlayerController->UnPossess();
 
 		RestartPlayer(PlayerController);
+	}
+}
+
+// Console command: killAll
+void AGlowingWaffleGameModeBase::KillAll(AActor* InstigatorActor)
+{
+	for (TActorIterator<AWaffAICharacter> ItActor(GetWorld()); ItActor; ++ItActor)
+	{
+		UActorComponent* AttriComp = UWaffAttributeComponent::GetAttributes(*ItActor);
+		if (ensure(AttriComp) && UWaffAttributeComponent::IsActorAlive(*ItActor))
+		{
+			Cast<UWaffAttributeComponent>(AttriComp)->Kill(this); //@ToDo, Pass in player later
+		}
+	}
+}
+void AGlowingWaffleGameModeBase::WriteSaveGame()
+{
+	UGameplayStatics::SaveGameToSlot(CurrentSaveGame, SlotName, 0);
+}
+
+void AGlowingWaffleGameModeBase::LoadSaveGame()
+{
+	if (UGameplayStatics::DoesSaveGameExist(SlotName, 0))
+	{
+		CurrentSaveGame = Cast<UWaffSaveGame>(UGameplayStatics::LoadGameFromSlot(SlotName, 0));
+		if (CurrentSaveGame == nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Failed to Load Save Data!"));
+			return;
+		}
+		UE_LOG(LogTemp, Log, TEXT("Loaded SaveGame Data."))
+	}
+	else
+	{
+		CurrentSaveGame = Cast<UWaffSaveGame>(UGameplayStatics::CreateSaveGameObject(UWaffSaveGame::StaticClass()));
+		UE_LOG(LogTemp, Log, TEXT("Created New SaveGame Data!"))
 	}
 }

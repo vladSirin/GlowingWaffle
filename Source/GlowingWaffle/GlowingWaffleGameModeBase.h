@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WaffSaveGame.h"
 #include "EnvironmentQuery/EnvQueryGenerator.h"
 #include "GameFramework/GameModeBase.h"
 #include "GlowingWaffleGameModeBase.generated.h"
@@ -33,8 +34,19 @@ public:
 	// Called when any actor get killed.
 	UFUNCTION()
 	void OnActorKilled(AActor* Victim, AActor* Killer);
+
+	UFUNCTION(BlueprintCallable, Category="SaveGame")
+	void WriteSaveGame();
+
+	void LoadSaveGame();
 	
 protected:
+	// Save Game
+	UPROPERTY()
+	FString SlotName;
+
+	UPROPERTY()
+	UWaffSaveGame* CurrentSaveGame;
 
 	// Bot Spawn
 	UPROPERTY()
@@ -66,4 +78,6 @@ protected:
 
 	// Generic
 	virtual void StartPlay() override;
+
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 };
