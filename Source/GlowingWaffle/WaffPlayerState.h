@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WaffSaveGame.h"
 #include "GameFramework/PlayerState.h"
 #include "WaffPlayerState.generated.h"
 
@@ -51,6 +52,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnCreditChanged OnCreditChanged;
+
+	UFUNCTION(BlueprintNativeEvent)
+	void SavePlayerState(UWaffSaveGame* SaveObject);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void LoadPlayerState(UWaffSaveGame* SaveObject);
 
 protected:
 	// Using a struct to make sure player credits change are synced

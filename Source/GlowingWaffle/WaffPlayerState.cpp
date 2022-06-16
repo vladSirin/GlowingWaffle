@@ -29,6 +29,23 @@ bool AWaffPlayerState::ApplyCreditChange(float Delta)
 	return PlayerCredit.LastDelta != 0;
 }
 
+// Save and Load
+void AWaffPlayerState::SavePlayerState_Implementation(UWaffSaveGame* SaveObject)
+{
+	if(SaveObject)
+	{
+		SaveObject->Credits = PlayerCredit.CreditNum;
+	}
+}
+
+void AWaffPlayerState::LoadPlayerState_Implementation(UWaffSaveGame* SaveObject)
+{
+	if(SaveObject)
+	{
+		PlayerCredit.CreditNum = SaveObject->Credits;
+	}
+}
+
 // [Networking] Broadcast the event of credit change on Clients so that UI will update
 void AWaffPlayerState::OnRep_Credit()
 {

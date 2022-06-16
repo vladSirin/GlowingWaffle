@@ -8,6 +8,7 @@
 #include "WaffPlayerState.h"
 #include "AI/WaffAICharacter.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
+#include "GameFramework/GameStateBase.h"
 #include "Kismet/GameplayStatics.h"
 
 // Console variables
@@ -42,6 +43,17 @@ void AGlowingWaffleGameModeBase::InitGame(const FString& MapName, const FString&
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
 	LoadSaveGame();
+}
+
+void AGlowingWaffleGameModeBase::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
+{
+	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
+
+	AWaffPlayerState* PS = NewPlayer->GetPlayerState<AWaffPlayerState>();
+	if(PS)
+	{
+		PS->LoadPlayerState(CurrentSaveGame);
+	}
 }
 
 void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
@@ -157,6 +169,16 @@ void AGlowingWaffleGameModeBase::KillAll(AActor* InstigatorActor)
 }
 void AGlowingWaffleGameModeBase::WriteSaveGame()
 {
+	//Iterate all player states, we don't have proper ID to match yet (requires Steam or EOS)
+	for(int32 i = 0; i < GameState->PlayerArray.Num(); i++)
+	{
+		AWaffPlayerState* PS = Cast<AWaffPlayerState>(GameState->PlayerArray[i]);
+		if(PS)
+		{
+			PS->SavePlayerState(CurrentSaveGame);
+			break; //@todo: Single player only now
+		}
+	}
 	UGameplayStatics::SaveGameToSlot(CurrentSaveGame, SlotName, 0);
 }
 
