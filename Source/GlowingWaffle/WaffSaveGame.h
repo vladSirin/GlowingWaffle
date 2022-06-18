@@ -6,9 +6,25 @@
 #include "GameFramework/SaveGame.h"
 #include "WaffSaveGame.generated.h"
 
-/**
- * 
+/* This is a struct build to save all related actors in game
+ * The name and the transform of the actors will be saved and loaded based on different needs
  */
+USTRUCT()
+struct FActorSaveData
+{
+	GENERATED_BODY()
+
+public:
+
+	/* Identifier for which actor this belongs to */
+	UPROPERTY()
+	FString ActorName;
+
+	/* For Movable Actors, keep location, rotation and scale */
+	UPROPERTY()
+	FTransform Transform;
+};
+
 UCLASS()
 class GLOWINGWAFFLE_API UWaffSaveGame : public USaveGame
 {
@@ -17,5 +33,8 @@ class GLOWINGWAFFLE_API UWaffSaveGame : public USaveGame
 public:
 	UPROPERTY()
 	int32 Credits;
+
+	UPROPERTY()
+	TArray<FActorSaveData> SavedActors;
 	
 };

@@ -4,6 +4,7 @@
 #include "GlowingWaffleGameModeBase.h"
 #include "EngineUtils.h"
 #include "WaffCharacter.h"
+#include "WaffGameplayInterface.h"
 #include "WaffPlayerController.h"
 #include "WaffPlayerState.h"
 #include "AI/WaffAICharacter.h"
@@ -28,6 +29,7 @@ AGlowingWaffleGameModeBase::AGlowingWaffleGameModeBase()
 void AGlowingWaffleGameModeBase::StartPlay()
 {
 	Super::StartPlay();
+	LoadSaveGame(); //@todo: putting this here so it works, InitGame is too early for manipulating actors
 
 	// Continue bot spawning based on timer
 	GetWorldTimerManager().SetTimer(SpawnBotTimerHandle, this, &AGlowingWaffleGameModeBase::SpawnBotTimerElapsed,
@@ -42,7 +44,6 @@ void AGlowingWaffleGameModeBase::StartPlay()
 void AGlowingWaffleGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
-	LoadSaveGame();
 }
 
 void AGlowingWaffleGameModeBase::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
@@ -179,6 +180,27 @@ void AGlowingWaffleGameModeBase::WriteSaveGame()
 			break; //@todo: Single player only now
 		}
 	}
+
+	CurrentSaveGame->SavedActors.Empty();
+
+	// Iterate the entire world of actors and save the relevant ones
+	for(FActorIterator It(GetWorld()); It; ++It)
+	{
+		AActor* Actor = *It;
+		// Only interested in our "Gameplay Actors"
+		if(!Actor->Implements<UWaffGameplayInterface>())
+		{
+			continue;
+		}
+
+		FActorSaveData ActorData;
+		ActorData.ActorName = Actor->GetName();
+		ActorData.Transform = Actor->GetActorTransform();
+
+		CurrentSaveGame->SavedActors.Add(ActorData);
+		UE_LOG(LogTemp, Log, TEXT("Writing SaveGame, Saved %s, current Saved Actor Number: %i"), *ActorData.ActorName, CurrentSaveGame->SavedActors.Num());
+	}
+	
 	UGameplayStatics::SaveGameToSlot(CurrentSaveGame, SlotName, 0);
 }
 
@@ -193,6 +215,28 @@ void AGlowingWaffleGameModeBase::LoadSaveGame()
 			return;
 		}
 		UE_LOG(LogTemp, Log, TEXT("Loaded SaveGame Data."))
+
+		// Iterate the entire world of actors and save the relevant ones
+		for(FActorIterator It(GetWorld()); It; ++It)
+		{
+			AActor* Actor = *It;
+			// Only interested in our "Gameplay Actors"
+			if(!Actor->Implements<UWaffGameplayInterface>())
+			{
+				continue;
+			}
+
+			// If the Actor is relevant, go trough the saved names and set transform if found
+			for(FActorSaveData ActorData:CurrentSaveGame->SavedActors)
+			{
+				if(ActorData.ActorName == Actor->GetName())
+				{
+					Actor->SetActorTransform(ActorData.Transform);
+					UE_LOG(LogTemp, Log, TEXT("Loading SaveGame, Loaded %s"), *ActorData.ActorName);
+					break;
+				}
+			}
+		}
 	}
 	else
 	{
