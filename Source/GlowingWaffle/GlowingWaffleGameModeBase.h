@@ -79,7 +79,7 @@ protected:
 	// Generic
 	virtual void StartPlay() override;
 
-	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
 
-	void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 };

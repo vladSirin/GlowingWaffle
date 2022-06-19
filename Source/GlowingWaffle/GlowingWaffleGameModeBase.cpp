@@ -11,6 +11,7 @@
 #include "EnvironmentQuery/EnvQueryManager.h"
 #include "GameFramework/GameStateBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
 // Console variables
 static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("su.SpawnBots"), true, TEXT("Enable Spawning of Bots via timer"),
@@ -24,12 +25,9 @@ AGlowingWaffleGameModeBase::AGlowingWaffleGameModeBase()
 	SlotName = "SaveGame01";
 }
 
-
-
 void AGlowingWaffleGameModeBase::StartPlay()
 {
 	Super::StartPlay();
-	LoadSaveGame(); //@todo: putting this here so it works, InitGame is too early for manipulating actors
 
 	// Continue bot spawning based on timer
 	GetWorldTimerManager().SetTimer(SpawnBotTimerHandle, this, &AGlowingWaffleGameModeBase::SpawnBotTimerElapsed,
@@ -41,20 +39,21 @@ void AGlowingWaffleGameModeBase::StartPlay()
 	ensure(MaxMinionCurve);
 }
 
-void AGlowingWaffleGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
-{
-	Super::InitGame(MapName, Options, ErrorMessage);
-}
-
 void AGlowingWaffleGameModeBase::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
 	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
 
 	AWaffPlayerState* PS = NewPlayer->GetPlayerState<AWaffPlayerState>();
-	if(PS)
+	if (PS)
 	{
 		PS->LoadPlayerState(CurrentSaveGame);
 	}
+}
+
+void AGlowingWaffleGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	LoadSaveGame(); //@todo: putting this here so it works, InitGame is too early for manipulating actors
 }
 
 void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
@@ -168,13 +167,14 @@ void AGlowingWaffleGameModeBase::KillAll(AActor* InstigatorActor)
 		}
 	}
 }
+
 void AGlowingWaffleGameModeBase::WriteSaveGame()
 {
 	//Iterate all player states, we don't have proper ID to match yet (requires Steam or EOS)
-	for(int32 i = 0; i < GameState->PlayerArray.Num(); i++)
+	for (int32 i = 0; i < GameState->PlayerArray.Num(); i++)
 	{
 		AWaffPlayerState* PS = Cast<AWaffPlayerState>(GameState->PlayerArray[i]);
-		if(PS)
+		if (PS)
 		{
 			PS->SavePlayerState(CurrentSaveGame);
 			break; //@todo: Single player only now
@@ -184,11 +184,11 @@ void AGlowingWaffleGameModeBase::WriteSaveGame()
 	CurrentSaveGame->SavedActors.Empty();
 
 	// Iterate the entire world of actors and save the relevant ones
-	for(FActorIterator It(GetWorld()); It; ++It)
+	for (FActorIterator It(GetWorld()); It; ++It)
 	{
 		AActor* Actor = *It;
 		// Only interested in our "Gameplay Actors"
-		if(!Actor->Implements<UWaffGameplayInterface>())
+		if (!Actor->Implements<UWaffGameplayInterface>())
 		{
 			continue;
 		}
@@ -197,10 +197,21 @@ void AGlowingWaffleGameModeBase::WriteSaveGame()
 		ActorData.ActorName = Actor->GetName();
 		ActorData.Transform = Actor->GetActorTransform();
 
+		// Pass the array to fill with data from Actor
+		FMemoryWriter MemWriter(ActorData.ByteData);
+		FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
+
+		// Find only variables with UPROPERTY(SaveGame)
+		Ar.ArIsSaveGame = true;
+
+		// Coverts Actor's SaveGame UPROPERTIES into binary way;
+		Actor->Serialize(Ar);
+
 		CurrentSaveGame->SavedActors.Add(ActorData);
-		UE_LOG(LogTemp, Log, TEXT("Writing SaveGame, Saved %s, current Saved Actor Number: %i"), *ActorData.ActorName, CurrentSaveGame->SavedActors.Num());
+		UE_LOG(LogTemp, Log, TEXT("Writing SaveGame, Saved %s, current Saved Actor Number: %i"), *ActorData.ActorName,
+		       CurrentSaveGame->SavedActors.Num());
 	}
-	
+
 	UGameplayStatics::SaveGameToSlot(CurrentSaveGame, SlotName, 0);
 }
 
@@ -217,22 +228,34 @@ void AGlowingWaffleGameModeBase::LoadSaveGame()
 		UE_LOG(LogTemp, Log, TEXT("Loaded SaveGame Data."))
 
 		// Iterate the entire world of actors and save the relevant ones
-		for(FActorIterator It(GetWorld()); It; ++It)
+		for (FActorIterator It(GetWorld()); It; ++It)
 		{
 			AActor* Actor = *It;
 			// Only interested in our "Gameplay Actors"
-			if(!Actor->Implements<UWaffGameplayInterface>())
+			if (!Actor->Implements<UWaffGameplayInterface>()) //Using Prefix U on Casting to Interfaces
 			{
 				continue;
 			}
 
 			// If the Actor is relevant, go trough the saved names and set transform if found
-			for(FActorSaveData ActorData:CurrentSaveGame->SavedActors)
+			for (FActorSaveData ActorData : CurrentSaveGame->SavedActors)
 			{
-				if(ActorData.ActorName == Actor->GetName())
+				if (ActorData.ActorName == Actor->GetName())
 				{
 					Actor->SetActorTransform(ActorData.Transform);
 					UE_LOG(LogTemp, Log, TEXT("Loading SaveGame, Loaded %s"), *ActorData.ActorName);
+
+					FMemoryReader MemReader(ActorData.ByteData);
+					FObjectAndNameAsStringProxyArchive Ar(MemReader, true);
+
+					// Find only variables with UPROPERTY(SaveGame)
+					Ar.ArIsSaveGame = true;
+
+					// Coverts binary array into actor's varibales
+					Actor->Serialize(Ar);
+
+					IWaffGameplayInterface::Execute_OnActorLoaded(Actor); //using Prefix I on calling static functions
+
 					break;
 				}
 			}

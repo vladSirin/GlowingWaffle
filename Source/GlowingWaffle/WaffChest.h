@@ -20,7 +20,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(ReplicatedUsing="OnRep_LidOpened", BlueprintReadOnly)
+	UPROPERTY(ReplicatedUsing="OnRep_LidOpened", BlueprintReadOnly, SaveGame)
 	bool bLidOpened;
 
 	UFUNCTION()
@@ -38,6 +38,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
+
+	void OnActorLoaded_Implementation() override;
 
 	UPROPERTY(EditAnywhere)
 	float TargetPitch;

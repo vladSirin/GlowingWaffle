@@ -38,6 +38,11 @@ void AWaffChest::Interact_Implementation(APawn* InstigatorPawn)
 	OnRep_LidOpened(); //Calling this still, cause RepNotify only works on clients
 }
 
+void AWaffChest::OnActorLoaded_Implementation()
+{
+	OnRep_LidOpened();
+}
+
 void AWaffChest::OnRep_LidOpened() const
 {
 	const float CurrentPitch = bLidOpened ? TargetPitch : 0.0f;

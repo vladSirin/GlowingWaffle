@@ -22,6 +22,10 @@ class GLOWINGWAFFLE_API IWaffGameplayInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+
+	/* Called after the actor state was restored from a SaveGame file. */
+	UFUNCTION(BlueprintNativeEvent)
+	void OnActorLoaded();
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void Interact(APawn* InstigatorPawn);
