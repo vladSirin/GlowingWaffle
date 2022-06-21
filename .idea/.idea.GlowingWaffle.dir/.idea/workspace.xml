@@ -8,22 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprint/BP_BonFire.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/5/79/YVWW37Q6OCTAWY5ZPI2CA8.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/BP_TreasureChest.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/BP_TreasureChest.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/EmptyMap_P.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/EmptyMap_P.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/1/MY/68MAPIXNT4MB0ORUNJSUDY.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/1/MY/68MAPIXNT4MB0ORUNJSUDY.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/3/EL/LDBJLN14GC72YCKKSMF3F1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/3/EL/LDBJLN14GC72YCKKSMF3F1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/7/3Q/ABUG099PGOHN4NCRSY9HUO.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/7/3Q/ABUG099PGOHN4NCRSY9HUO.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/B/8C/SO7SJIOZKN1369H2H0498I.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/EmptyMap_P/B/8C/SO7SJIOZKN1369H2H0498I.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/GlowingWaffleGameModeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffChest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffChest.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffChest.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffChest.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffGameplayInterface.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffSaveGame.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffSaveGame.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +132,7 @@
       <workItem from="1654259243502" duration="3436000" />
       <workItem from="1655009712594" duration="8669000" />
       <workItem from="1655398339650" duration="6791000" />
-      <workItem from="1655648760457" duration="5967000" />
+      <workItem from="1655648760457" duration="9160000" />
     </task>
     <servers />
   </component>

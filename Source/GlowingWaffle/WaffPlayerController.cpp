@@ -31,3 +31,9 @@ void AWaffPlayerController::OnRep_PlayerState()
 	Super::OnRep_PlayerState();
 	OnPlayerStateChanged.Broadcast(PlayerState);
 }
+
+void AWaffPlayerController::BeginPlayingState()
+{
+	Super::BeginPlayingState();
+	BlueprintBeginPlayingState();
+}

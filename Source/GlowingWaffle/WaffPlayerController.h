@@ -40,5 +40,13 @@ protected:
 	virtual void PostInitializeComponents() override;
 
 	virtual void OnRep_PlayerState() override;
+
+	/* Called when player controller is ready to begin playing, good moment to initialize things like UI which might be to early in BeginPlay
+	 * (esp. in multiplayer clients where not all data such as PlayerState may have been received yet
+	 */
+	virtual void BeginPlayingState() override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void BlueprintBeginPlayingState();
 	
 };

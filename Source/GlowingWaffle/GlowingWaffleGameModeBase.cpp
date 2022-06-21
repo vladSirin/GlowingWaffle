@@ -41,13 +41,13 @@ void AGlowingWaffleGameModeBase::StartPlay()
 
 void AGlowingWaffleGameModeBase::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
-	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
-
 	AWaffPlayerState* PS = NewPlayer->GetPlayerState<AWaffPlayerState>();
 	if (PS)
 	{
 		PS->LoadPlayerState(CurrentSaveGame);
 	}
+
+	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
 }
 
 void AGlowingWaffleGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
