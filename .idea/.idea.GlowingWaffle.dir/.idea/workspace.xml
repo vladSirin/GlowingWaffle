@@ -7,11 +7,7 @@
     <projectFile>GlowingWaffle.uproject</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GlowingWaffle.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GlowingWaffle/WaffPlayerController.h" afterDir="false" />
-    </list>
+    <list default="true" id="299ef893-8e38-45eb-8b21-026ead026376" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +128,7 @@
       <workItem from="1654259243502" duration="3436000" />
       <workItem from="1655009712594" duration="8669000" />
       <workItem from="1655398339650" duration="6791000" />
-      <workItem from="1655648760457" duration="9160000" />
+      <workItem from="1655648760457" duration="9575000" />
     </task>
     <servers />
   </component>
