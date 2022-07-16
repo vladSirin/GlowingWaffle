@@ -21,13 +21,17 @@ public:
 
 	void StopAction_Implementation(AActor* Instigator) override;
 
-protected:
-	UPROPERTY(EditDefaultsOnly, Category="Effect")
+
+	UFUNCTION(BlueprintCallable, Category = "Action")
+	float GetTimeRemaining() const;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Effect")
 	float Duration;
 
-	UPROPERTY(EditDefaultsOnly, Category="Effect")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  Category="Effect")
 	float Period;
 
+protected:
 	FTimerHandle PeriodHandle;
 	FTimerHandle DurationHandle;
 

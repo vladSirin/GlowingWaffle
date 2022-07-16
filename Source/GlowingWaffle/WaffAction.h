@@ -26,7 +26,7 @@ public:
 };
 
 /**
- * WaffAction class is a child class of UObject, which means it does not replicate lik Actors and Components
+ * WaffAction class is a child class of UObject, which means it does not replicate like Actors and Components
  */
 UCLASS(Blueprintable)
 class GLOWINGWAFFLE_API UWaffAction : public UObject
@@ -34,6 +34,10 @@ class GLOWINGWAFFLE_API UWaffAction : public UObject
 	GENERATED_BODY()
 
 protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="UI")
+	UTexture2D* Icon;
+	
 	/* Tags added to owning actor when activated, removed when stopped */
 	UPROPERTY(EditDefaultsOnly, Category="Tags")
 	FGameplayTagContainer TagsToGrant;
@@ -41,6 +45,8 @@ protected:
 	/* Actions can only start when actor has none of the Tags applied */
 	UPROPERTY(EditDefaultsOnly, Category="Tags")
 	FGameplayTagContainer BlockingTags;
+
+	float TimeStarted;
 
 	/*
 	 * [Networking]

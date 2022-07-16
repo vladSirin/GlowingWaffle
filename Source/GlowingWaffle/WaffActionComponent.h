@@ -8,6 +8,9 @@
 #include "WaffActionComponent.generated.h"
 
 class UWaffAction;
+class UWaffActionComponent;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnActionStateChanged, UWaffActionComponent*, OwningComp, UWaffAction*, Action);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GLOWINGWAFFLE_API UWaffActionComponent : public UActorComponent
@@ -53,7 +56,7 @@ protected:
 	 * [Networking]
 	 */
 	// Running on server only
-	UPROPERTY(Replicated)
+	UPROPERTY(BlueprintReadOnly, Replicated)
 	TArray<UWaffAction*> ActionList;
 
 	UFUNCTION(Server, Reliable)
@@ -62,11 +65,19 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void Server_StopAction(AActor* Instigator, FName ActionName);
 
+
+
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
+	
+	UPROPERTY(BlueprintAssignable)
+	FOnActionStateChanged OnActionStarted;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnActionStateChanged OnActionStopped;
+	
 	/*
 	 * [Networking]
 	 */

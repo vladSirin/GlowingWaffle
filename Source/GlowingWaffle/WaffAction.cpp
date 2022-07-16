@@ -15,6 +15,8 @@ void UWaffAction::StartAction_Implementation(AActor* Instigator)
 {
 	UE_LOG(LogTemp, Log, TEXT("Running: %s"), *GetNameSafe(this));
 
+	TimeStarted = GetWorld()->TimeSeconds;
+
 	//Log on screen
 	// LogOnScreen(this, FString::Printf(TEXT("%s Action Start"), *ActonName.ToString()), FColor::Green);
 
@@ -22,6 +24,8 @@ void UWaffAction::StartAction_Implementation(AActor* Instigator)
 	Comp->ActiveGameplayTag.AppendTags(TagsToGrant);
 	RepData.bRunning = true;
 	RepData.Instigator = Instigator;
+
+	Comp->OnActionStarted.Broadcast(Comp, this);
 }
 
 void UWaffAction::StopAction_Implementation(AActor* Instigator)
@@ -37,6 +41,8 @@ void UWaffAction::StopAction_Implementation(AActor* Instigator)
 	Comp->ActiveGameplayTag.RemoveTags(TagsToGrant);
 	RepData.bRunning = false;
 	RepData.Instigator = Instigator;
+
+	Comp->OnActionStopped.Broadcast(Comp, this);
 }
 
 bool UWaffAction::CanStart_Implementation(AActor* Instigator)

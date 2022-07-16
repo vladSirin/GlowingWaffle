@@ -44,6 +44,12 @@ void UWaffActionEffect::StopAction_Implementation(AActor* Instigator)
 	}
 }
 
+float UWaffActionEffect::GetTimeRemaining() const
+{
+	float TimeEnd = Duration + TimeStarted;
+	return TimeEnd - GetWorld()->TimeSeconds;
+}
+
 void UWaffActionEffect::ExecutePeriodEffect_Implementation(AActor* Instigator)
 {
 	
