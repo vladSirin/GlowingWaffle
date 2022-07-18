@@ -15,7 +15,11 @@ void UWaffAction::StartAction_Implementation(AActor* Instigator)
 {
 	UE_LOG(LogTemp, Log, TEXT("Running: %s"), *GetNameSafe(this));
 
-	TimeStarted = GetWorld()->TimeSeconds;
+	// Set the TimeStarted, only runs on Authority and replicate this to clients
+	if(GetOwningComponent()->GetOwnerRole() == ROLE_Authority)
+	{
+		TimeStarted = GetWorld()->TimeSeconds;
+	}
 
 	//Log on screen
 	// LogOnScreen(this, FString::Printf(TEXT("%s Action Start"), *ActonName.ToString()), FColor::Green);
@@ -108,4 +112,5 @@ void UWaffAction::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UWaffAction, RepData);
 	DOREPLIFETIME(UWaffAction, OwningComponent);
+	DOREPLIFETIME(UWaffAction, TimeStarted);
 }

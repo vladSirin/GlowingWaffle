@@ -3,6 +3,8 @@
 
 #include "WaffActionEffect.h"
 
+#include "GameFramework/GameStateBase.h"
+
 UWaffActionEffect::UWaffActionEffect()
 {
 	bAutoStart = true;
@@ -46,8 +48,13 @@ void UWaffActionEffect::StopAction_Implementation(AActor* Instigator)
 
 float UWaffActionEffect::GetTimeRemaining() const
 {
-	float TimeEnd = Duration + TimeStarted;
-	return TimeEnd - GetWorld()->TimeSeconds;
+	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
+	if(GS)
+	{
+		float TimeEnd = Duration + TimeStarted;
+		return TimeEnd - GS->GetServerWorldTimeSeconds();
+	}
+	return Duration;
 }
 
 void UWaffActionEffect::ExecutePeriodEffect_Implementation(AActor* Instigator)

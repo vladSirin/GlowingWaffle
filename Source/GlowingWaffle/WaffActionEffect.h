@@ -34,7 +34,7 @@ public:
 protected:
 	FTimerHandle PeriodHandle;
 	FTimerHandle DurationHandle;
-
+ 
 	UFUNCTION(BlueprintNativeEvent, Category="Effect")
 	void ExecutePeriodEffect(AActor* Instigator);
 };
