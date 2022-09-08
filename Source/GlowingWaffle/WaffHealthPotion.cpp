@@ -6,6 +6,8 @@
 #include "WaffPlayerState.h"
 #include "Engine/ActorChannel.h"
 
+#define LOCTEXT_NAMESPACE "InteractableActors"
+
 // Sets default values
 AWaffHealthPotion::AWaffHealthPotion()
 {
@@ -40,3 +42,16 @@ void AWaffHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		}
 	}
 }
+
+FText AWaffHealthPotion::GetInteractText_Implementation(APawn* InstigatorPawn)
+{
+	UWaffAttributeComponent* AttriComp =  Cast<UWaffAttributeComponent>(InstigatorPawn->GetComponentByClass(UWaffAttributeComponent::StaticClass()));
+	if(AttriComp && AttriComp->IsFullHealth())
+	{
+		return LOCTEXT("HealthPotion_FullHealthWarning", "Already at Full Health.");
+	}
+
+	return FText::Format(LOCTEXT("HealthPotion_InteractMessage", "Cost {0} Credits. Restores health to maximum."), CreditCost);
+}
+
+#undef LOCTEXT_NAMESPACE

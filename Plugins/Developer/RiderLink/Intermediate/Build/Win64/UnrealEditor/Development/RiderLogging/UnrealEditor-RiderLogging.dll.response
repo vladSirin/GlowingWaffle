@@ -34,6 +34,7 @@
 /NODEFAULTLIB:"LIBCPD"
 /FUNCTIONPADMIN
 "E:\OneDrive\Projects\GlowingWaffle\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Module.RiderLogging.cpp.obj"
+"E:\OneDrive\Projects\GlowingWaffle\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\RiderLogging.cpp.obj"
 "E:\OneDrive\Projects\GlowingWaffle\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Default.rc2.res"
 "..\Intermediate\Build\Win64\UnrealEditor\Development\Core\UnrealEditor-Core.lib"
 "E:\OneDrive\Projects\GlowingWaffle\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RD\UnrealEditor-RD.lib"

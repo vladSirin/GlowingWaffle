@@ -42,6 +42,11 @@ void AWaffPickUp::Interact_Implementation(APawn* InstigatorPawn)
 	//To be implement...
 }
 
+FText AWaffPickUp::GetInteractText_Implementation(APawn* InstigatorPawn)
+{
+	return FText::GetEmpty();
+}
+
 void AWaffPickUp::SetActiveState(bool bActiveState)
 {
 	// Only Server updates the active state

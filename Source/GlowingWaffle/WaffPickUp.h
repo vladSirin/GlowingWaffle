@@ -50,6 +50,8 @@ public:
 	// Interact Implementation
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
+	FText GetInteractText_Implementation(APawn* InstigatorPawn) override;
+
 	// Set whether the pick up is active, when not active, hidden and no collision.
 	void SetActiveState(bool bActiveState);
 
