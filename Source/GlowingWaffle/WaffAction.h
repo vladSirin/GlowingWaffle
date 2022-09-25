@@ -36,7 +36,7 @@ class GLOWINGWAFFLE_API UWaffAction : public UObject
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="UI")
-	UTexture2D* Icon;
+	TSoftObjectPtr<UTexture2D> Icon;
 	
 	/* Tags added to owning actor when activated, removed when stopped */
 	UPROPERTY(EditDefaultsOnly, Category="Tags")

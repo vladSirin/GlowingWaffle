@@ -3,11 +3,13 @@
 
 #include "GlowingWaffleGameModeBase.h"
 #include "EngineUtils.h"
+#include "GlowingWaffle.h"
 #include "WaffCharacter.h"
 #include "WaffGameplayInterface.h"
 #include "WaffPlayerController.h"
 #include "WaffPlayerState.h"
 #include "AI/WaffAICharacter.h"
+#include "Engine/AssetManager.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
 #include "GameFramework/GameStateBase.h"
 #include "Kismet/GameplayStatics.h"
@@ -34,7 +36,7 @@ void AGlowingWaffleGameModeBase::StartPlay()
 	                                SpawnInterval, true);
 
 	// Make sure necessary items are set
-	ensure(MinionClass);
+	ensure(MonsterTable);
 	ensure(SpawnBotQuery);
 	ensure(MaxMinionCurve);
 }
@@ -97,6 +99,40 @@ void AGlowingWaffleGameModeBase::SpawnBotTimerElapsed()
 	QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &AGlowingWaffleGameModeBase::OnQueryFinished);
 }
 
+// Delegate function that will be called when eh asset is loaded with the corresponding ID
+void AGlowingWaffleGameModeBase::OnMonsterLoaded(FPrimaryAssetId PrimaryAssetId, FVector SpawnLocation)
+{
+	LogOnScreen(this, "Monster Loaded...", FColor::Green);
+
+	UAssetManager* Manager = UAssetManager::GetIfValid();
+	if(Manager)
+	{
+		UWaffMonsterData* MonsterData = Cast<UWaffMonsterData>(Manager->GetPrimaryAssetObject(PrimaryAssetId));
+		AActor* SpawnedMinion = GetWorld()->SpawnActor<AActor>(MonsterData->MonsterClass,
+													   SpawnLocation,
+													   FRotator::ZeroRotator);
+			
+		if (SpawnedMinion)
+		{
+			LogOnScreen(this, FString::Printf(
+							TEXT("Spawned enemy: %s (%s)"), *GetNameSafe(SpawnedMinion),
+							*GetNameSafe(MonsterData)));
+			
+			// grant special actions, buffs etc.
+			UWaffActionComponent* ActionComponent = Cast<UWaffActionComponent>(SpawnedMinion->GetComponentByClass(UWaffActionComponent::StaticClass()));
+			if(ActionComponent)
+			{
+				for (TSubclassOf<UWaffAction> ActionClass : MonsterData->Actions)
+				{
+					ActionComponent->AddAction(SpawnedMinion, ActionClass);
+				}
+			}
+		}
+	}
+		
+
+}
+
 // Spawn bot at location when query finished
 void AGlowingWaffleGameModeBase::OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance,
                                                  EEnvQueryStatus::Type QueryStatus)
@@ -111,8 +147,26 @@ void AGlowingWaffleGameModeBase::OnQueryFinished(UEnvQueryInstanceBlueprintWrapp
 
 	if (!QueryLocationArray.IsEmpty())
 	{
-		AActor* SpawnedMinion = GetWorld()->SpawnActor<AActor>(MinionClass, QueryLocationArray[0],
-		                                                       FRotator::ZeroRotator);
+		if (MonsterTable)
+		{
+			TArray<FMonsterInfoRow*> Rows;
+			MonsterTable->GetAllRows("", Rows);
+
+			// Get random Enemy
+			int32 RandomIndex = FMath::RandRange(0, Rows.Num() - 1);
+			FMonsterInfoRow* SelectedRow = Rows[RandomIndex];
+
+			UAssetManager* Manager = UAssetManager::GetIfValid();
+			if(Manager)
+			{
+				LogOnScreen(this, "Loading Monster...", FColor::Green);
+				TArray<FName> Bundles;
+				FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(
+					this, &AGlowingWaffleGameModeBase::OnMonsterLoaded, SelectedRow->MonsterID, QueryLocationArray[0]);
+				Manager->LoadPrimaryAsset(SelectedRow->MonsterID, Bundles, Delegate);
+			}
+		}
+
 
 		// Debug position of spawning
 		DrawDebugSphere(GetWorld(), QueryLocationArray[0], 50.0f, 20, FColor::Blue, false, 60.0f);
