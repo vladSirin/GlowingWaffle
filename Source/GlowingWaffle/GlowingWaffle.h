@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 
+DECLARE_STATS_GROUP(TEXT("STANFORD_Game"), STATGROUP_STANFORD, STATCAT_Advanced);
+
 static void LogOnScreen(UObject* WorldContext, FString Msg, FColor Color = FColor::Yellow, float Duration = 5.0f)
 {
 	// Check if the UObject is valid

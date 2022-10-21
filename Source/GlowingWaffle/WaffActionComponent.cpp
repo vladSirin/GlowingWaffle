@@ -8,6 +8,7 @@
 #include "Engine/ActorChannel.h"
 #include "Net/UnrealNetwork.h"
 
+DECLARE_CYCLE_STAT(TEXT("StartActionbyName"), STAT_StartActionByName, STATGROUP_STANFORD);
 
 // Sets default values for this component's properties
 UWaffActionComponent::UWaffActionComponent()
@@ -128,6 +129,8 @@ void UWaffActionComponent::RemoveAction(UWaffAction* Action)
 
 bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 {
+	SCOPE_CYCLE_COUNTER(STAT_StartActionByName);
+	
 	for (UWaffAction* Action : ActionList)
 	{
 		if (Action && !Action->CanStart(Instigator))
@@ -144,6 +147,10 @@ bool UWaffActionComponent::StartActionByName(AActor* Instigator, FName ActionNam
 			{
 				Server_StartAction(Instigator, ActionName);
 			}
+
+			// Bookmark for Unreal insights
+			TRACE_BOOKMARK(TEXT("StartAction::%s"), *GetNameSafe(Action));
+			
 			Action->StartAction(Instigator);
 			return true;
 		}
