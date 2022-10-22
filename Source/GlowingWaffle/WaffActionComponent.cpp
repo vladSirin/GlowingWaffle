@@ -65,6 +65,21 @@ void UWaffActionComponent::BeginPlay()
 	}
 }
 
+void UWaffActionComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	//Stop all, copy the list in case it change on runtime
+	TArray<UWaffAction*> ActionsCopy = ActionList;
+	for(UWaffAction* Action: ActionsCopy)
+	{
+		if(Action && Action->IsRunning())
+		{
+			Action->StopAction(GetOwner());
+		}
+	}
+
+	Super::EndPlay(EndPlayReason);
+}
+
 
 // Called every frame
 void UWaffActionComponent::TickComponent(float DeltaTime, ELevelTick TickType,

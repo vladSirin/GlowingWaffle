@@ -18,14 +18,21 @@ void UWaffWorldUserWidget::NativeTick(const FGeometry& MyGeometry, float InDelta
 		return;
 	}
 
+	FVector2d ScreenPosition;
+	bool bIsOnScreen = UGameplayStatics::ProjectWorldToScreen(GetOwningPlayer(), AttachedActor->GetActorLocation() + WorldOffset,
+																		ScreenPosition, false)
 	// Project the UI from actor location to screen location, considering dpi scale, utilizing the parent size box
-	if(FVector2d ScreenPosition; UGameplayStatics::ProjectWorldToScreen(GetOwningPlayer(), AttachedActor->GetActorLocation() + WorldOffset,
-	                                                                    ScreenPosition, false))
+	if(bIsOnScreen)
 	{
 		float Scale = UWidgetLayoutLibrary::GetViewportScale(this);
 
 		ScreenPosition /= Scale;
 
 		ParentSizeBox->SetRenderTranslation(ScreenPosition);
+	}
+
+	if(ParentSizeBox)
+	{
+		ParentSizeBox->SetVisibility(bIsOnScreen ? ESlateVisibility::HitTestInvisible: ESlateVisibility::Collapsed);
 	}
 }
